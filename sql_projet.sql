@@ -24,6 +24,8 @@ USE `mydb` ;
 DROP TABLE IF EXISTS `mydb`.`Commentair` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`Commentair` (
+  `Auteur` VARCHAR(45) NULL,
+  FOREIGN KEY (`Auteur`) REFERENCES mydb`.`Utilisateur`(`Pseudo`),
   `IdCommentair` INT NOT NULL,
   `Commentair` VARCHAR(180) NULL,
   `Note` INT NULL,
@@ -83,11 +85,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utilisateur` (
   `Login` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`IdUtilisateur`),
   UNIQUE INDEX `Login_UNIQUE` (`Login` ASC) VISIBLE,
-  CONSTRAINT `Auteur`
+  /*CONSTRAINT `Auteur`
     FOREIGN KEY (`IdUtilisateur`)
     REFERENCES `mydb`.`Commentair` (`IdCommentair`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE NO ACTION,*/
   CONSTRAINT `Créateur`
     FOREIGN KEY (`IdUtilisateur`)
     REFERENCES `mydb`.`Recette` (`IdRecette`)
