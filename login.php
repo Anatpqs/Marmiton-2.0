@@ -13,7 +13,7 @@
     <form method="post">
         <label>Identifiant</label><input type="text" name="username" id="username">
         <br>
-        <label>Mot de passe</label><input type="text" name="password" id="password">
+        <label>Mot de passe</label><input type="password" name="password" id="password">
         <br>
         <button type="submit" name="connexion">Connexion</button>
     </form>
@@ -39,20 +39,20 @@ if(isset($_POST["connexion"]))
     $username = mysqli_real_escape_string($connexion, $username);
     $password = mysqli_real_escape_string($connexion, $password);
     
-    $sql = "SELECT * FROM Utilisateur WHERE Login = '$username' AND Mdp = '$password'";
+    $sql = "SELECT * FROM Utilisateur WHERE Login = '$username'";
+
 
     $resultat = mysqli_query($connexion, $sql);
-
-    
-    // Vérifier si la requête SQL a renvoyé un résultat
     if(mysqli_num_rows($resultat)==1) {
-        // Je récupère le resultat et je crée la session
-        $row= mysqli_fetch_assoc($resultat);
-        $_SESSION['username'] = $username;
+    
+    $row= mysqli_fetch_assoc($resultat);
+       if (password_verify($password,$row["Mdp"]))
+      { 
         $_SESSION["droit"] = $row["Droit"];
-        header("Location:index.php");
-        
-    } else {
+        header("Location:index.php");  
+      }
+    
+    else {
         // Les informations d'identification sont invalides, afficher un message d'erreur
         echo("erreur");
     }
@@ -60,7 +60,7 @@ if(isset($_POST["connexion"]))
     // Fermer la connexion à la base de données
     mysqli_close($connexion);
     
-
+  }   
 }
 
 ?>
