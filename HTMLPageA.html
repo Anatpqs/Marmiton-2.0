@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Ajouter une recette</title>
+	<link rel="stylesheet" href="Style.css"
+</head>
+<body>
+    
+	<h1>Ajouter une recette</h1>
+	<form method="post" action="">
+		<label for="titre">Titre de la recette :</label>
+		<input type="text" name="titre" id="titre" required><br><br>
+		
+        <label for="Nb_personne">Nombre de personne :</label>
+		<input type="number" name="Nb_personne" id="Nb_personne" required><br><br>
+			
+		<h2>Ingrédiens</h2>
+<div class="ingrédiens">
+  <div class="ingrédient">
+    <label for="ingredient1">Ingrédient:</label>
+    <textarea id="ingredient1" name="ingredient1" rows="1" cols="50"></textarea>
+    <label for="quantite1">Quantité:</label>
+    <textarea id="quantite1" name="quantite1" rows="1" cols="20"></textarea>
+    <label for="prix1">Prix:</label>
+    <textarea id="prix1" name="prix1" rows="1" cols="20"></textarea>
+   </div>
+</div>
+<button id="add-ingredient" type="button">Add another ingredient</button>
+
+		<label for="Temps_prep">Temps de préparation :</label>
+		<input type="number" name="Temps_prep" id="Temps_prep" required><br><br>
+		
+		<label for="Temps_cuis">Temps de cuisson :</label>
+		<input type="number" name="Temps_cuis" id="Temps_cuis" required><br><br>
+		
+        <label for="Description">Description :</label><br>
+		<textarea name="Description" id="Description" required></textarea><br><br>
+
+		<label for="Instruction">Instruction :</label><br>
+		<textarea name="Instruction" id="Instruction" required></textarea><br><br>
+		
+
+
+		
+		<input type="submit" name="submit" value="Ajouter la recette">
+	</form>
+</body>
+</html>
