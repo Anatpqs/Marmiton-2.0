@@ -1,4 +1,12 @@
 # MarmitonDuPauvre
+**Pages du site:**
+- [ ] Accueil
+- [ ] Connexion / Inscription
+- [ ] Profil
+- [ ] Recette 
+- [ ] Ajout recette
+- [ ] **Admin** - Validation
+
 **TODO list :**
 
 - Trouver comment envoyer les requete de recette a l'admin
