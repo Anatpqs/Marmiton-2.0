@@ -50,7 +50,7 @@ $_SESSION["droit"]=-1;
             <ul class="menu">
                 <?php  if ($_SESSION["droit"]==-1)
                 {echo '
-                <li><a href="login.php">Se connecter</a></li> 
+                <li><a href="a.php">Se connecter</a></li> 
                 <li><a href="creer_compte.php">Créer un compte</a></li> ';}
                 ?>
                 <?php  if ($_SESSION["droit"]!==-1)
