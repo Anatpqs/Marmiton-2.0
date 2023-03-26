@@ -24,7 +24,6 @@ $_SESSION["droit"]=-1;
     </style>
 
  
- 
 </head>
 
   <body>
