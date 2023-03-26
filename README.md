@@ -1,4 +1,7 @@
 # MarmitonDuPauvre
+**Base de données**
+![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/blob/f8cc62691191ab12c967e46a4ab706479d6f57c6/bdd.png)
+
 **Pages du site:**
 - [ ] Accueil
 - [x] Connexion / Inscription
