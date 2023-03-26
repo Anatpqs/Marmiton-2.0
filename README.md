@@ -1,11 +1,13 @@
 # MarmitonDuPauvre
 **Pages du site:**
 - [ ] Accueil
-- [ ] Connexion / Inscription
+- [x] Connexion / Inscription
 - [ ] Profil
-- [ ] Recette 
-- [ ] Ajout recette
+  - Affichage commentaire - Andrew
+- [ ] Recette - Julian
+- [ ] Ajout recette - Julian
 - [ ] **Admin** - Validation
+- [ ] Commentaire
 
 **TODO list :**
 
