@@ -1,0 +1,76 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Star Rating Example</title>
+	<style>
+		.stars {
+		  display: inline-block;
+		  width: 75px;
+		  height: 15px;
+		  overflow: hidden;
+		  vertical-align: bottom;
+		}
+		.stars img {
+		  width: 15px;
+		  height: 15px;
+		  display: block;
+		  float: left;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<label for="mark">Enter your mark (0-5): </label>
+		<input type="number" id="mark" name="mark" min="0" max="5" step="0.1">
+	</form>
+	<div id="commentary"></div>
+
+	<script>
+		const starsContainer = document.createElement('div');
+		starsContainer.className = 'stars';
+
+		const starEmpty = document.createElement('img');
+		starEmpty.src = 'starempty.png';
+		starEmpty.alt = 'emptystar';
+
+		const starFull = document.createElement('img');
+		starFull.src = 'star.png';
+		starFull.alt = 'star';
+
+		const commentaryContainer = document.getElementById('commentary');
+
+		document.getElementById('mark').addEventListener('input', function(event) {
+			const mark = event.target.value;
+			if (mark >= 0 && mark <= 5) {
+				starsContainer.innerHTML = '';
+				for (let i = 0; i < 5; i++) {
+					if (mark >= (i + 1)) {
+						starsContainer.appendChild(starFull.cloneNode(true));
+					} else {
+						starsContainer.appendChild(starEmpty.cloneNode(true));
+					}
+				}
+
+				commentaryContainer.innerHTML = '';
+				const commentary = document.createElement('p');
+				if (mark < 2) {
+					commentary.textContent = 'Pauvre';
+				} else if (mark < 3) {
+					commentary.textContent = 'Faible';
+				} else if (mark < 4) {
+					commentary.textContent = 'Bien';
+				} else if (mark < 5) {
+					commentary.textContent = 'Très Bien';
+				} else {
+					commentary.textContent = 'Excellent';
+				}
+				commentaryContainer.appendChild(commentary);
+				commentaryContainer.appendChild(starsContainer);
+			}
+		});
+	</script>
+</body>
+</html>
+
