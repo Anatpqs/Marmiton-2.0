@@ -30,25 +30,23 @@ if(isset($_POST["connexion"]))
     $password=$_POST["password"];
 
     
-    $connexion = mysqli_connect('localhost', 'root','', 'mydb','3308');
+    include 'database.php';
+    global $db;
     // Vérification de la connexion
-    if (!$connexion) {
+    if (!$db) {
         die("Connexion échouée: " . mysqli_connect_error());
     }
-
-    $username = mysqli_real_escape_string($connexion, $username);
-    $password = mysqli_real_escape_string($connexion, $password);
     
-    $sql = "SELECT * FROM Utilisateur WHERE Login = '$username'";
-
-
-    $resultat = mysqli_query($connexion, $sql);
-    if(mysqli_num_rows($resultat)==1) {
+    $sql = $db->prepare("SELECT * FROM Utilisateur WHERE Login = :Login");
+    $sql->execute(["Login"=>$username]);
+    $resultat=$sql->fetch(PDO::FETCH_ASSOC);
+   
+    if($sql->rowCount()==1) {
     
-    $row= mysqli_fetch_assoc($resultat);
-       if (password_verify($password,$row["Mdp"]))
+       if (password_verify($password,$resultat["Mdp"]))
       { 
-        $_SESSION["droit"] = $row["Droit"];
+        $_SESSION["droit"] = $resultat["Droit"];
+        $_SESSION["Login"]= $resultat["Login"];
         header("Location:index.php");  
       }
     
@@ -57,9 +55,7 @@ if(isset($_POST["connexion"]))
         echo("erreur");
     }
 
-    // Fermer la connexion à la base de données
-    mysqli_close($connexion);
-    
+  
   }   
 }
 
