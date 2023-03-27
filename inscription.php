@@ -18,6 +18,8 @@
     <input type="submit" name="formsend" id="formsend" value="S'inscrire">
   </form>
   <?php
+    session_start();
+
     if(isset($_POST['formsend'])){
       $pseudo=$_POST['Pseudo'];
       $login=$_POST['Login'];
@@ -40,7 +42,12 @@
             'Mdp' => $hashpass,
             'Droit' => '0'
           ]);
-          echo'Le compte a été créée';
+
+          echo 'Le compte a été créée' ;
+          $_SESSION["droit"]=0;
+          sleep(1);
+          header("Location:index.php");
+
         }
         else{
           echo'un email est déja atribué a ce compte';
