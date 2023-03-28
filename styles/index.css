@@ -6,8 +6,9 @@ body {
 #barre {
   height: 15vh;
   width: 100%;
-  background-color: grey;
+  background-color: #444444;
   display: flex;
+  
 }
 
 #img_profil{
@@ -15,74 +16,72 @@ body {
   width: auto;
 }
 
-/* menu déroulant sur image profil */
-
-nav{
-  width: 100%;
-  margin: 0 auto;
-  position: sticky;
-  top:0px;
-}
-
-nav ul 
-{
-  list-style-type: none;
-}
-
-nav ul li{
-  float: left;
-  width: 25%;
+#search{
+  height: 4vh;
+  width: 50vh;
+  border-radius: 20px;
   text-align: center;
+}
+
+/* menu déroulant sur image profil */
+#profil {
+  width: auto;
+  height: 50px;
+  margin: 0;
+  z-index: 99;
   position: relative;
+  background-color: #444444;
 }
-
-nav ul::after{
-  content: "";
-  display: table;
-  clear: both;
+.navbar {
+  height: 50px;
+  padding: 0;
+  margin: 0;
 }
-
-nav a{
-  display: block;
+.navbar li {
+  height: auto;
+  width: 135.8px;
+  float: left;
+  text-align: center;
+  list-style: none;
+  font: normal bold 13px/1em Arial, Verdana, Helvetica;
+  padding: 0;
+  margin: 0;
+  background-color: #444444;
+}
+.navbar a {
+  padding: 18px 0;
+  /* border-left: 1px solid #ccc9c9;*/
   text-decoration: none;
-  color: black;
-  border-bottom: 2px solid transparent;
-  padding: 10px 0px;
-}
-
-nav a:hover{
-  color:orange;
-  border-bottom: solid gold;
-}
-
-.menu{
-  display: none;
-  box-shadow: 0px 1px 2px #CCC;
-  background-color: white;
-  position: absolute;
-  width: 100%;
-  z-index: 1000;
-}
-
-nav > ul li:hover .menu{
+  color: white;
   display: block;
 }
-
-.menu li{
-  float: none;
-  width: 100%;
-  text-align: left;
+.navbar li:hover,
+a:hover {
+  background-color: #444444;
+}
+.navbar li ul {
+  display: none;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+.navbar li:hover ul {
+  display: block;
+}
+.navbar li ul li {
+  background-color: #444444;
+}
+.navbar li ul li a {
+  border-left: 1px solid #444444;
+  border-right: 1px solid #444444;
+  border-top: 1px solid #c9d4d8;
+  border-bottom: 1px solid #444444;
+}
+.navbar li ul li a:hover {
+  background-color: #a3a1a1;
 }
 
-.menu a{
-  padding: 10px;
-  border-bottom: none;
+.navbar #li1{
+  height: 15vh;
 }
-
-.menu a:hover{
-
-  border-bottom: none;
-  background-color: rgba(200, 200, 200, 0.1);
-}
-
 /* fin menu déroulant*/
