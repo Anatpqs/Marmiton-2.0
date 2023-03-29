@@ -15,6 +15,8 @@
 
 **TODO list :**
 
+- ajouter un bouton accueil dans connexion.php pour pas etre coincer
+
 - Trouver comment envoyer les requete de recette a l'admin
 
 - Connexion 
