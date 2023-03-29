@@ -47,6 +47,7 @@ if(isset($_POST["connexion"]))
       { 
         $_SESSION["droit"] = $resultat["Droit"];
         $_SESSION["Login"]= $resultat["Login"];
+        $_SESSION["id"]=$resultat["IdUtilisateur"];
         header("Location:index.php");  
       }
     
