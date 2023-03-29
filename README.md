@@ -1,6 +1,7 @@
 # MarmitonDuPauvre
 **Base de données**
-![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/blob/3079bb63faeb24ddeda6df93f1851001c6f663cf)
+![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/3079bb63faeb24ddeda6df93f1851001c6f663cf/imagebdd.png)
+
 
 **Pages du site:**
 - [ ] Accueil
