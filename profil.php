@@ -52,27 +52,42 @@
         }
         ?>
     </div>
-    <form id="supresion" method="post">
+    <form id="supresionrec" method="post">
         <input type="hidden" name="confirm" id="confirm" value="">
         <input type="submit" name="suprofil" value="Supprimer le compte">
+        <select name="typesupr">
+            <option value="suprprofil" selected> Suprimer uniquement le compte</option>
+            <option value="suprrecette">Suprimer le compte et les recette</option>
+        </select>
     </form>
-
 </body> 
 <?php
 if ($_SESSION["droit"] != -1) {
         if (isset($_POST['suprofil'])) {
             if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
-                $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdAuteur = :auteur");
-                $stmt->execute([':auteur' =>$_SESSION['id']]);
-                $stmt = $db->prepare("DELETE Commentaire FROM Recette JOIN Commentaire ON IdRecette=Recette_com WHERE IdCréateur= :createur;");
-                                 
-                $stmt->execute([':createur' =>$_SESSION['id']]);
-                $stmt = $db->prepare("DELETE FROM Recette WHERE IdCréateur = :Idcomm");
-                $stmt->execute([':Idcomm' =>$_SESSION['id']]);
-                $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
-                $stmt->execute([':Login' => $login]);
-                header("Location:deconnexion.php");
-                exit();
+                $typesupr=1;
+                if($_POST['typesupr']=="suprrecette"){
+                    $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdAuteur = :auteur");
+                    $stmt->execute([':auteur' =>$_SESSION['id']]);
+                    $stmt = $db->prepare("DELETE Commentaire FROM Recette JOIN Commentaire ON IdRecette=Recette_com WHERE IdCréateur= :createur;");                    
+                    $stmt->execute([':createur' =>$_SESSION['id']]);
+                    $stmt = $db->prepare("DELETE FROM Recette WHERE IdCréateur = :Idcomm");
+                    $stmt->execute([':Idcomm' =>$_SESSION['id']]);
+                    $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
+                    $stmt->execute([':Login' => $login]);
+                    header("Location:deconnexion.php");
+                    exit();
+                }
+                else{
+                    $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdAuteur = :auteur");
+                    $stmt->execute([':auteur' =>$_SESSION['id']]);
+                    $stmt = $db->prepare("UPDATE Recette SET IdCréateur=1 WHERE IdCréateur = :createur");
+                    $stmt->execute([':createur' =>$_SESSION['id']]);
+                    $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
+                    $stmt->execute([':Login' => $login]);
+                    header("Location:deconnexion.php");
+                    exit();
+                }
             }
              echo'<script>confirmation()</script>';
         }    
