@@ -51,6 +51,16 @@
             header("Location:index.php");
         }
         ?>
+        <div>
+            <?php
+            $r=$db->prepare("SELECT * FROM Recette WHERE IdCréateur = :IdCreateur");
+            $r->execute(['IdCreateur'=>$_SESSION['id']]);
+            $result = $r->fetchAll(PDO::FETCH_ASSOC);        
+            foreach($result as $recette){
+                echo "<img src=/Image/Recette/",$recette['IdRecette'],".jpg width='150px' height='150px'> </img>", $recette['Nom'],"   Note : ", $recette['Notemoy'];
+            }
+            ?>
+        </div>
     </div>
     <form id="supresionrec" method="post">
         <input type="hidden" name="confirm" id="confirm" value="">
