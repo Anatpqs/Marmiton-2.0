@@ -2,6 +2,8 @@
 **Base de données**
 ![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/main/bdd/bdd.png)
 
+**News**
+Si vous pouvez mettez chaques pages du site sur lesquelles vous avez travailler dans des dossiers distincts pour faciliter la navigation dans le git et la liaison entre chaques page <3
 
 **Pages du site:**
 - [ ] Accueil
