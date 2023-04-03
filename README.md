@@ -3,15 +3,15 @@
 ![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/main/bdd/bdd.png)
 
 **News**
-Si vous pouvez mettez chaques pages du site sur lesquelles vous avez travailler dans des dossiers distincts pour faciliter la navigation dans le git et la liaison entre chaques page <3
+Mettre chaque page du site sur lesquelles vous avez travaillé dans des dossiers distincts pour faciliter la navigation dans le git et la liaison entre chaque page
 
 **Pages du site:**
-- [ ] Accueil
+- [x] Accueil
 - [x] Connexion / Inscription
 - [ ] Profil
-  - Affichage commentaire - Andrew
-- [ ] Recette - Julian
-- [ ] Ajout recette - Julian
+  - Affichage commentaire
+- [x] Recette
+- [x] Ajout recette
 - [ ] **Admin** - Validation
 - [ ] Commentaire
 
