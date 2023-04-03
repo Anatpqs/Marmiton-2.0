@@ -1,9 +1,9 @@
 # MarmitonDuPauvre
+
+**Mettre chaque page du site sur lesquelles vous avez travaillé dans des dossiers distincts pour faciliter la navigation dans le git et la liaison entre chaque page**
+
 **Base de données**
 ![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/main/bdd/bdd.png)
-
-**News**
-Mettre chaque page du site sur lesquelles vous avez travaillé dans des dossiers distincts pour faciliter la navigation dans le git et la liaison entre chaque page
 
 **Pages du site:**
 - [x] Accueil
