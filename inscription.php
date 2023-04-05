@@ -45,9 +45,11 @@
 
           echo 'Le compte a été créée' ;
           $_SESSION["droit"]=0;
+          $_SESSION["Login"]= $login;
+          $_SESSION["id"]= $id;
           sleep(1);
-          header("Location:index.php");
-
+          header("Location:accueil.php");
+ 
         }
         else{
           echo'un email est déja atribué a ce compte';
