@@ -23,7 +23,7 @@
     </script>
 </head> 
 <body> 
-    <form action="index.php" method="post">
+    <form action="accueil.php" method="post">
         <input type="submit" value="Aller à l'accueil">
     </form>
     <div>
@@ -48,7 +48,7 @@
             }
         }
         else {
-            header("Location:index.php");
+            header("Location:accueil.php");
         }
         ?>
         <div>
@@ -57,7 +57,7 @@
             $r->execute(['IdCreateur'=>$_SESSION['id']]);
             $result = $r->fetchAll(PDO::FETCH_ASSOC);        
             foreach($result as $recette){
-                echo "<img src=/Image/Recette/",$recette['IdRecette'],".jpg width='150px' height='150px'> </img>", $recette['Nom'],"   Note : ", $recette['Notemoy'];
+                echo "<img src=/Images/Recette/",$recette['IdRecette'],".jpg width='150px' height='150px'> </img>", $recette['Nom'],"   Note : ", $recette['Notemoy'];
             }
             ?>
         </div>
@@ -109,7 +109,7 @@ if ($_SESSION["droit"] != -1) {
         }
         }
 else {
-    header("Location:index.php");
+    header("Location:accueil.php");
 }
 ?>
 </html>
