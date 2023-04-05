@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-<!-- javascript ajouter personne, prix par ingredient-->
 
 <?php
 session_start();
