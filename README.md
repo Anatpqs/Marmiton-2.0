@@ -11,6 +11,7 @@
 - [x] Profil
 - [x] Recette
 - [x] Ajout recette
+- [ ] Recherche
 - [ ] **Admin** - Validation
 - [x] Commentaire
 
