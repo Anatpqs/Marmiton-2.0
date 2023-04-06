@@ -33,10 +33,43 @@
             include 'database.php';
             global $db;
             $login = $_SESSION['Login'];
-            $c = $db->prepare("SELECT Pseudo FROM Utilisateur WHERE Login = :Login");
-            $c->execute(['Login' => $login]);
+            $c = $db->prepare("SELECT Photo,Pseudo,IdUtilisateur FROM Utilisateur WHERE Login = :Login");
+            $c->execute(['Login' => $login,]);
             $resultat = $c->fetch(PDO::FETCH_ASSOC);
-            echo $resultat['Pseudo'],'<br>';
+            echo "<img src=/Images/Pdp/",$_SESSION['id'],".jpg width='100px' height='100px'> </img>";
+            echo $resultat['Pseudo'],'
+                <form method="post" enctype="multipart/form-data">
+                    <label for="file">Sélectionnez Votre nouvelle photo de profil:</label>
+                    <input type="file" id="file" name="file">
+                    <input type="submit" value="Télécharger">
+                </form>';
+                if(isset($_FILES['file'])) {
+                    $file_name = $_FILES['file']['name'];
+                    $file_tmp = $_FILES['file']['tmp_name'];
+                    $file_type = $_FILES['file']['type'];
+                    $file_size = $_FILES['file']['size'];
+                    $target_dir = "Images/Pdp/"; // dossier de destination
+                    $target_file = $target_dir . basename($file_name);
+                  
+                    // Vérifier le type de fichier
+                    $allowed_types = array('image/jpeg', 'image/png');
+                    if(!in_array($file_type, $allowed_types)) {
+                      echo "Erreur: Seules les images JPEG et PNG sont autorisées.";
+                    }
+                    // Vérifier la taille du fichier
+                    else if($file_size > 5000000) { // 5 Mo maximum
+                      echo "Erreur: La taille du fichier doit être inférieure à 5 Mo.";
+                    }
+                    else {
+                      if(move_uploaded_file($file_tmp, $target_file)) {
+                        echo "Le fichier a été téléchargé avec succès.";
+                      rename($target_file,$target_dir . $resultat['IdUtilisateur'] . ".jpg");
+                      }
+                      else {
+                        echo "Erreur lors du téléchargement du fichier.";
+                      }
+                    }
+                  }
             $r=$db->prepare("SELECT * FROM Commentaire WHERE IdAuteur = :IdAuteur");
             $r->execute(['IdAuteur'=>$_SESSION['id']]);
             $result = $r->fetchAll(PDO::FETCH_ASSOC);        
