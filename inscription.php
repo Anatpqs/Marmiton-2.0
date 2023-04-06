@@ -42,11 +42,14 @@
             'Mdp' => $hashpass,
             'Droit' => '0'
           ]);
-
+          $r = $db->prepare("SELECT IdUtilisateur FROM Utilisateur WHERE Login = :Login");
+          $r->execute(['Login' => $login]);
+          $resultat = $r->fetch(PDO::FETCH_ASSOC);
           echo 'Le compte a été créée' ;
           $_SESSION["droit"]=0;
           $_SESSION["Login"]= $login;
-          $_SESSION["id"]= $id;
+          $_SESSION["id"]= $resultat['IdUtilisateur'];
+          touch("Images/Pdp/" . $resultat['IdUtilisateur'] . ".jpg");
           sleep(1);
           header("Location:accueil.php");
  
