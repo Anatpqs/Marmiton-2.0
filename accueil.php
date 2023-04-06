@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-// Définition des informations de connexion à la base de données
-  $servername = "localhost";
-  $username = "admin";
-  $password = "Admin85$";
-  $dbname = "mydb";
-
-  // Connexion à la base de données
-  try {
-    $bdd = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-  } catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-  }
+include 'database.php';
+global $db;
 
   // Démarrage de la session utilisateur
   session_start();
@@ -24,7 +14,7 @@
   //--------------------------------------------------------------------------------------------------------------------//
   
   // Requête SQL pour récupérer deux recettes aléatoires
-  $req_sql = $bdd->prepare('SELECT * FROM Recette ORDER BY RAND() LIMIT 2');
+  $req_sql = $db->prepare('SELECT * FROM Recette ORDER BY RAND() LIMIT 2');
   $req_sql -> execute();
   // Récupération des résultats de la requête et stockage dans des variables
   $recette1 = $req_sql->fetch();
@@ -33,7 +23,7 @@
   //--------------------------------------------------------------------------------------------------------------------//
 
   // Requête SQl pour récupérer la recette du moment (recette ayant la meilleure moyenne)
-  $req_sql_RecetteDuMoment = $bdd->prepare('SELECT * FROM Recette WHERE Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
+  $req_sql_RecetteDuMoment = $db->prepare('SELECT * FROM Recette WHERE Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
   $req_sql_RecetteDuMoment->execute();
   //Récupération du résultat de la requête et stockage dans la variable
   $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
