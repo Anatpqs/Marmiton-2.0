@@ -1,10 +1,5 @@
 # MarmitonDuPauvre
 
-```diff
-- Mettre chaque page du site sur lesquelles vous avez travaillé dans des dossiers distincts 
-- pour faciliter la navigation dans le git et la liaison entre chaque page
-```
-
 
 
 **Base de données**
