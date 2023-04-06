@@ -8,12 +8,11 @@
 **Pages du site:**
 - [x] Accueil
 - [x] Connexion / Inscription
-- [ ] Profil
-  - Affichage commentaire
+- [x] Profil
 - [x] Recette
 - [x] Ajout recette
 - [ ] **Admin** - Validation
-- [ ] Commentaire
+- [x] Commentaire
 
 **TODO list :**
 
