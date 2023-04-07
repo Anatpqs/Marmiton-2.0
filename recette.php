@@ -15,7 +15,7 @@ global $db;
 $IdRecette = $_POST["idRecette"];
 
 //Je cherche la recette dans la base de donnée
-$sql = $db->prepare("SELECT * FROM recette JOIN utilisateur ON IdUtilisateur=IdCréateur WHERE IdRecette = :IdRecette ");
+$sql = $db->prepare("SELECT * FROM Recette JOIN Utilisateur ON IdUtilisateur=IdCréateur WHERE IdRecette = :IdRecette ");
 $sql->execute(['IdRecette' => $IdRecette]);
 $resultat = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -79,7 +79,7 @@ function notation($note)
       <img id="img_prix" src="Images/euro.png" alt="euro">
 
       <!-- Calcul prix de la recette -->
-      <?php $sql3 = $db->prepare("SELECT * FROM ingrédient WHERE Recette=:id");
+      <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
       $prix_recette = 0;
@@ -105,7 +105,7 @@ function notation($note)
     <br> <br>
     <!-- Affichage des ingrédients -->
     <ul>
-      <?php $sql3 = $db->prepare("SELECT * FROM ingrédient WHERE Recette=:id");
+      <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
       $j = 1;
@@ -156,27 +156,27 @@ function notation($note)
     }
     switch ($_POST["tri"]) {
       case "vide":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM commentaire
+        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
          JOIN utilisateur ON IdAuteur=IdUtilisateur
           WHERE :idRecette=Recette_com");
         break;
       case "récent":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM commentaire
+        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
             JOIN utilisateur ON IdAuteur=IdUtilisateur
              WHERE :idRecette=Recette_com ORDER BY Date DESC");
         break;
       case "ancien":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM commentaire
+        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
               JOIN utilisateur ON IdAuteur=IdUtilisateur
                WHERE :idRecette=Recette_com ORDER BY Date");
         break;
       case "favo":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM commentaire
+        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
                 JOIN utilisateur ON IdAuteur=IdUtilisateur
                  WHERE :idRecette=Recette_com ORDER BY Note DESC");
         break;
       case "defavo":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM commentaire
+        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
                   JOIN utilisateur ON IdAuteur=IdUtilisateur
                    WHERE :idRecette=Recette_com ORDER BY Note");
         break;
@@ -269,8 +269,10 @@ function notation($note)
   }
 
   //nbr personne
-  var prix = document.getElementById("prix").textContent
-  const prix_uni = <?php echo $prix_recette ?>
+  var nbr = document.getElementById("nbr").textContent;
+  nbr = parseInt(nbr);
+  var prix = document.getElementById("prix").textContent;
+  const prix_uni = (<?php echo $prix_recette ?>) / nbr;
   //prix unit ingredient
 
   let tabIngredient = [];
