@@ -149,6 +149,11 @@ img{
   opacity: 0.9;
   text-align: center;
 }
+.recette_du_jour .image{
+  width: 50%;
+  height: auto;
+  margin-bottom: 1vh;
+}
 
 .recette_du_moment{
   float: left;
