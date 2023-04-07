@@ -12,7 +12,15 @@ include 'database.php';
 global $db;
 
 // QUAND VOUS CLIQUER SUR UN LIEN QUI DIRIGE VERS LA RECETTE EN UTILISANT LA METHODE POST 
+if (isset($_POST["idRecette"]))
+{
 $IdRecette = $_POST["idRecette"];
+setcookie('idRecette', $IdRecette, time() + 86400);
+}
+else
+{
+$IdRecette=$_COOKIE["idRecette"];
+}
 
 //Je cherche la recette dans la base de donnée
 $sql = $db->prepare("SELECT * FROM Recette JOIN Utilisateur ON IdUtilisateur=IdCréateur WHERE IdRecette = :IdRecette ");
@@ -99,9 +107,8 @@ function notation($note)
         <?php echo ' <p>' . $resultat["Description"] . '</p>' ?>
         <h2>Ingrédients</h2>
         <?php echo ' <img src="Images/groupe.png" alt="groupe" id="personne"> <span id="nbr">' . $resultat["Nb_personne"] . '</span> personnes ' ?>
-        <!-- <input type="number" min="1" id="nbr" value="1"> -->
         <button onclick="incr()">+</button> <button onclick="decr()">-</button>
-        <!-- <button onclick="calculer_prix()">envoyer</button> -->
+       
         <br> <br>
         <!-- Affichage des ingrédients -->
         <ul>
@@ -128,8 +135,8 @@ function notation($note)
             <?php echo '<p><strong>Temps de cuisson : </strong><span class="data">' . $resultat["Temps_cuis"] . ' min </span></p>' ?>
         </div>
         <ol>
-            <?php $instruction = str_replace(".", "<br><br>", $resultat["Instruction"]);
-      echo $instruction;
+            <?php 
+      echo nl2br($resultat["Instruction"]);
       ?>
         </ol>
     </div>
@@ -146,6 +153,7 @@ function notation($note)
                     <option value="favo">Avis favorables</option>
                     <option value="defavo">Avis défavorables</option>
                     <input type="submit" name="submit" />
+                    <input type="hidden" name="idRecette" value="<?php echo $IdRecette ?>">
             </form>
         </div>
 
@@ -239,10 +247,14 @@ function notation($note)
         <textarea name="commentaire" id="commentaire" placeholder="Ajouter un commentaire" maxlength="180"></textarea>
         <div id="notation"><strong>Note : </strong><span class="output">5</span>/5</div> 
         <input name="note" type="range" min="0" max="5" value="5">
+        <input type="hidden" name="idRecette" value="'.$IdRecette.'">
         <input type="submit" name="envoyer" id="envoyer" placeholder="Envoyer">
     </div>
     </form>';
     }
+
+
+
 
     ?>
 
