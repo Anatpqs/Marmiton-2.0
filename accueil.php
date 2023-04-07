@@ -97,7 +97,7 @@ $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
                 <form id="myForm" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $recette1["IdRecette"]?>">
                 </form>
-                <a href="#" onclick="document.getElementById('myForm').submit();"><img
+                <a href="#" onclick="document.getElementById('myForm').submit();"><img class="image"
                         src=" Images/Recette/<?php echo $recette1['IdRecette']; ?>.jpg"> </a>
 
 
@@ -111,7 +111,7 @@ $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
                 <form id="myForm2" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $recette2["IdRecette"]?>">
                 </form>
-                <a href="#" onclick="document.getElementById('myForm2').submit();"><img
+                <a href="#" onclick="document.getElementById('myForm2').submit();"><img class="image"
                         src="Images/Recette/<?php echo $recette2['IdRecette']; ?>.jpg"> </a>
 
                 <p><?php echo $recette2['Notemoy']; ?></p>
