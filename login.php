@@ -1,13 +1,16 @@
-<!DOCTYPE html>
 
+
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sportiton</title>
-    <link rel="shortcut icon" type="image/png" href="/image/logo.png" />
+    <link rel="stylesheet" type="text/css" href="login.css">
   </head>
   <body>
+    <div class="login-container">
+      <img src="avatar.png" alt="avatar image">
     <form method="post">
         <label>Identifiant</label><input type="text" name="username" id="username">
         <br>
@@ -18,6 +21,7 @@
     </form>
   </body>
 </html>
+
 <?php
 session_start();
 if(isset($_POST["connexion"])){
@@ -28,22 +32,22 @@ if(isset($_POST["connexion"])){
     // Vérification de la connexion
     if (!$db) {
         die("Connexion échouée: " . mysqli_connect_error());
-    }    
+    }
     $sql = $db->prepare("SELECT * FROM Utilisateur WHERE Login = :Login");
     $sql->execute(["Login"=>$username]);
-    $resultat=$sql->fetch(PDO::FETCH_ASSOC);  
-    if($sql->rowCount()==1) {   
-       if (password_verify($password,$resultat["Mdp"])){ 
+    $resultat=$sql->fetch(PDO::FETCH_ASSOC);
+    if($sql->rowCount()==1) {
+       if (password_verify($password,$resultat["Mdp"])){
         $_SESSION["droit"] = $resultat["Droit"];
         $_SESSION["Login"]= $resultat["Login"];
         $_SESSION["id"]= $resultat["IdUtilisateur"];
-        header("Location:accueil.php");  
-      }    
+        header("Location:accueil.php");
+      }
       else{
         // Les informations d'identification sont invalides, afficher un message d'erreur
         echo "Mauvais mot de passe";
-    }  
-  }   
+    }
+  }
   else{
     echo "Pas d'utilisateur avec ce login";
   }
