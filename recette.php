@@ -46,21 +46,21 @@ function notation($note)
 
 
 <head>
-  <?php echo '<title>Recette de ' . $resultat["Nom"] . '</title>' ?>
-  <link rel="stylesheet" href="styles/recette.css" />
-  <style>
+    <?php echo '<title>Recette de ' . $resultat["Nom"] . '</title>' ?>
+    <link rel="stylesheet" href="styles/recette.css" />
+    <style>
     <?php include 'styles/recette.css';
     ?>
-  </style>
+    </style>
 </head>
 
 <body>
-  <header>
-    <?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?>
-  </header>
-  <div id="main">
+    <header>
+        <?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?>
+    </header>
+    <div id="main">
 
-    <?php
+        <?php
 
     //Si la recette vient d'être créé pas de note
     if ($resultat["Notemoy"] !== NULL) {
@@ -70,16 +70,16 @@ function notation($note)
     echo '<p id="auteur">Auteur : <span class="data">' . $pseudo . '</span></p>';
     ?>
 
-    <div id="imgdiv">
-      <?php echo '<img id="img" src=Images/Recette/' . $resultat["IdRecette"] . '.jpg alt="gato">' ?>
-    </div>
-    <div id="info">
-      <img id="temps" src="Images/horloge.png" alt="horloge">
-      <?php echo '<p id="tps_prep"><strong> Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min</span></p>' ?>
-      <img id="img_prix" src="Images/euro.png" alt="euro">
+        <div id="imgdiv">
+            <?php echo '<img id="img" src=Images/Recette/' . $resultat["IdRecette"] . '.jpg alt="gato">' ?>
+        </div>
+        <div id="info">
+            <img id="temps" src="Images/horloge.png" alt="horloge">
+            <?php echo '<p id="tps_prep"><strong> Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min</span></p>' ?>
+            <img id="img_prix" src="Images/euro.png" alt="euro">
 
-      <!-- Calcul prix de la recette -->
-      <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
+            <!-- Calcul prix de la recette -->
+            <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
       $prix_recette = 0;
@@ -87,25 +87,25 @@ function notation($note)
         $prix_recette += $row["Prix"];
       }
       ?>
-      <p><strong>Prix : </strong><span class="data"><span id="prix"> <?php echo $prix_recette; ?></span>
-          euros</span></p>
-    </div>
+            <p><strong>Prix : </strong><span class="data"><span id="prix"> <?php echo $prix_recette; ?></span>
+                    euros</span></p>
+        </div>
 
-    <div id="separation">
-    </div>
+        <div id="separation">
+        </div>
 
-    <br>
-    <h2>Description</h2>
-    <?php echo ' <p>' . $resultat["Description"] . '</p>' ?>
-    <h2>Ingrédients</h2>
-    <?php echo ' <img src="Images/groupe.png" alt="groupe" id="personne"> <span id="nbr">' . $resultat["Nb_personne"] . '</span> personnes ' ?>
-    <!-- <input type="number" min="1" id="nbr" value="1"> -->
-    <button onclick="incr()">+</button> <button onclick="decr()">-</button>
-    <!-- <button onclick="calculer_prix()">envoyer</button> -->
-    <br> <br>
-    <!-- Affichage des ingrédients -->
-    <ul>
-      <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
+        <br>
+        <h2>Description</h2>
+        <?php echo ' <p>' . $resultat["Description"] . '</p>' ?>
+        <h2>Ingrédients</h2>
+        <?php echo ' <img src="Images/groupe.png" alt="groupe" id="personne"> <span id="nbr">' . $resultat["Nb_personne"] . '</span> personnes ' ?>
+        <!-- <input type="number" min="1" id="nbr" value="1"> -->
+        <button onclick="incr()">+</button> <button onclick="decr()">-</button>
+        <!-- <button onclick="calculer_prix()">envoyer</button> -->
+        <br> <br>
+        <!-- Affichage des ingrédients -->
+        <ul>
+            <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
       $j = 1;
@@ -119,37 +119,37 @@ function notation($note)
       };
       ?>
 
-    </ul>
-    <br>
+        </ul>
+        <br>
 
-    <h2>Instructions</h2>
-    <div id="divprout">
-      <img id="casserole" src="Images/casserole.png" alt="casserole">
-      <?php echo '<p><strong>Temps de cuisson : </strong><span class="data">' . $resultat["Temps_cuis"] . ' min </span></p>' ?>
-    </div>
-    <ol>
-      <?php $instruction = str_replace(".", "<br><br>", $resultat["Instruction"]);
+        <h2>Instructions</h2>
+        <div id="divprout">
+            <img id="casserole" src="Images/casserole.png" alt="casserole">
+            <?php echo '<p><strong>Temps de cuisson : </strong><span class="data">' . $resultat["Temps_cuis"] . ' min </span></p>' ?>
+        </div>
+        <ol>
+            <?php $instruction = str_replace(".", "<br><br>", $resultat["Instruction"]);
       echo $instruction;
       ?>
-    </ol>
-  </div>
-
-  <div id="commentairediv">
-    <!-- il faut pouvoir trier les commentaires -->
-    <div id="comment_select">
-      <h2>Commentaires</h2>
-      <form method="post">
-        <select name="tri" id="tri">
-          <option value="vide">--Trier par--</option>
-          <option value="récent">Plus récent</option>
-          <option value="ancien">Plus ancien</option>
-          <option value="favo">Avis favorables</option>
-          <option value="defavo">Avis défavorables</option>
-          <input type="submit" name="submit" />
-      </form>
+        </ol>
     </div>
 
-    <?php
+    <div id="commentairediv">
+        <!-- il faut pouvoir trier les commentaires -->
+        <div id="comment_select">
+            <h2>Commentaires</h2>
+            <form method="post">
+                <select name="tri" id="tri">
+                    <option value="vide">--Trier par--</option>
+                    <option value="récent">Plus récent</option>
+                    <option value="ancien">Plus ancien</option>
+                    <option value="favo">Avis favorables</option>
+                    <option value="defavo">Avis défavorables</option>
+                    <input type="submit" name="submit" />
+            </form>
+        </div>
+
+        <?php
     /* affichage commentaire de la bdd*/
     if (!isset($_POST['tri'])) {
       $_POST["tri"] = "vide";
@@ -157,27 +157,27 @@ function notation($note)
     switch ($_POST["tri"]) {
       case "vide":
         $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
-         JOIN utilisateur ON IdAuteur=IdUtilisateur
+         JOIN Utilisateur ON IdAuteur=IdUtilisateur
           WHERE :idRecette=Recette_com");
         break;
       case "récent":
         $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
-            JOIN utilisateur ON IdAuteur=IdUtilisateur
+            JOIN Utilisateur ON IdAuteur=IdUtilisateur
              WHERE :idRecette=Recette_com ORDER BY Date DESC");
         break;
       case "ancien":
         $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
-              JOIN utilisateur ON IdAuteur=IdUtilisateur
+              JOIN Utilisateur ON IdAuteur=IdUtilisateur
                WHERE :idRecette=Recette_com ORDER BY Date");
         break;
       case "favo":
         $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
-                JOIN utilisateur ON IdAuteur=IdUtilisateur
+                JOIN Utilisateur ON IdAuteur=IdUtilisateur
                  WHERE :idRecette=Recette_com ORDER BY Note DESC");
         break;
       case "defavo":
         $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
-                  JOIN utilisateur ON IdAuteur=IdUtilisateur
+                  JOIN Utilisateur ON IdAuteur=IdUtilisateur
                    WHERE :idRecette=Recette_com ORDER BY Note");
         break;
     }
@@ -210,7 +210,7 @@ function notation($note)
     }
     ?>
 
-    <?php
+        <?php
     /* écrire commentaire*/
     if ($_SESSION["droit"] !== -1) {
 
@@ -226,11 +226,11 @@ function notation($note)
       }
       if (isset($_POST["envoyer"])) {
 
-        $sql = $db->prepare("INSERT INTO commentaire(Commentaire,Note,IdAuteur,Recette_com) VALUES (:Commentaire,:Note,:IdAuteur,:Recette_com)");
+        $sql = $db->prepare("INSERT INTO Commentaire(Commentaire,Note,IdAuteur,Recette_com) VALUES (:Commentaire,:Note,:IdAuteur,:Recette_com)");
         $sql->execute(["Commentaire" => $commentaire, "Note" => $note, "IdAuteur" => $id, "Recette_com" => $IdRecette]);
 
         $Notemoy = ($Notemoy + $note) / 2;
-        $sql2 = $db->prepare("UPDATE recette SET Notemoy = :note WHERE idRecette=:id");
+        $sql2 = $db->prepare("UPDATE Recette SET Notemoy = :note WHERE idRecette=:id");
         $sql2->execute(["note" => $Notemoy, "id" => $IdRecette]);
         echo "<meta http-equiv='refresh' content='0'>";
       }
@@ -246,7 +246,7 @@ function notation($note)
 
     ?>
 
-  </div>
+    </div>
 
 </body>
 
@@ -254,38 +254,38 @@ function notation($note)
 
 
 <script>
-  //bouton note
-  const sizePicker = document.querySelector('input[type="range"]');
+//bouton note
+const sizePicker = document.querySelector('input[type="range"]');
 
-  const output = document.querySelector('.output');
+const output = document.querySelector('.output');
 
-  if (sizePicker) {
+if (sizePicker) {
 
     sizePicker.oninput = () => {
 
-      output.textContent = sizePicker.value;
+        output.textContent = sizePicker.value;
 
     }
-  }
+}
 
-  //nbr personne
-  var nbr = document.getElementById("nbr").textContent;
-  nbr = parseInt(nbr);
-  var prix = document.getElementById("prix").textContent;
-  const prix_uni = (<?php echo $prix_recette ?>) / nbr;
-  //prix unit ingredient
+//nbr personne
+var nbr = document.getElementById("nbr").textContent;
+nbr = parseInt(nbr);
+var prix = document.getElementById("prix").textContent;
+const prix_uni = (<?php echo $prix_recette ?>) / nbr;
+//prix unit ingredient
 
-  let tabIngredient = [];
-  <?php
+let tabIngredient = [];
+<?php
   $n = count($tabQuantite);
   for ($i = 0; $i < $n; $i++) {
     echo "tabIngredient[$i] = $tabQuantite[$i];";
   }
   ?>
-  let j = <?php echo $j; ?>;
+let j = <?php echo $j; ?>;
 
 
-  function incr() {
+function incr() {
     var nbr = document.getElementById("nbr").textContent;
     nbr = parseInt(nbr);
     nbr += 1;
@@ -295,32 +295,32 @@ function notation($note)
     document.getElementById("prix").innerHTML = resultat;
     //calcul quantité ing
     for (let i = 0; i < j; i++) {
-      let prixIng = tabIngredient[i] * nbr;
-      document.getElementById(`ing${i+1}`).innerHTML = prixIng;
+        let prixIng = tabIngredient[i] * nbr;
+        document.getElementById(`ing${i+1}`).innerHTML = prixIng;
     }
     //calcul ingrédient
-  }
+}
 
 
-  function decr() {
+function decr() {
     var nbr = document.getElementById("nbr").textContent
     nbr = parseInt(nbr)
     if (nbr > 1) {
-      nbr -= 1
-      document.getElementById("nbr").innerHTML = nbr
-      // calcul prix
-      var resultat = prix_uni * nbr;
-      document.getElementById("prix").innerHTML = resultat;
-      //calcul quantité ing 
-      for (let i = 0; i < j; i++) {
-        let prixIng = tabIngredient[i] * nbr;
-        document.getElementById(`ing${i+1}`).innerHTML = prixIng;
-      }
-      //calcul ingrédient
+        nbr -= 1
+        document.getElementById("nbr").innerHTML = nbr
+        // calcul prix
+        var resultat = prix_uni * nbr;
+        document.getElementById("prix").innerHTML = resultat;
+        //calcul quantité ing 
+        for (let i = 0; i < j; i++) {
+            let prixIng = tabIngredient[i] * nbr;
+            document.getElementById(`ing${i+1}`).innerHTML = prixIng;
+        }
+        //calcul ingrédient
 
     }
 
-  }
+}
 </script>
 
 </html>
