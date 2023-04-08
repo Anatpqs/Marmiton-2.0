@@ -22,6 +22,15 @@ else
 $IdRecette=$_COOKIE["idRecette"];
 }
 
+ //Si il n'y a pas de commentaire, note = NULL
+ $sql4=$db->prepare("SELECT * FROM Commentaire WHERE Recette_Com=?");
+ $sql4->execute([$IdRecette]);
+ if ($sql4->rowCount()==0)
+ {
+   $sql5 = $db->prepare("UPDATE Recette SET Notemoy = NULL WHERE idRecette=:id");
+     $sql5->execute(["id" => $IdRecette]);
+ };
+ 
 //Je cherche la recette dans la base de donnée
 $sql = $db->prepare("SELECT * FROM Recette JOIN Utilisateur ON IdUtilisateur=IdCréateur WHERE IdRecette = :IdRecette ");
 $sql->execute(['IdRecette' => $IdRecette]);
@@ -194,7 +203,8 @@ function notation($note)
 
     $sql->execute(["idRecette" => $IdRecette]);
     $resultat2 = $sql->fetchAll();
-    $somme = 0;
+    
+    $somme = 0; // pour compter la note
     $i = 0;
     foreach ($resultat2 as $row) {
       echo "<div class='comment_afficher'>
@@ -237,7 +247,13 @@ function notation($note)
         $sql = $db->prepare("INSERT INTO Commentaire(Commentaire,Note,IdAuteur,Recette_com) VALUES (:Commentaire,:Note,:IdAuteur,:Recette_com)");
         $sql->execute(["Commentaire" => $commentaire, "Note" => $note, "IdAuteur" => $id, "Recette_com" => $IdRecette]);
 
+        if ($resultat["Notemoy"] !== NULL) { 
         $Notemoy = ($Notemoy + $note) / 2;
+        }
+        else
+        {
+          $Notemoy=$note;
+        }
         $sql2 = $db->prepare("UPDATE Recette SET Notemoy = :note WHERE idRecette=:id");
         $sql2->execute(["note" => $Notemoy, "id" => $IdRecette]);
         echo "<meta http-equiv='refresh' content='0'>";
