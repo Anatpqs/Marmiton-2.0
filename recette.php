@@ -73,7 +73,11 @@ function notation($note)
 
 <body>
     <header>
-        <?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?>
+    
+      <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
+        <div id="titre"><?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?></div>
+        <div id="profil"><a href="profil.php"><img src="Images/userblanc.png" alt="profil" id="profil_img"></a></div>
+       
     </header>
     <div id="main">
 
@@ -154,6 +158,7 @@ function notation($note)
         <!-- il faut pouvoir trier les commentaires -->
         <div id="comment_select">
             <h2>Commentaires</h2>
+
             <form method="post">
                 <select name="tri" id="tri">
                     <option value="vide">--Trier par--</option>
@@ -269,19 +274,36 @@ function notation($note)
     </form>';
     }
 
-
-
-
     ?>
 
     </div>
 
 </body>
 
+  <!-- Pour l'amdin : option desactiver les commentaires -->
+  <?php
+            if($_SESSION["droit"]==1)
+            {
+              echo '<button onclick="cacherCommentaire()">Desactiver les commentaires</button>';
+              echo '<button onclick="afficherCommentaire()">Afficher les commentaires</button>';
+            }
+  ?>
 
 
 
 <script>
+//Desac commentaire
+
+function cacherCommentaire() {
+  var div = document.getElementById("commentairediv");
+  div.style.visibility = "hidden";
+}
+function afficherCommentaire(){
+  var div = document.getElementById("commentairediv");
+  div.style.visibility = "visible";
+}
+
+
 //bouton note
 const sizePicker = document.querySelector('input[type="range"]');
 
