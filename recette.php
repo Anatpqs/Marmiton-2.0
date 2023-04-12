@@ -246,7 +246,7 @@ function notation($note)
 
         <?php
     /* écrire commentaire*/
-    if ($_SESSION["droit"] !== -1) {
+    if ($_SESSION["droit"] != -1 && $_SESSION["droit"] !=-2) {
 
       $id = $_SESSION["id"];
       $pseudo2 = $_SESSION["pseudo"];
