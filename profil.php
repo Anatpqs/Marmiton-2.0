@@ -86,6 +86,7 @@
                 <h2>Commentaires</h2>
                 <form method="post">
                     <select name="tri" id="tri">
+
                         <option value="avant">Avant</option>
                         <option value="aprés">Aprés</option>
                     <input type="date" id="datePicker" name="datePicker">
@@ -95,29 +96,43 @@
             </div>
             <?php
             if (!isset($_POST['tri'])) {
-                $_POST["tri"] = "vide";
-            }
-            if($_POST['tri']=='avant') {
+                $sql = $db->prepare("SELECT Commentaire, Note, Date FROM Commentaire
+                     WHERE IdAuteur = :Recette_com
+                     ORDER BY Date DESC");
+                $sql->execute(['Recette_com' => $_SESSION['id']]);
+                $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
+                foreach($result as $comm) {
+                    echo $comm['Commentaire'],'
+                    <form method="post">
+                        <button type="submit" name="suprComm" value=',$comm['IdCommentaire'],'>supprimer le commentaire</button>
+                    </form><br><br>';}
+}
+
+            switch ($_POST["tri"]) {
+            
+                case "aprés":
                     $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
                     WHERE IdAuteur=:Recette_com
-                    AND Date<:dateselect 
-                    ORDER BY Date DESC");
-            }
-            else{
-                    $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
-                    WHERE IdAuteur=:Recette_com
-                    AND Date>:dateselect
+                    AND Date>:dateselect 
                     ORDER BY Date");
+                    break;
+                case "avant":
+                    $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
+                    WHERE IdAuteur=:Recette_com
+                    AND Date<:Dateselect
+                    ORDER BY Date");    
+                    break;
+                $sql->execute(['Recette_com'=>$_SESSION['id'],
+                               'Dateselect'=>$_POST['datePicker']]);
+                $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
+                foreach($result as $comm){
+                    echo $comm['Commentaire'],'
+                    <form method="post">
+                        <button type="submit" name= "suprComm" value=',$comm['IdCommentaire'],'>suprimier le commentaire</button>
+                    </form><br><br>';
+     }
             }
-            $sql->execute(['Recette_com'=>$_SESSION['id'],
-                           'dateselect'=>$_POST['datePicker']]);
-            $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
-            foreach($result as $comm){
-                echo $comm['Commentaire'],'
-                <form method="post">
-                    <button type="submit" name= "suprComm" value=',$comm['IdCommentaire'],'>suprimier le commentaire</button>
-                </form><br><br>';
-            }
+
         }
         else {
             header("Location:accueil.php");
@@ -149,20 +164,12 @@ if ($_SESSION["droit"] != -1) {
             if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
                 $typesupr=1;
                 if($_POST['typesupr']=="suprrecette"){
-                    $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdAuteur = :auteur");
-                    $stmt->execute([':auteur' =>$_SESSION['id']]);
-                    $stmt = $db->prepare("DELETE Commentaire FROM Recette JOIN Commentaire ON IdRecette=Recette_com WHERE IdCréateur= :createur;");                    
-                    $stmt->execute([':createur' =>$_SESSION['id']]);
-                    $stmt = $db->prepare("DELETE FROM Recette WHERE IdCréateur = :Idcomm");
-                    $stmt->execute([':Idcomm' =>$_SESSION['id']]);
                     $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
                     $stmt->execute([':Login' => $login]);
                     header("Location:deconnexion.php");
                     exit();
                 }
                 else{
-                    $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdAuteur = :auteur");
-                    $stmt->execute([':auteur' =>$_SESSION['id']]);
                     $stmt = $db->prepare("UPDATE Recette SET IdCréateur=1 WHERE IdCréateur = :createur");
                     $stmt->execute([':createur' =>$_SESSION['id']]);
                     $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
