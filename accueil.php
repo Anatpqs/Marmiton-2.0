@@ -13,7 +13,7 @@ if (!isset($_SESSION["droit"])) {
 //--------------------------------------------------------------------------------------------------------------------//
 
 // Requête SQL pour récupérer deux recettes aléatoires
-$req_sql = $db->prepare('SELECT * FROM Recette WHERE État=1 ORDER BY RAND() LIMIT 2');
+$req_sql = $db->prepare('SELECT * FROM Recette WHERE État!=0 ORDER BY RAND() LIMIT 2');
 $req_sql->execute();
 // Récupération des résultats de la requête et stockage dans des variables
 $recette1 = $req_sql->fetch();
@@ -22,7 +22,7 @@ $recette2 = $req_sql->fetch();
 //--------------------------------------------------------------------------------------------------------------------//
 
 // Requête SQl pour récupérer la recette du moment (recette ayant la meilleure moyenne)
-$req_sql_RecetteDuMoment = $db->prepare('SELECT * FROM Recette WHERE État=1 AND Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
+$req_sql_RecetteDuMoment = $db->prepare('SELECT * FROM Recette WHERE État!=0 AND Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
 $req_sql_RecetteDuMoment->execute();
 //Récupération du résultat de la requête et stockage dans la variable
 $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
