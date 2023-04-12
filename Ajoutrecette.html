@@ -1,48 +1,146 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
+<?php
+session_start();
+if ($_SESSION["droit"]==-1)
+{
+    header("Location:accueil.php");
+}
+?>
+
 <head>
-	<title>Ajouter une recette</title>
-	<link rel="stylesheet" href="Style.css"
+    <title>Ajouter une recette</title>
+
+    <script>
+    function ajouter(){
+        var div = document.createElement('div');
+        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" required><br><label>Unité :</label><input type="text" name="unite[]" class="unite"><br><label>Prix :</label><input type="number" name="prix[]" class="prix" min="0" step="0.01" required><br>';
+        document.getElementById('ing').appendChild(div);
+    }
+    </script>
 </head>
+
 <body>
-    
-	<h1>Ajouter une recette</h1>
-	<form method="post" action="">
-		<label for="titre">Titre de la recette :</label>
-		<input type="text" name="titre" id="titre" required><br><br>
-		
+
+    <h1>Ajouter une recette</h1>
+    <form method="post" action="" enctype="multipart/form-data">
+        <label for="titre">Titre de la recette :</label>
+        <input type="text" name="titre" id="titre" required><br><br>
+
         <label for="Nb_personne">Nombre de personne :</label>
-		<input type="number" name="Nb_personne" id="Nb_personne" required><br><br>
-			
-		<h2>Ingrédiens</h2>
-<div class="ingrédiens">
-  <div class="ingrédient">
-    <label for="ingredient1">Ingrédient:</label>
-    <textarea id="ingredient1" name="ingredient1" rows="1" cols="50"></textarea>
-    <label for="quantite1">Quantité:</label>
-    <textarea id="quantite1" name="quantite1" rows="1" cols="20"></textarea>
-    <label for="prix1">Prix:</label>
-    <textarea id="prix1" name="prix1" rows="1" cols="20"></textarea>
-   </div>
-</div>
-<button id="add-ingredient" type="button">Add another ingredient</button>
+        <input type="number" name="Nb_personne" id="Nb_personne" min="1" required><br><br>
 
-		<label for="Temps_prep">Temps de préparation :</label>
-		<input type="number" name="Temps_prep" id="Temps_prep" required><br><br>
-		
-		<label for="Temps_cuis">Temps de cuisson :</label>
-		<input type="number" name="Temps_cuis" id="Temps_cuis" required><br><br>
-		
+        <label for="Temps_prep">Temps de préparation (en min) :</label>
+        <input type="number" name="Temps_prep" id="Temps_prep" min="1" required><br><br>
+
+        <label for="Temps_cuis">Temps de cuisson (en min) :</label>
+        <input type="number" name="Temps_cuis" id="Temps_cuis" min="0" required><br><br>
+
+        <!-- Ingrédient -->
+        <div id="ing">
+            <label for="Ing">Ingrédients:</label><br>
+            <label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br>
+            <label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" required><br>
+            <label>Unité :</label><input type="text" name="unite[]" class="unite" ><br>
+            <label>Prix :</label><input type="number" name="prix[]" class="prix" min="0" step="0.01" required><br>
+        </div>
+        <button type="button" onclick="ajouter()">Ajouter un ingrédient</button>
+        <br><br>
+
         <label for="Description">Description :</label><br>
-		<textarea name="Description" id="Description" required></textarea><br><br>
+        <textarea name="Description" id="Description" required></textarea><br><br>
+        
+        <label for="Instruction">Instruction :</label><br>
+        <textarea name="Instruction" id="Instruction" required></textarea><br><br>
 
-		<label for="Instruction">Instruction :</label><br>
-		<textarea name="Instruction" id="Instruction" required></textarea><br><br>
-		
-
-
-		
-		<input type="submit" name="submit" value="Ajouter la recette">
-	</form>
+        <!-- Img -->
+        <label for="file">Sélectionnez une image pour votre recette:</label>
+        <input type="file" id="file" name="file" required>
+        <br>
+        <input type="submit" name="submit" value="Ajouter la recette">
+    </form>
 </body>
+
 </html>
+<!------------------------------------------------------------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------>
+
+<?php
+
+// Informations de connexion à la base de données
+//! A changer suivant vos identifiant à vous \\\\
+
+include "database.php";
+global $db;
+//!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+// Récupération des données du formulaire
+if (isset($_POST['submit'])) {
+    $Nom = strval($_POST['titre']); 
+    $Description = strval($_POST['Description']);
+    $Instruction = strval($_POST['Instruction']); 
+    $Nb_personne = intval($_POST['Nb_personne']);
+    $Temps_prep = intval($_POST['Temps_prep']);
+    $Temps_cuis = intval($_POST['Temps_cuis']);
+    $Etat=0;
+
+   
+        // Requête SQL d'insertion
+        
+        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, Image, État) 
+        VALUES (?, ?, NULL, ?, ?, ?, ?, ?, NULL,?);");
+        // Exécution de la requête
+        $sql->execute([$Nom,$_SESSION["id"],$Nb_personne,$Temps_prep,$Temps_cuis,$Description,$Instruction,$Etat]);
+
+        //Id de la recette qu'on vient d'ajouter
+        $id_recette = $db->lastInsertId();
+
+        //Ajout des ingrédients
+        $nom_ings=$_POST["nom_ing"];
+        $quantites=$_POST["quantite"];
+        $unites=$_POST["unite"];
+        $prix=$_POST["prix"];
+
+        for($i=0;$i<count($_POST["nom_ing"]);$i++)
+        {
+        $sql2=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Prix,Recette) VALUES (?,?,?,?,?)");
+        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix[$i],$id_recette]);
+
+        }
+
+        // IMAGE RECETTE
+        
+        if(isset($_FILES['file'])) {
+            $file_name = $_FILES['file']['name'];
+            $file_tmp = $_FILES['file']['tmp_name'];
+            $file_type = $_FILES['file']['type'];
+            $file_size = $_FILES['file']['size'];
+            $target_dir = "Images/Recette/"; // dossier de destination
+            $target_file = $target_dir . basename($file_name);
+          
+            // Vérifier le type de fichier
+            $allowed_types = array('image/jpeg', 'image/png');
+            if(!in_array($file_type, $allowed_types)) {
+              echo "Erreur: Seules les images JPEG et PNG sont autorisées.";
+            }
+            // Vérifier la taille du fichier
+            else if($file_size > 5000000) { // 5 Mo maximum
+              echo "Erreur: La taille du fichier doit être inférieure à 5 Mo.";
+            }
+            else {
+              if(move_uploaded_file($file_tmp, $target_file)) {
+                echo "Recette envoyé - En attente de validation par l'admin !";
+              rename($target_file,$target_dir . $id_recette . ".jpg");
+              }
+              else {
+                echo "Erreur lors du téléchargement du fichier.";
+              }
+            }
+          }
+
+ 
+}
+?>
