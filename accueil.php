@@ -59,7 +59,7 @@ $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
                   <li><a href="inscription.php">Créer un compte</a></li> ';
                         } // Si l'utilisateur n'est pas connecté, on affiche les liens de connexion et d'inscription
                         ?>
-                        <?php if ($_SESSION["droit"] == 0) {
+                        <?php if ($_SESSION["droit"] == 0 || $_SESSION["droit"] == -2 ) {
                             echo '
                   <li><a href="profil.php">Mon Profil</a></li> 
                   <li><a href="deconnexion.php">Déconnexion</a></li> ';
@@ -97,7 +97,7 @@ $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
                 <form id="myForm" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $recette1["IdRecette"]?>">
                 </form>
-                <a href="#" onclick="document.getElementById('myForm').submit();"><img class="image"
+                <a href="#" onclick="document.getElementById('myForm').submit();"><img
                         src=" Images/Recette/<?php echo $recette1['IdRecette']; ?>.jpg"> </a>
 
 
@@ -111,7 +111,7 @@ $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
                 <form id="myForm2" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $recette2["IdRecette"]?>">
                 </form>
-                <a href="#" onclick="document.getElementById('myForm2').submit();"><img class="image"
+                <a href="#" onclick="document.getElementById('myForm2').submit();"><img
                         src="Images/Recette/<?php echo $recette2['IdRecette']; ?>.jpg"> </a>
 
                 <p><?php echo $recette2['Notemoy']; ?></p>
