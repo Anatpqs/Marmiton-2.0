@@ -154,6 +154,17 @@ function notation($note)
         </ol>
     </div>
 
+    <?php
+    if ($resultat["État"]==2)
+    {
+    echo '
+    <style type ="text/css">
+      #commentairediv{
+        visibility: hidden;
+      }
+      </style> ';
+    }
+    ?>
     <div id="commentairediv">
         <!-- il faut pouvoir trier les commentaires -->
         <div id="comment_select">
@@ -284,26 +295,37 @@ function notation($note)
   <?php
             if($_SESSION["droit"]==1)
             {
-              echo '<button onclick="cacherCommentaire()">Desactiver les commentaires</button>';
-              echo '<button onclick="afficherCommentaire()">Afficher les commentaires</button>';
+              //activer
+              echo '<form method="post">
+              <input type="submit" name="desac" value="Désactiver les commentaires">
+              <input type="hidden" name="idRecette" value="'.$IdRecette.'">
+              </form>';
+              //desac
+              echo '<form method="post">
+              <input type="submit" name="activ" value="Activer les commentaires">
+              <input type="hidden" name="idRecette" value="'.$IdRecette.'">
+              </form>';
+            
+
+            if (isset($_POST["desac"]))
+            {
+              $sql6=$db->prepare("UPDATE Recette SET État = 2 WHERE IdRecette=?");
+              $sql6->execute([$IdRecette]);
+              echo "<meta http-equiv='refresh' content='0'>";
             }
+            if (isset($_POST["activ"]))
+            {
+              $sql7=$db->prepare("UPDATE Recette SET État = 1 WHERE IdRecette=?");
+              $sql7->execute([$IdRecette]);
+              echo "<meta http-equiv='refresh' content='0'>";
+            }
+
+          }
   ?>
 
 
 
 <script>
-//Desac commentaire
-
-function cacherCommentaire() {
-  var div = document.getElementById("commentairediv");
-  div.style.visibility = "hidden";
-}
-function afficherCommentaire(){
-  var div = document.getElementById("commentairediv");
-  div.style.visibility = "visible";
-}
-
-
 //bouton note
 const sizePicker = document.querySelector('input[type="range"]');
 
