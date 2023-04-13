@@ -30,7 +30,7 @@ img{
     display: inline-block;
     width: 100%;
     background-color: grey;
-    background-image: url("Images/backgroundBarre.jpg");
+    background-image: url("../Images/backgroundBarre.jpg");
     top: 50px;
   }
   #bb_top {
@@ -45,8 +45,13 @@ img{
     margin-bottom: 0vh;
   }
 
-  #recherche{
+  #formsearchbar{
+    display: inline-block;
     width: 65%;
+    margin-right: 10vh;
+  }
+  #searchbar{
+    width: 100%;
     border-radius: 20px;
     background-color: white;
     color: black;
@@ -99,7 +104,7 @@ img{
   display: block;
 }
 .navbar li:hover, a:hover {
-  background-image: url("Images/backgroundBarre.jpg");
+  background-image: url("../Images/backgroundBarre.jpg");
   /*background-color: #444444;*/
 }
 .navbar li ul {
@@ -112,7 +117,7 @@ img{
   display: block;
 }
 .navbar li ul li {
-  background-image: url("Images/backgroundBarre.jpg");
+  background-image: url("../Images/backgroundBarre.jpg");
 }
 .navbar li ul li a {
   border-left: 1px solid #444444;
@@ -128,7 +133,7 @@ img{
 
 /*\\\\\ CSS du corps de la page d'accueil \\\\\*/
 .corps{
-  background-image: url("Images/backgroundBody.jpg");
+  background-image: url("../Images/backgroundBody.jpg");
   background-size: cover;
   display: inline-block;
   min-width: 100%;
@@ -177,5 +182,5 @@ img{
 
 footer {
   height: 30px;
-  background-image: url("Images/backgroundBarre.jpg");
+  background-image: url("../Images/backgroundBarre.jpg");
 }
