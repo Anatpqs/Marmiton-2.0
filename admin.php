@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<!-- TODO Liste :
-➢Gérer les recettes ( suppression et modification).
-➢ Gérer les produits (ingrédients) utilisés par les recettes (ajout, suppression et
-modification) et met souvent à jour leurs prix dans un contexte d’inflation mondiale. Ces
-prix permettent d’estimer les coûts des recettes aux utilisateurs.
--Desactiver commentaire d'un utilisateur
- -->
-
-
 
 <head>
     <meta charset="utf-8" />
@@ -98,16 +89,32 @@ $sql5->execute([]);
 $resultat5=$sql5->fetchAll();
 foreach($resultat5 as $user)
 {
-    echo $user["Pseudo"].
-    '<form id="form_user_'.$user["IdUtilisateur"].'" action="recette.php" method="post">
-    <input type="submit" name="sup_'.$user["IdUtilisateur"].'" value="Supprimer l\'utilisateur">
+    echo $user["Pseudo"];
+    if ($user["Droit"]!=-2){
+    echo '<form id="form_user_'.$user["IdUtilisateur"].'"  method="post">
+    <input type="submit" name="sup_'.$user["IdUtilisateur"].'" value="Desactiver commentaire">
     </form>'
     .'<br>';
+    }
+    else
+    {
+    echo '<form id="form_user_activer_'.$user["IdUtilisateur"].'"  method="post">
+    <input type="submit" name="activer_'.$user["IdUtilisateur"].'" value="Activer commentaire">
+    </form>'
+    .'<br>';
+    }
 
-    //SUPRESSION UTILISATEUR
+    //DESAC COMMENTAIRE UTILISATEUR
     if (isset($_POST["sup_".$user["IdUtilisateur"]]))
     {
-        $sql6=$db->prepare("DELETE FROM Utilisateur WHERE IdUtilisateur=?");
+        $sql6=$db->prepare("UPDATE Utilisateur SET Droit=-2 WHERE IdUtilisateur=?");
+        $sql6->execute([$user["IdUtilisateur"]]);
+        echo "<meta http-equiv='refresh' content='0'>";
+    }
+    //Re-activer les coms
+    if (isset($_POST["activer_".$user["IdUtilisateur"]]))
+    {
+        $sql6=$db->prepare("UPDATE Utilisateur SET Droit=0 WHERE IdUtilisateur=?");
         $sql6->execute([$user["IdUtilisateur"]]);
         echo "<meta http-equiv='refresh' content='0'>";
     }
