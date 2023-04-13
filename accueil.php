@@ -44,10 +44,12 @@ $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
 <body>
     <div id="barre">
         <hr id="bb_top">
-        <img id="logo" src="Images/cooking.png"> <!-- // TODO Changer le logo par celui dl sur windows -->
-        <input type="text" id="recherche" placeholder="Recette..." style="margin-right: 0vh">
+        <img id="logo" src="Images/cooking.png">
+        <form method="post" action="Recherche.php" id="formsearchbar">
+            <input type="search" id="searchbar" name="searchbar" placeholder="Recette..." autocomplete="off">
+        </form>
         <a href="AjoutRecette.php"> <img class="icon" src="Images/chiefblanc.png"> </a>
-        <!--// TODO Lien vers l'ajout de recette si connecter sinon, demande de connexion puis redirection vers page ajout recette -->
+        
         <!-- Menu déroulant -->
         <div class="profil">
             <ul class="navbar">
