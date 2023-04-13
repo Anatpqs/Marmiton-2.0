@@ -46,6 +46,39 @@
     
 
 ?>
+<!-- modification prix ingrédient -->
+<h2>Prix des ingrédients</h2>
+<form id="prix" method="post">
+    <input list="liste_ingredient" name="liste_ingredient">
+    <datalist id="liste_ingredient">
+        <?php
+        $sql7=$db->prepare("SELECT Nom FROM Ingrédient GROUP BY Nom");
+        $sql7->execute([]);
+        $resultat7=$sql7->fetchAll();
+        foreach($resultat7 as $ingredient){
+            echo'<option value='.$ingredient['Nom'].'></option>';
+        }
+        ?>
+    </datalist>
+    <label>Nouveau Prix</label>
+    <input id="nouveau_prix" name="nouveau_prix"></input>
+    <input type="submit" value="Enregister"></input>
+    <?php
+        if(isset($_POST['liste_ingredient']) && isset($_POST['nouveau_prix'])){
+            $sql8=$db->prepare("UPDATE Ingrédient SET Prix=:prix WHERE Nom=:ingredient");
+            $sql8->execute([
+                'prix'=>$_POST["nouveau_prix"],
+                'ingredient'=>$_POST["liste_ingredient"]
+            ]);
+        }
+        $sql9=$db->prepare("SELECT Ingrédient.Nom as Nom_ing,Recette.Nom FROM Ingrédient JOIN Recette On Recette=IdRecette WHERE Prix = 0");
+        $sql9->execute([]);
+        $resultat9=$sql9->fetchAll();
+        foreach($resultat9 as $ingredient_sans_prix){
+            echo"<br>",$ingredient_sans_prix['Nom_ing']," dans la recette ", $ingredient_sans_prix["Nom"]," n'a pas de prix <br>";
+
+        }
+    ?>
 
 <!-- Suppresion et modification recette -->
 <h2>Liste des recettes disponibles :</h2>
