@@ -1,6 +1,8 @@
 # MarmitonDuPauvre
 
-
+Anatole : Prix recette + bouton favorie recette
+Andrew : Tag + suppression image profil
+Julian : CSS de ces morts + accueil recette qui peuvent intéresser 
 
 **Base de données**
 ![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/main/bdd/bdd.png)
@@ -11,15 +13,13 @@
 - [x] Profil
 - [x] Recette
 - [x] Ajout recette
-- [ ] Recherche
-- [ ] **Admin** - Validation
+- [x] Recherche
+- [x] **Admin** - Validation
 - [x] Commentaire
 
 **TODO list :**
 
 - ajouter un bouton accueil dans connexion.php pour pas etre coincer
-
-- Trouver comment envoyer les requete de recette a l'admin
 
 - Connexion 
 
