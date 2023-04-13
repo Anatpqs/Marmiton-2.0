@@ -70,6 +70,25 @@ foreach($resultat3 as $recette)
 //SUPPRESSION RECETTE
    if (isset($_POST["suppression_".$recette["IdRecette"]]))
 {
+   //SUPPRESSION DE L'IMAGE
+
+        // Chemin vers le dossier où sont stockées les images
+    $chemin_dossier = "Images/Recette/";
+
+    // Nom complet du fichier image à supprimer
+    $nom_fichier = $chemin_dossier . $recette["IdRecette"].".jpg";
+
+    // Suppression du fichier
+    if (unlink($nom_fichier)) {
+        // Le fichier a été supprimé avec succès
+        echo "L'image a été supprimée avec succès";
+    } else {
+        // Il y a eu une erreur lors de la suppression du fichier
+        echo "Erreur lors de la suppression de l'image";
+    }
+
+    
+//SUPPRESION BDD
     $sql4=$db->prepare("DELETE FROM Recette WHERE IdRecette=?;");
     $sql4->execute([$recette["IdRecette"]]);
     echo "<meta http-equiv='refresh' content='0'>";
