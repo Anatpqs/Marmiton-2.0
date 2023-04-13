@@ -74,9 +74,33 @@ function notation($note)
 <body>
     <header>
     
-      <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
+        <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
         <div id="titre"><?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?></div>
-        <div id="profil"><a href="profil.php"><img src="Images/userblanc.png" alt="profil" id="profil_img"></a></div>
+        <div class="profil">
+          <ul class="navbar">
+              <li class="li"><img class="icon" src="Images/userblanc.png">
+                  <ul>
+                      <?php if ($_SESSION["droit"] == -1) {
+                          echo '
+                        <li><a href="login.php">Se connecter</a></li> 
+                        <li><a href="inscription.php">Créer un compte</a></li> ';
+                      } // Si l'utilisateur n'est pas connecté, on affiche les liens de connexion et d'inscription
+                      ?>
+                      <?php if ($_SESSION["droit"] == 0) {
+                          echo '
+                              <li><a href="profil.php">Mon Profil</a></li> 
+                              <li><a href="deconnexion.php">Déconnexion</a></li> ';
+                      } // Si l'utilisateur est connecté, on affiche les liens de profil et de déconnexion
+                      ?>
+                      <?php if ($_SESSION["droit"] == 1) {
+                          echo '<li><a href="admin.php">Admin</a></li>
+                          <li><a href="deconnexion.php">Déconnexion</a></li>'; //Admin
+                      }
+                      ?>
+                  </ul>
+              </li>
+          </ul>
+      </div>
        
     </header>
     <div id="main">
