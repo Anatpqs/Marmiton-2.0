@@ -15,7 +15,7 @@ if ($_SESSION["droit"]==-1)
     <script>
     function ajouter(){
         var div = document.createElement('div');
-        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><input type="text" name="unite[]" class="unite"><br><label>Prix :</label><input type="number" name="prix[]" class="prix" min="0" step="0.01" required><br>';
+        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><input type="text" name="unite[]" class="unite"><br>';
         document.getElementById('ing').appendChild(div);
     }
     </script>
@@ -43,7 +43,7 @@ if ($_SESSION["droit"]==-1)
             <label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br>
             <label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br>
             <label>Unité :</label><input type="text" name="unite[]" class="unite" ><br>
-            <label>Prix :</label><input type="number" name="prix[]" class="prix" min="0" step="0.01" required><br>
+
         </div>
         <button type="button" onclick="ajouter()">Ajouter un ingrédient</button>
         <br><br>
@@ -102,12 +102,26 @@ if (isset($_POST['submit'])) {
         $nom_ings=$_POST["nom_ing"];
         $quantites=$_POST["quantite"];
         $unites=$_POST["unite"];
-        $prix=$_POST["prix"];
+       
 
         for($i=0;$i<count($_POST["nom_ing"]);$i++)
         {
+
+        //Recherche si l'ingrédient existe deja pr donner le meme prix
+        $sql3=$db->prepare("SELECT * FROM Ingrédient WHERE Nom=? ;");
+        $sql3->execute([$nom_ings[$i]]);
+        $resultat=$sql3->fetch(PDO::FETCH_ASSOC);
+        if ($sql3->rowCount()>=1)  
+        {
+          $prix=$resultat["Prix"];
+        }
+        else
+        {
+          $prix=0;
+        }
+          
         $sql2=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Prix,Recette) VALUES (?,?,?,?,?)");
-        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix[$i],$id_recette]);
+        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix,$id_recette]);
 
         }
 
