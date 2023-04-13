@@ -58,7 +58,7 @@ foreach($resultat3 as $recette)
     echo '<form id="form_recette_'.$recette["IdRecette"].'" action="recette.php" method="post">
         <input type="hidden" name="idRecette" value="'.$recette["IdRecette"].'">
      </form>
-     <a href="#" onclick="document.getElementById(\'myForm_'.$recette["IdRecette"].'\').submit();">'.$recette["Nom"].'</a>
+     <a href="#" onclick="document.getElementById(\'form_recette_'.$recette["IdRecette"].'\').submit();">'.$recette["Nom"].'</a>
      <form method="post">
     <input type="submit" name="suppression_'.$recette["IdRecette"].'" value="Supprimer la recette">
     </form>
