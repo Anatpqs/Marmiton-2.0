@@ -314,6 +314,10 @@ function notation($note)
     </div>
 
 </body>
+  
+<footer>
+  <a> Nous contacter </a>
+</footer>
 
   <!-- Pour l'amdin : option desactiver les commentaires -->
   <?php
