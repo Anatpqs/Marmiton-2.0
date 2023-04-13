@@ -11,8 +11,9 @@
     padding: 20px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    background-image: url("../Images/backgroundBarre.jpg");
   }
 
   #logo {
@@ -20,11 +21,59 @@
     width: auto;
   }
  
-  #profil_img{
-    height: 70px;
-    width: auto;
-  }
 
+
+/*\\\\\ CSS du panneau déroulant \\\\\*/
+.profil{
+  position: relative;
+  top: -40px;
+}
+.navbar {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+}
+.navbar li {
+  height: auto;
+  width: 135.8px;
+  float: left;
+  text-align: center;
+  list-style: none;
+  font: normal bold 13px/1em Arial, Verdana, Helvetica;
+  padding: 0;
+  margin: 0;
+}
+.navbar a {
+  padding: 18px 0;
+  color: white;
+  display: block;
+}
+.navbar li:hover, a:hover {
+  background-image: url("../Images/backgroundBarre.jpg");
+  /*background-color: #444444;*/
+}
+.navbar li ul {
+  display: none;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+.navbar li:hover ul {
+  display: block;
+}
+.navbar li ul li {
+  background-image: url("../Images/backgroundBarre.jpg");
+}
+.navbar li ul li a {
+  border-left: 1px solid #444444;
+  border-right: 1px solid #444444;
+  border-top: 1px solid #c9d4d8;
+  border-bottom: 1px solid #444444;
+}
+.navbar li ul li a:hover {
+  background-color: #a3a1a1;
+}
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
   h1 {
     margin: 0;
@@ -204,4 +253,17 @@
     display: flex;
     justify-content: space-between;
   }
+
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+footer {
+  height: 5vh;
+  background-image: url("../Images/backgroundBarre.jpg");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer a {
+  color: white;
+}
 
