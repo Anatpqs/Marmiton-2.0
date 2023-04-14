@@ -1,7 +1,7 @@
 # MarmitonDuPauvre
 
 Anatole : Prix recette + bouton favorie recette
-Andrew : Tag + suppression image profil
+Andrew: affichage rectte pref (profile)
 Julian : CSS de ces morts + accueil recette qui peuvent intéresser 
 
 **Base de données**
