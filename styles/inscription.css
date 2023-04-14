@@ -1,0 +1,91 @@
+﻿form {
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 20px;
+  background-color: transparent;
+  border-radius: 10px;
+  margin-top: 50px;
+}
+body {
+  background-image: url('backgroundBarre.jpg');
+  background-size: cover;
+}
+
+
+label {
+  
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+input[type=text]::placeholder, input[type=password]::placeholder {
+  color: white;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding:  20px;
+  margin: 20px 0;
+  box-sizing: border-box;
+  border: 2px solid #666 ;
+  border-radius: 10px;
+  background-color: #333;
+  color: white;
+}
+
+input[type=submit] {
+  background-color: #333;
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-color:grey ;
+  background-color: #2d2d2d;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.avatar {
+  display: block;
+  margin: 50px auto ;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-image: url("cooking.png");
+  background-size: cover;
+  background-position: center;
+}
+.frame {
+  border: 1px solid grey;
+  margin: 0 auto;
+  max-width: 500px;
+  background-color:#333;
+  padding: 20px;
+  border-radius: 10px;
+  display: block;
+  position: fixed; 
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-40%); 
+  height: calc(100% - 10px);
+}
+
+
+input[type=submit]:hover {
+  background-color: #45a049;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.error {
+  color: red;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
