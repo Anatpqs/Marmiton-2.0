@@ -61,7 +61,7 @@ button[type=submit]:hover {
   margin-top: 20px;
 }
 
-.login-container img {
+.avatar {
   display: block;
   margin: 50px auto;
   width: 150px;
@@ -89,16 +89,7 @@ button[type=submit]:hover {
 }
 
 
-.avatar {
-  display: block;
-  margin: 50px auto 50px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-image: url("vatar.png");
-  background-size: cover;
-  background-position: center;
-}
+
 
 input[type=text]::placeholder, input[type=password]::placeholder {
   color: white;
