@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
 
+<!-- notif admin, temps page recette, prix au l/kg, boutton like recette favorite -->
 <?php
 session_start();
+
+include "database.php";
+global $db;
+
 if ($_SESSION["droit"]==-1)
 {
     header("Location:accueil.php");
@@ -15,9 +20,30 @@ if ($_SESSION["droit"]==-1)
     <script>
     function ajouter(){
         var div = document.createElement('div');
-        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><input type="text" name="unite[]" class="unite"><br>';
+        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><select name="unite[]"><option value="">Aucune</option> <option value="g">g</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">l</option></select><br>';
         document.getElementById('ing').appendChild(div);
-    }
+    };
+
+    function insertDatalist() {
+            var div = document.createElement('div');
+          
+            div.innerHTML = '<input list="tags" id="tag" name="tag[]">\n<datalist id="tags">\n';
+            
+            <?php
+              $sql4 = $db->prepare("SELECT * FROM Tag;");
+              $sql4->execute([]);
+              $resultat4 = $sql4->fetchAll();
+              foreach ($resultat4 as $tag) {
+                echo 'div.innerHTML += \'<option value="' . $tag["Mot_clé"] . '">\';' . "\n";
+              }
+            ?>
+            
+            div.innerHTML += '</datalist>';
+      
+            document.getElementById('tag_div').appendChild(div);
+          }
+
+    
     </script>
 </head>
 
@@ -27,6 +53,28 @@ if ($_SESSION["droit"]==-1)
     <form method="post" action="" enctype="multipart/form-data">
         <label for="titre">Titre de la recette :</label>
         <input type="text" name="titre" id="titre" required><br><br>
+
+
+        <label for="tag">Choisir des mots-clés:</label>
+        <input list="tags" id="tag" name="tag[]">
+        <datalist id="tags">
+          
+            <?php
+            $sql4=$db->prepare("SELECT * FROM Tag;");
+            $sql4->execute([]);
+            $resultat4=$sql4->fetchAll();
+            foreach ($resultat4 as $tag)
+            {
+              echo '<option value='.$tag["Mot_clé"].'>';
+      
+            };
+            ?>
+        </datalist>
+        <button onclick="insertDatalist()">Ajouter des tags</button><br><br>
+        <div id="tag_div">
+        </div>
+        
+        <br>
 
         <label for="Nb_personne">Nombre de personne :</label>
         <input type="number" name="Nb_personne" id="Nb_personne" min="1" required><br><br>
@@ -42,7 +90,14 @@ if ($_SESSION["droit"]==-1)
             <label for="Ing">Ingrédients:</label><br>
             <label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br>
             <label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br>
-            <label>Unité :</label><input type="text" name="unite[]" class="unite" ><br>
+            <label>Unité :</label>
+            <select name="unite[]">
+            <option value="">Aucune</option> 
+            <option value="g">g</option>
+            <option value="kg">kg</option>
+            <option value="ml">ml</option>
+            <option value="l">l</option>
+            </select><br>
 
         </div>
         <button type="button" onclick="ajouter()">Ajouter un ingrédient</button>
@@ -71,8 +126,6 @@ if ($_SESSION["droit"]==-1)
 // Informations de connexion à la base de données
 //! A changer suivant vos identifiant à vous \\\\
 
-include "database.php";
-global $db;
 //!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -123,6 +176,15 @@ if (isset($_POST['submit'])) {
         $sql2=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Prix,Recette) VALUES (?,?,?,?,?)");
         $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix,$id_recette]);
 
+        }
+
+        //Ajout des tags de la recette:
+
+        $tags=$_POST["tag"];
+        for($j=0;$j<count($_POST["tag"]);$j++)
+        {
+          $sql5=$db->prepare("INSERT INTO Tag(Mot_clé,Recette_assoc) VALUES (?,?);");
+          $sql5->execute([$tags[$j],$id_recette]);
         }
 
         // IMAGE RECETTE
