@@ -16,7 +16,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`Recette` (`IdRecette`, `Nom`, `IdCréateur`, `Notemoy`, `Nb_personne`, `Temps_prep`, `Temps_cuis`, `Description`, `Instruction`, `Image`) VALUES (DEFAULT, 'cookies', 2, 4, 5, 15, 20, 'De délicieu cookies mouelleux et croquant', '\n\n    Sortir le beurre du frigo environ 20 minutes avant pour qu\'il ramollisse\n    Mélanger le beurre avec le sucre glace, le sucre roux pendant 1 minute\n    Ajouter la vanille liquide et l\'oeuf, mélanger 30 secondes\n    Ajouter la farine, levure, et amandes et mélanger encore 1 minute jusqu\'à ce que le mélange soit homogène\n    Ajouter les pépites et mélanger un peu pour bien les répartir\n    Mettre au réfrigérateur 15 minutes (optionel)\n    Préchauffer le four à 170°C et préparer les plaques de cuisson avec du papier cuisson (sulfurisé)\n    Une fois que le four a atteint la température, sortir les cookies du réfrigérateur et former des boulettes de 3-4 cm de diamètre\n    Déposer les boulettes et légèrement les aplatir pour donner une forme de cookie\n    Cuire pendant environ 8 minutes, bien surveiller et les sortir une fois qu\'ils sont dorés et que les bords brunissent légèrement. Ne les laisser pas plus longtemps sinon ils vont devenir sablés au lieu de moelleux', NULL);
+INSERT INTO `mydb`.`Recette` (`IdRecette`, `Nom`, `IdCréateur`, `Notemoy`, `Nb_personne`, `Temps_prep`, `Temps_cuis`, `Description`, `Instruction`, `Image`) VALUES (DEFAULT, 'cookies', 2, 4, 5, 15, 20, 'De délicieu cookies mouelleux et croquant', '\n\n    Sortir le beurre du frigo environ 20 minutes avant pour qu\'il ramollisse\n    Mélanger le beurre avec le sucre glace, le sucre roux pendant 1 minute\n    Aj', NULL);
 
 COMMIT;
 
@@ -53,12 +53,22 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Four', 1);
-INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Chocolat', 1);
-INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, '', DEFAULT);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Chaud', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Froid', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Été', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Hiver', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Four', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Facile', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Bon marché', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Poisson', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Viande', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Végétarien', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Entré', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Plat', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Desert', NULL);
+INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT, 'Colation', NULL);
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `mydb`.`Rectte_pref`
@@ -68,4 +78,3 @@ USE `mydb`;
 INSERT INTO `mydb`.`Rectte_pref` (`Id_recette`, `Id_utilisateur`) VALUES (1, 3);
 
 COMMIT;
-
