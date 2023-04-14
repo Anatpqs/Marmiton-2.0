@@ -17,7 +17,7 @@
     include "database.php";
     global $db;
     ?>
-
+    
     <h2>Recette à valider :</h2>
     <?php
     //Recette à valider
@@ -33,6 +33,9 @@
      <a href="#" onclick="document.getElementById(\'myForm_'.$recette["IdRecette"].'\').submit();">'.$recette["Nom"].'</a>
     <form method="post">
     <input type="submit" name="validation_'.$recette["IdRecette"].'" value="Valider la recette">
+    </form>
+    <form method="post">
+    <input type="submit" name="supp_'.$recette["IdRecette"].'" value="Supprimer la recette">
     </form>';
     
     //Validation des recettes
@@ -42,10 +45,40 @@
         $sql2->execute([$recette["IdRecette"]]);
         echo "<meta http-equiv='refresh' content='0'>";
      }
+
+     //Suppression
+     if (isset($_POST["supp_".$recette["IdRecette"]]))
+     {
+     //SUPPRESSION DE L'IMAGE
+     
+             // Chemin vers le dossier où sont stockées les images
+         $chemin_dossier = "Images/Recette/";
+     
+         // Nom complet du fichier image à supprimer
+         $nom_fichier = $chemin_dossier . $recette["IdRecette"].".jpg";
+     
+         // Suppression du fichier
+         if (unlink($nom_fichier)) {
+             // Le fichier a été supprimé avec succès
+             echo "L'image a été supprimée avec succès";
+         } else {
+             // Il y a eu une erreur lors de la suppression du fichier
+             echo "Erreur lors de la suppression de l'image";
+         }
+     
+         
+     //SUPPRESION BDD
+         $sql4=$db->prepare("DELETE FROM Recette WHERE IdRecette=?;");
+         $sql4->execute([$recette["IdRecette"]]);
+         echo "<meta http-equiv='refresh' content='0'>";
+     }
+
     }
+    
     
 
 ?>
+
 <!-- modification prix ingrédient -->
 <h2>Prix des ingrédients</h2>
 <form id="prix" method="post">
@@ -80,6 +113,8 @@
         }
     ?>
 
+
+
 <!-- Suppresion et modification recette -->
 <h2>Liste des recettes disponibles :</h2>
 <?php
@@ -103,7 +138,7 @@ foreach($resultat3 as $recette)
 //SUPPRESSION RECETTE
    if (isset($_POST["suppression_".$recette["IdRecette"]]))
 {
-   //SUPPRESSION DE L'IMAGE
+//SUPPRESSION DE L'IMAGE
 
         // Chemin vers le dossier où sont stockées les images
     $chemin_dossier = "Images/Recette/";
