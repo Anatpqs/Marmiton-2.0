@@ -73,6 +73,7 @@
                     if(move_uploaded_file($file_tmp, $target_file)) {
                     echo "Le fichier a été téléchargé avec succès.";
                     rename($target_file,$target_dir . $resultat['IdUtilisateur'] . ".jpg");
+                    header("refresh: 0");
                     
                     }
                     else {
@@ -166,6 +167,7 @@ if ($_SESSION["droit"] != -1) {
                 if($_POST['typesupr']=="suprrecette"){
                     $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
                     $stmt->execute([':Login' => $login]);
+                    unlink('Images/Pdp/'.$resultat['IdUtilisateur'].".jpg");
                     header("Location:deconnexion.php");
                     exit();
                 }
@@ -174,6 +176,7 @@ if ($_SESSION["droit"] != -1) {
                     $stmt->execute([':createur' =>$_SESSION['id']]);
                     $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
                     $stmt->execute([':Login' => $login]);
+                    unlink('Images/Pdp/'.$resultat['IdUtilisateur'].".jpg");
                     header("Location:deconnexion.php");
                     exit();
                 }
