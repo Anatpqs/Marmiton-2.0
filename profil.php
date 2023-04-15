@@ -140,6 +140,18 @@
         }
         ?>
         <div>
+            <h2>Favoris</h2>
+            <?php
+                $r=$db->prepare("SELECT * FROM Recette JOIN Recette_pref ON IdCréateur=Id_utilisateur WHERE Id_utilisateur = :ID");
+                $r->execute(['ID'=>$_SESSION['id']]);
+                $result = $r->fetchAll(PDO::FETCH_ASSOC);        
+                foreach($result as $recette){
+                    echo "<img src=/Images/Recette/",$recette['IdRecette'],".jpg width='150px' height='150px'> </img>", $recette['Nom'],"   Note : ", $recette['Notemoy'];
+                }
+            ?>
+        </div>
+        <div>
+            <h2>Mes Recette</h2>
             <?php
             $r=$db->prepare("SELECT * FROM Recette WHERE IdCréateur = :IdCreateur");
             $r->execute(['IdCreateur'=>$_SESSION['id']]);
