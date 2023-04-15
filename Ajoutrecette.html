@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<!-- notif admin, temps page recette, prix au l/kg, boutton like recette favorite -->
+<!-- notif admin, prix au l/kg, bouton like recette favorite -->
 <?php
 session_start();
 
@@ -20,7 +20,7 @@ if ($_SESSION["droit"]==-1)
     <script>
     function ajouter(){
         var div = document.createElement('div');
-        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><select name="unite[]"><option value="">Aucune</option> <option value="g">g</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">l</option></select><br>';
+        div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><select name="unite[]"><option value="">Aucune</option><option value="kg">kg</option><option value="l">l</option></select><br>';
         document.getElementById('ing').appendChild(div);
     };
 
@@ -93,9 +93,7 @@ if ($_SESSION["droit"]==-1)
             <label>Unité :</label>
             <select name="unite[]">
             <option value="">Aucune</option> 
-            <option value="g">g</option>
             <option value="kg">kg</option>
-            <option value="ml">ml</option>
             <option value="l">l</option>
             </select><br>
 
