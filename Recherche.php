@@ -66,7 +66,12 @@
                 // Affiche les résultats de la recherche
                 if (count($result) > 0) {
                     foreach ($result as $row) {
-                        echo "<h2 style='display: inline'><a href=\"recette.php?id=".$row['IdRecette']."\">" . $row["Nom"] . "</a></h2>";
+                        
+                    echo '<form id="myForm'.$row["IdRecette"].'" action="recette.php" method="post">
+                        <input type="hidden" name="idRecette" value="'.$row["IdRecette"].'">
+                        </form>
+                        <h2 style="display: inline"><a href="#" onclick="document.getElementById(\'myForm'.$row["IdRecette"].'\').submit();">'.$row["Nom"].'</a></h2>';
+
                         echo " " . notation($row['Notemoy']) . " ";
                         echo "<p>" . $row["Description"] . "</p>";
                         echo "<br><hr><br>";
