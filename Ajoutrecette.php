@@ -179,7 +179,7 @@ if ($_SESSION["droit"]==-1)
               <label for="file-input">
                 <img id="imagefile" src="Images/camera.png" style="margin-top: 0px; border: solid 2px black; border-radius: 50%"/>
               </label>
-              <input type="file" id="file-input" onchange="loadFile(event)"/>
+              <input type="file" id="file-input" name="file" onchange="loadFile(event)"/>
             </div>
             <input type="submit" name="submit" value="Ajouter la recette" style="float:right; margin-top: -1em">
         </form>
