@@ -1,4 +1,10 @@
 # MarmitonDuPauvre
+Rapport{
+Diagramme de classe (UML)
+Regle de gestion 
+Base de donné 
+capture du site 
+description du site }
 
 Anatole : Prix recette + bouton favorie recette
 Andrew: affichage rectte pref (profile)
