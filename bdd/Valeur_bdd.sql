@@ -71,10 +71,10 @@ INSERT INTO `mydb`.`Tag` (`IdTag`, `Mot_clé`, `Recette_assoc`) VALUES (DEFAULT,
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `mydb`.`Rectte_pref`
+-- Data for table `mydb`.`Recette_pref`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`Rectte_pref` (`Id_recette`, `Id_utilisateur`) VALUES (1, 3);
+INSERT INTO `mydb`.`Recette_pref` (`Id_recette`, `Id_utilisateur`) VALUES (1, 3);
 
 COMMIT;
