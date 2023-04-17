@@ -26,6 +26,26 @@ else
 $IdRecette=$_COOKIE["idRecette"];
 }
 
+//Bouton like : 
+
+
+if (isset($_POST["IdUtilisateur"])) { 
+$IdUtilisateur=$_POST["IdUtilisateur"];
+
+if (isset($_POST["ajouter"]))
+{
+$sql=$db->prepare("INSERT INTO Recette_pref(Id_recette,Id_utilisateur) VALUES (?,?);");
+$sql->execute([$IdRecette,$IdUtilisateur]);
+};
+
+if (isset($_POST["supprimer"]))
+{
+$sql=$db->prepare("DELETE FROM Recette_pref WHERE Id_recette=? AND Id_utilisateur=?;");
+$sql->execute([$IdRecette,$IdUtilisateur]);
+}
+}
+// fin like
+
  //Si il n'y a pas de commentaire, note = NULL
  $sql4=$db->prepare("SELECT * FROM Commentaire WHERE Recette_Com=?");
  $sql4->execute([$IdRecette]);
@@ -469,7 +489,7 @@ const like = document.querySelector('.like');
             like.style.backgroundPosition = 'right';
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'like.php');
+            xhr.open('POST', 'recette.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
               if (xhr.status === 200) {
@@ -485,7 +505,7 @@ const like = document.querySelector('.like');
 
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'like.php');
+            xhr.open('POST', 'recette.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
               if (xhr.status === 200) {
@@ -503,8 +523,6 @@ const like = document.querySelector('.like');
     like.addEventListener('animationend', () => {
         like.classList.toggle('anim-like');
     })
-
-  
 
 </script>
 
