@@ -28,17 +28,16 @@ if ($_SESSION["droit"]==-1)
         var div = document.createElement('div');
         div.setAttribute('class', 'tagDiv');
       
-        div.innerHTML = '<input class="InputText tag" list="tags" id="tag" name="tag[]" required/>\n<datalist id="tags">\n';    
+        div.innerHTML = '<input class="InputText tag" list="tags" name="tag[]" required/><datalist id="tags">' +
         <?php
           $sql4 = $db->prepare("SELECT * FROM Tag;");
           $sql4->execute([]);
           $resultat4 = $sql4->fetchAll();
+          $options = '';
           foreach ($resultat4 as $tag) {
-            echo 'div.innerHTML += \'<option value="' . $tag["Mot_clé"] . '">\';' . "\n";
+            $options .= '<option value="' . $tag["Mot_clé"] . '">';
           }
-        ?>       
-        div.innerHTML += '</datalist>';
-
+        ?>
         document.getElementById('tag_div').appendChild(div);
       }
 
