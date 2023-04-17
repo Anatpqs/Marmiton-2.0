@@ -21,23 +21,24 @@ if ($_SESSION["droit"]==-1)
       function ajouter(){
           var div = document.createElement('div');
           div.innerHTML = '<br><label>Nom :</label><input type="text" name="nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><input type="text" name="unite[]" class="unite"><br>';
-          document.getElementById('ing').appendChild(div);
+          document.getElementById('blocingredients').appendChild(div);
       }
 
       function insertDatalist() {
         var div = document.createElement('div');
         div.setAttribute('class', 'tagDiv');
       
-        div.innerHTML = '<input class="InputText tag" list="tags" name="tag[]" required/><datalist id="tags">' +
+        div.innerHTML = '<input class="InputText tag" list="tags" id="tag" name="tag[]" required/>\n<datalist id="tags">\n';    
         <?php
           $sql4 = $db->prepare("SELECT * FROM Tag;");
           $sql4->execute([]);
           $resultat4 = $sql4->fetchAll();
-          $options = '';
           foreach ($resultat4 as $tag) {
-            $options .= '<option value="' . $tag["Mot_clé"] . '">';
+            echo 'div.innerHTML += \'<option value="' . $tag["Mot_clé"] . '">\';';
           }
-        ?>
+        ?>       
+        div.innerHTML += '</datalist>';
+
         document.getElementById('tag_div').appendChild(div);
       }
 
@@ -144,7 +145,7 @@ if ($_SESSION["droit"]==-1)
 
             <!-- Ingrédient -->
             <label id="Ing" style="display:block">Ingrédients:</label>
-            <div class="blocingredients">
+            <div id="blocingredients">
                 <div class="TextBloc ingredients">
                   <input type="text" name="nom_ing[]" class="InputText ingredients" required><span class="labelText ingredients">Nom: </span>
                 </div>
