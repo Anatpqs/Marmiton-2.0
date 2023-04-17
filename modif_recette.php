@@ -4,15 +4,26 @@
 
 <?php
 session_start();
+if($_SESSION["droit"]!=1){
+  header("Location:accueil.php");
+}
 include 'database.php';
 global $db;
 
-$IdRecette=$_POST["IdRecette"];
+if (isset($_POST["IdRecette"]))
+{
+$IdRecette = $_POST["IdRecette"];
+setcookie('IdRecette', $IdRecette, time() + 86400);
+}
+else
+{
+$IdRecette=$_COOKIE["IdRecette"];
+}
 
 ?>
 
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <title>Modification recette</title>
 
 
@@ -22,6 +33,26 @@ $IdRecette=$_POST["IdRecette"];
         div.innerHTML = '<label>Nom :</label><input type="text" name="nv_nom_ing[]" class="nom_ing" required><br><label>Quantité :</label><input type="number" name="nv_quantite[]" class="quantite" min="0" step="0.01" required><br><label>Unité :</label><input type="text" name="nv_unite[]" class="unite"><br><label>Prix :</label><input type="number" name="nv_prix[]" class="prix" min="0" step="0.01" required><br>';
         document.getElementById('ing').appendChild(div);
     }
+
+    function insertDatalist() {
+            var div = document.createElement('div');
+          
+            div.innerHTML = '<input list="tags" name="nv_tag[]">\n<datalist id="tags">\n';
+            
+            <?php
+              $sql4 = $db->prepare("SELECT * FROM Tag;");
+              $sql4->execute([]);
+              $resultat4 = $sql4->fetchAll();
+              foreach ($resultat4 as $tag) {
+                echo 'div.innerHTML += \'<option value="' . $tag["Mot_clé"] . '">\';' . "\n";
+              }
+            ?>
+            
+            div.innerHTML += '</datalist>';
+      
+            document.getElementById('tag_div').appendChild(div);
+          }
+
     </script>
 
 </head>
@@ -40,7 +71,35 @@ echo '
     <form method="post" enctype="multipart/form-data">
     <input type="hidden" name="IdRecette" value="'.$IdRecette.'">
         <label for="titre">Titre de la recette :</label>
-        <input type="text" name="titre" id="titre" value='.$resultat["Nom"].' required><br><br>
+        <input type="text" name="titre" id="titre" value="'.$resultat["Nom"].'" required><br><br>
+
+        <label for="tag">Mots-clés:</label>';
+        //Affichage mot clé 
+        $sql5=$db->prepare("SELECT * FROM Tag WHERE Recette_assoc=?;");
+        $sql5->execute([$IdRecette]);
+        $resultat5=$sql5->fetchAll();
+        foreach ($resultat5 as $tag)
+        {
+          echo '
+          <input list="tags" id="tag" name="tag[]" value='.$tag["Mot_clé"].'>
+          <input type="hidden" name="id_tag[]" value='.$tag["IdTag"].'>
+          <datalist id="tags">';
+          
+            $sql4=$db->prepare("SELECT * FROM Tag;");
+            $sql4->execute([]);
+            $resultat4=$sql4->fetchAll();
+            foreach ($resultat4 as $tags)
+            {
+              echo '<option value='.$tags["Mot_clé"].'>';
+      
+            };
+          echo '</datalist><br><br>';
+        }
+        //Ajout nv_tags
+        echo '
+        <button type="button" onclick="insertDatalist()">Ajouter des tags</button><br><br>
+        <div id="tag_div">
+        </div>
 
         <label for="Nb_personne">Nombre de personne :</label>
         <input type="number" name="Nb_personne" id="Nb_personne" min="1" value='.$resultat["Nb_personne"].' required><br><br>
@@ -89,7 +148,7 @@ echo '
         <img src="Images/Recette/'.$IdRecette.'.jpg" alt="recette" width="100px" height="100px" >
         <input type="file" id="file" name="file"> 
         <br>
-        <input type="submit" name="submit" value="Ajouter la recette">
+        <input type="submit" name="submit" value="Modifier la recette">
     </form>
 ';
 
@@ -140,9 +199,31 @@ if (isset($_POST['submit'])) {
         }
 
        }
+
+       //Modification des tags existants
+       $tag=$_POST["tag"];
+       $id_tag=$_POST["id_tag"];
+
+       for($i=0;$i<count($_POST["id_tag"]);$i++)
+       {
+        $sql6=$db->prepare("UPDATE Tag SET Mot_Clé=? WHERE IdTag=? AND Recette_assoc=?");
+        $sql6->execute([$tag[$i],$id_tag[$i],$IdRecette]);
+       }
+
+       //Ajout nv tags
+       if (isset($_POST["nv_tag"])){
+        $nv_tag=$_POST["nv_tag"];
+
+        for($i=0;$i<count($_POST["nv_tag"]);$i++)
+        {
+        $sql7=$db->prepare("INSERT INTO Tag(Mot_clé,Recette_assoc) VALUES (?,?);");
+        $sql7->execute([$nv_tag[$i],$IdRecette]);
+        }
+
+       }
        
         // IMAGE RECETTE
-        
+        if (isset($_POST["file"])){
         if(isset($_FILES['file'])) {
             $file_name = $_FILES['file']['name'];
             $file_tmp = $_FILES['file']['tmp_name'];
@@ -170,10 +251,10 @@ if (isset($_POST['submit'])) {
               }
             }
           }
-
-
-  header("Location:admin.php");
+        }
+echo "<meta http-equiv='refresh' content='0'>";
 }
+
 
 ?>
 </body>
