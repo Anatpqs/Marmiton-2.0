@@ -6,7 +6,11 @@ session_start();
 
 if (!isset($_SESSION["droit"])) {
   $_SESSION["droit"] = -1;
-};
+}
+if($_SESSION["droit"]!=-1){
+  $IdUtilisateur=$_SESSION["id"];
+}
+;
 
 include 'database.php';
 global $db;
@@ -41,26 +45,24 @@ function notation($note)
 {
   switch ($note) {
     case 1:
-      return '<img src="Images/1etoile.png" alt="note" class="img_note"><span class="note"> 1/5 </span>';
+      return '<img src="Images/1etoile.png" alt="note" class="img_note"><span class="note"><strong> 1/5 </strong></span>';
       break;
     case 2:
-      return '<img src="Images/2etoile.png" alt="note" class="img_note"><span class="note"> 2/5 </span>';
+      return '<img src="Images/2etoile.png" alt="note" class="img_note"><span class="note"><strong> 2/5 </strong></span>';
       break;
     case 3:
-      return '<img src="Images/3etoile.png" alt="note" class="img_note"><span class="note"> 3/5 </span>';
+      return '<img src="Images/3etoile.png" alt="note" class="img_note"><span class="note"><strong> 3/5 </strong></span>';
       break;
     case 4:
-      return '<img src="Images/4etoile.png" alt="note" class="img_note"><span class="note"> 4/5 </span>';
+      return '<img src="Images/4etoile.png" alt="note" class="img_note"><span class="note"><strong> 4/5 </strong></span>';
       break;
     case 5:
-      return '<img src="Images/5etoile.png" alt="note" class="img_note"><span class="note"> 5/5 </span>';
+      return '<img src="Images/5etoile.png" alt="note" class="img_note"><span class="note"><strong> 5/5 </strong></span>';
       break;
   }
 };
 
 ?>
-
-
 
 <head>
     <?php echo '<title>Recette de ' . $resultat["Nom"] . '</title>' ?>
@@ -104,23 +106,46 @@ function notation($note)
        
     </header>
     <div id="main">
-
+    
+    <div id="entete">
         <?php
 
     //Si la recette vient d'être créé pas de note
+    echo "<div id='entete1'>";
     if ($resultat["Notemoy"] !== NULL) {
       echo notation($resultat["Notemoy"]);
     }
     $pseudo = $resultat["Pseudo"];
-    echo '<p id="auteur">Auteur : <span class="data">' . $pseudo . '</span></p>';
+    echo '<p id="auteur"><strong>Auteur : </strong><span class="data">' . $pseudo . '</span></p></div>';
     ?>
+
+    <!-- BOUTON LIKE -->
+    <?php 
+    if ($_SESSION["droit"]!=-1)
+    {
+    // On regarde si l'utilisateur a déjà like: 
+
+      $sql = $db->prepare("SELECT * FROM Recette_pref WHERE Id_recette = ? AND Id_utilisateur = ?");
+      $sql->execute([$IdRecette, $IdUtilisateur]);
+     
+      // On ajoute la classe "like-active" si la requête retourne un résultat
+      $likeActiveClass = $sql->rowCount()==1 ? "like-active" : "";
+
+      // Le bouton en question :
+
+        echo '<div class="like '.$likeActiveClass.'"></div>';
+      }
+    ?>
+
+    </div>
+    <!--  -->
 
         <div id="imgdiv">
             <?php echo '<img id="img" src=Images/Recette/' . $resultat["IdRecette"] . '.jpg alt="gato">' ?>
         </div>
         <div id="info">
             <img id="temps" src="Images/horloge.png" alt="horloge">
-            <?php echo '<p id="tps_prep"><strong> Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min</span></p>' ?>
+            <?php echo '<p id="tps_prep"><strong> Temps total : </strong><span class="data">' . $resultat["Temps_prep"]+$resultat["Temps_cuis"] . ' min</span></p>' ?>
             <img id="img_prix" src="Images/euro.png" alt="euro">
 
             <!-- Calcul prix de la recette -->
@@ -129,7 +154,7 @@ function notation($note)
       $resultat3 = $sql3->fetchAll();
       $prix_recette = 0;
       foreach ($resultat3 as $row) {
-        $prix_recette += $row["Prix"];
+        $prix_recette += $row["Prix"]*$row["Quantité"];
       }
       ?>
             <p><strong>Prix : </strong><span class="data"><span id="prix"> <?php echo $prix_recette; ?></span>
@@ -148,7 +173,7 @@ function notation($note)
        
         <br> <br>
         <!-- Affichage des ingrédients -->
-        <ul>
+        <ul id="liste_ing">
             <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
@@ -159,7 +184,7 @@ function notation($note)
         echo "<li>" . $row["Nom"] . " : <span id=ing" . $j . ">" . $row["Quantité"] . "</span> " . $row["Unité"] . "</li>";
         $j += 1;
         $tabQuantite[] = $row["Quantité"];
-        $prix_recette += $row["Prix"];
+        $prix_recette += $row["Prix"]*$row["Quantité"]; //Multiplier par la quantité ?
       };
       ?>
 
@@ -169,7 +194,9 @@ function notation($note)
         <h2>Instructions</h2>
         <div id="divprout">
             <img id="casserole" src="Images/casserole.png" alt="casserole">
+            <?php echo '<p><strong>Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min </span></p>'?>&nbsp&nbsp&nbsp&nbsp
             <?php echo '<p><strong>Temps de cuisson : </strong><span class="data">' . $resultat["Temps_cuis"] . ' min </span></p>' ?>
+      
         </div>
         <ol>
             <?php 
@@ -382,6 +409,7 @@ let tabIngredient = [];
     echo "tabIngredient[$i] = $tabQuantite[$i];";
   }
   ?>
+// nbr d'ingrédient je crois
 let j = <?php echo $j; ?>;
 
 
@@ -392,11 +420,12 @@ function incr() {
     document.getElementById("nbr").innerHTML = nbr;
     // calcul prix
     var resultat = prix_uni * nbr;
+    resultat=Math.round(resultat * 100) / 100;
     document.getElementById("prix").innerHTML = resultat;
     //calcul quantité ing
     for (let i = 0; i < j; i++) {
-        let prixIng = tabIngredient[i] * nbr;
-        document.getElementById(`ing${i+1}`).innerHTML = prixIng;
+        let quantIng = tabIngredient[i] * nbr;
+        document.getElementById(`ing${i+1}`).innerHTML = quantIng;
     }
     //calcul ingrédient
 }
@@ -410,17 +439,73 @@ function decr() {
         document.getElementById("nbr").innerHTML = nbr
         // calcul prix
         var resultat = prix_uni * nbr;
+        resultat=Math.round(resultat * 100) / 100;
         document.getElementById("prix").innerHTML = resultat;
         //calcul quantité ing 
         for (let i = 0; i < j; i++) {
-            let prixIng = tabIngredient[i] * nbr;
-            document.getElementById(`ing${i+1}`).innerHTML = prixIng;
+            let quantIng = tabIngredient[i] * nbr;
+            document.getElementById(`ing${i+1}`).innerHTML = quantIng;
         }
         //calcul ingrédient
 
     }
 
 }
+
+
+//BOUTON LIKE
+
+const like = document.querySelector('.like');
+    
+    let countLike = 0;
+    like.addEventListener('click', () => {
+
+      const IdRecette = <?php echo $IdRecette ?> ;
+      const IdUtilisateur = <?php echo $IdUtilisateur ?>;
+    
+        if(countLike === 0) {
+            like.classList.toggle('anim-like');
+            countLike = 1;
+            like.style.backgroundPosition = 'right';
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'traitement.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+              if (xhr.status === 200) {
+                console.log(xhr.responseText);
+                // réussite de la requete
+              }
+            };
+            xhr.send('IdRecette=' + encodeURIComponent(IdRecette) + '&IdUtilisateur=' + encodeURIComponent(IdUtilisateur) +'&ajouter=');
+            
+        } else {
+            countLike = 0;
+            like.style.backgroundPosition = 'left';
+
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'traitement.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+              if (xhr.status === 200) {
+                console.log(xhr.responseText);
+                // réussite de la requete
+              }
+            };
+            xhr.send('IdRecette=' + encodeURIComponent(IdRecette) + '&IdUtilisateur=' + encodeURIComponent(IdUtilisateur) +'&supprimer=');
+            
+
+        }
+    
+    });
+    
+    like.addEventListener('animationend', () => {
+        like.classList.toggle('anim-like');
+    })
+
+  
+
 </script>
 
 </html>
