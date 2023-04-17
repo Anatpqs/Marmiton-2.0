@@ -5,14 +5,7 @@
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>Sa cook</title> 
-    <style type="text/css">
-    form {
-    display: inline-block;
-    }
-    body{
-        background-color: grey;
-    }
-    </style>
+    <link rel="stylesheet" href="styles/accueil.css" />
     <script>
         function confirmation(){
             if (confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
@@ -36,7 +29,7 @@
             include 'database.php';
             global $db;
             $login = $_SESSION['Login'];
-            $c = $db->prepare("SELECT Photo,Pseudo,IdUtilisateur FROM Utilisateur WHERE Login = :Login");
+            $c = $db->prepare("SELECT Pseudo,IdUtilisateur FROM Utilisateur WHERE Login = :Login");
             $c->execute(['Login' => $login,]);
             $resultat = $c->fetch(PDO::FETCH_ASSOC);
             $taille_image=filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg");
@@ -202,8 +195,6 @@ if ($_SESSION["droit"] != -1) {
             header("Location:profil.php");
         }
         }
-else {
-    header("Location:accueil.php");
-}
+
 ?>
 </html>
