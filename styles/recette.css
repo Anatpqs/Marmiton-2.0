@@ -268,3 +268,44 @@ footer {
 footer a {
   color: white;
 }
+
+/*Bouton like*/
+
+  .like {
+    cursor: pointer;
+    height: 80px;
+    width: 80px;
+    background-image: url(Images/web_heart_animation.png);
+    transform: translate(-50%, -50%);
+    position: relative;
+    top:30px;
+    left: 60px;
+    
+  }
+.anim-like {
+  animation-name: anim-like;
+  animation-duration: 0.8s;
+  animation-timing-function: steps(28); 
+}
+@keyframes anim-like {
+  from{background-position: left;}
+  to{background-position: right;}
+}
+
+.like.like-active {
+  background-position: right;
+}
+
+/* css pr mettre le like à droite */
+
+#entete{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* css liste ingrédient */
+
+#liste_ing{
+  margin-left: 20px;
+}
