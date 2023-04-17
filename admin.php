@@ -14,6 +14,10 @@
 <body>
     <?php
     //Connexion
+    session_start();
+    if($_SESSION["droit"]!=1){
+        header("Location:accueil.php");
+    }
     include "database.php";
     global $db;
     ?>
