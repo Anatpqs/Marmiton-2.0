@@ -469,7 +469,7 @@ const like = document.querySelector('.like');
             like.style.backgroundPosition = 'right';
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'traitement.php');
+            xhr.open('POST', 'like.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
               if (xhr.status === 200) {
@@ -485,7 +485,7 @@ const like = document.querySelector('.like');
 
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'traitement.php');
+            xhr.open('POST', 'like.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
               if (xhr.status === 200) {
