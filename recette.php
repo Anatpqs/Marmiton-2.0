@@ -201,7 +201,7 @@ function notation($note)
       $tabQuantite = array();
       $prix_recette = 0;
       foreach ($resultat3 as $row) {
-        echo "<li>" . $row["Nom"] . " : <span id=ing" . $j . ">" . $row["Quantité"] . "</span> " . $row["Unité"] . "</li>";
+        echo "<li>" . $row["Nom"] . " : <span id='ing" . $j . "'>" . $row["Quantité"] . "</span> " . $row["Unité"] . "</li>";
         $j += 1;
         $tabQuantite[] = $row["Quantité"];
         $prix_recette += $row["Prix"]*$row["Quantité"]; //Multiplier par la quantité ?
@@ -443,9 +443,13 @@ function incr() {
     resultat=Math.round(resultat * 100) / 100;
     document.getElementById("prix").innerHTML = resultat;
     //calcul quantité ing
+
     for (let i = 0; i < j; i++) {
-        let quantIng = tabIngredient[i] * nbr;
-        document.getElementById(`ing${i+1}`).innerHTML = quantIng;
+      let quantIng = tabIngredient[i] * nbr;
+      let ingElement = document.getElementById(`ing${i+1}`);
+      if (ingElement) {
+        ingElement.innerHTML = quantIng;
+      }
     }
     //calcul ingrédient
 }
@@ -455,16 +459,19 @@ function decr() {
     var nbr = document.getElementById("nbr").textContent
     nbr = parseInt(nbr)
     if (nbr > 1) {
-        nbr -= 1
-        document.getElementById("nbr").innerHTML = nbr
+        nbr -= 1;
+        document.getElementById("nbr").innerHTML = nbr;
         // calcul prix
         var resultat = prix_uni * nbr;
         resultat=Math.round(resultat * 100) / 100;
         document.getElementById("prix").innerHTML = resultat;
         //calcul quantité ing 
         for (let i = 0; i < j; i++) {
-            let quantIng = tabIngredient[i] * nbr;
-            document.getElementById(`ing${i+1}`).innerHTML = quantIng;
+          let quantIng = tabIngredient[i] * nbr;
+          let ingElement = document.getElementById(`ing${i+1}`);
+          if (ingElement) {
+            ingElement.innerHTML = quantIng;
+          }
         }
         //calcul ingrédient
 
@@ -481,7 +488,7 @@ const like = document.querySelector('.like');
     like.addEventListener('click', () => {
 
       const IdRecette = <?php echo $IdRecette ?> ;
-      const IdUtilisateur = <?php echo $IdUtilisateur ?>;
+      const IdUtilisateur = <?php echo isset($IdUtilisateur) ? $IdUtilisateur : 'null' ?>;
     
         if(countLike === 0) {
             like.classList.toggle('anim-like');
