@@ -261,27 +261,27 @@ function notation($note)
     }
     switch ($_POST["tri"]) {
       case "vide":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
+        $sql = $db->prepare("SELECT * FROM Commentaire
          JOIN Utilisateur ON IdAuteur=IdUtilisateur
           WHERE :idRecette=Recette_com");
         break;
       case "récent":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
+        $sql = $db->prepare("SELECT * FROM Commentaire
             JOIN Utilisateur ON IdAuteur=IdUtilisateur
              WHERE :idRecette=Recette_com ORDER BY Date DESC");
         break;
       case "ancien":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
+        $sql = $db->prepare("SELECT * FROM Commentaire
               JOIN Utilisateur ON IdAuteur=IdUtilisateur
                WHERE :idRecette=Recette_com ORDER BY Date");
         break;
       case "favo":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
+        $sql = $db->prepare("SELECT * FROM Commentaire
                 JOIN Utilisateur ON IdAuteur=IdUtilisateur
                  WHERE :idRecette=Recette_com ORDER BY Note DESC");
         break;
       case "defavo":
-        $sql = $db->prepare("SELECT Commentaire,Note,Pseudo,Date FROM Commentaire
+        $sql = $db->prepare("SELECT * FROM Commentaire
                   JOIN Utilisateur ON IdAuteur=IdUtilisateur
                    WHERE :idRecette=Recette_com ORDER BY Note");
         break;
@@ -297,7 +297,7 @@ function notation($note)
     foreach ($resultat2 as $row) {
       echo "<div class='comment_afficher'>
       <div class='info_comment'>
-      <img src='Images/profil.png' alt='profil' class='profil_commentaire'>
+      <img src='Images/Pdp/".$row["IdAuteur"].".jpg' alt='profil' class='profil_commentaire'>
       <div class='info_comment2'>
       <strong><span class='nom_comment'>" . $row['Pseudo'] . "</span></strong>
       <span class='note_comment'>" . notation($row['Note']) . "</span>
