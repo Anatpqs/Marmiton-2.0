@@ -120,7 +120,7 @@ function notation($note)
                 <form id="myForm" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $recette1["IdRecette"]?>">
                 </form>
-                <a href="#" onclick="document.getElementById('myForm').submit();"><img class="image" src=" Images/<?php echo $recette1['IdRecette']; ?>.jpg"></a>
+                <a href="#" onclick="document.getElementById('myForm').submit();"><img class="image" src=" Images/Recette/<?php echo $recette1['IdRecette']; ?>.jpg"></a>
                 <?php
                 //Si la recette vient d'être créé pas de note
                 if ($recette1["Notemoy"] !== NULL) {
@@ -178,7 +178,7 @@ function notation($note)
                 <form id="myForm2" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $recette2["IdRecette"]?>">
                 </form>
-                <a href="#" onclick="document.getElementById('myForm2').submit();"><img class="image" src="Images/<?php echo $recette2['IdRecette']; ?>.jpg"> </a>
+                <a href="#" onclick="document.getElementById('myForm2').submit();"><img class="image" src="Images/Recette/<?php echo $recette2['IdRecette']; ?>.jpg"> </a>
                 <?php
                 //Si la recette vient d'être créé pas de note
                 if ($recette2["Notemoy"] !== NULL) {
@@ -197,7 +197,7 @@ function notation($note)
                 <form id="myForm3" action="recette.php" method="post">
                     <input type="hidden" name="idRecette" value="<?php echo $RecetteDuMoment["IdRecette"]?>">
                 </form>
-                <a class="imageMoment" href="#" onclick="document.getElementById('myForm3').submit();"><img class="image" src="Images/<?php echo $RecetteDuMoment['IdRecette']; ?>.jpg"> </a>
+                <a class="imageMoment" href="#" onclick="document.getElementById('myForm3').submit();"><img class="image" src="Images/Recette/<?php echo $RecetteDuMoment['IdRecette']; ?>.jpg"> </a>
 
                 <p><?php echo $RecetteDuMoment['Description']; ?></p>
             </div>
