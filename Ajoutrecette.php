@@ -20,7 +20,7 @@ if ($_SESSION["droit"]==-1)
     <script>
       function ajouter(){
           var div = document.createElement('div');
-          div.innerHTML = '<div class="TextBloc ingredients"> <input type="text" name="nom_ing[]" class="InputText ingredients" required><span class="labelText ingredients">Nom: </span> </div> <div class="TextBloc ingredients"> <input type="number" name="quantite[]" class="InputText ingredients" min="0" step="0.01" required><label class="labelText ingredients">Quantité: </label> </div> <div class="TextBloc ingredients"> <label class="labelText ingredients" style="top:-15px">Unité: </label> <select id="unite[]" name="unite[]" class="InputText ingredients"> <option value="Aucune">Aucune</option> <option value="kg">kg</option> <option value="l">l</option> </select> </div>'
+          div.innerHTML = '<div class="TextBloc ingredients"> <input type="text" name="nom_ing[]" class="InputText ingredients" required><span class="labelText ingredients">Nom: </span> </div> <div class="TextBloc ingredients"> <input type="number" name="quantite[]" class="InputText ingredients" min="0" step="0.01" required><label class="labelText ingredients">Quantité: </label> </div> <div class="TextBloc ingredients"> <label class="labelText ingredients" style="top:-15px">Unité: </label> <select id="unite[]" name="unite[]" class="InputText ingredients"> <option value="">Aucune</option> <option value="kg">kg</option> <option value="l">l</option> </select> </div>'
           document.getElementById('nv_ing').appendChild(div);
       }
 
@@ -147,7 +147,7 @@ if ($_SESSION["droit"]==-1)
             <label id="Ing" style="display:block">Ingrédients:</label>
             <div id="blocingredients">
                 <div class="TextBloc ingredients">
-                  <input type="text" name="nom_ing[]" class="InputText ingredients" required><span class="labelText ingredients">Nom: </span>
+                  <input type="text" name="nom_ing[]" class="InputText ingredients" required>
                 </div>
                 <div class="TextBloc ingredients">
                   <input type="number" name="quantite[]" class="InputText ingredients" min="0" step="0.01" required><label class="labelText ingredients">Quantité: </label>
@@ -155,7 +155,7 @@ if ($_SESSION["droit"]==-1)
                 <div class="TextBloc ingredients">
                 <label class="labelText ingredients" style="top:-15px">Unité: </label>
                   <select id="unite[]" name="unite[]" class="InputText ingredients">
-                    <option value="Aucune">Aucune</option> 
+                    <option value="">Aucune</option> 
                     <option value="kg">kg</option>                    
                     <option value="l">l</option>
                   </select>                  
