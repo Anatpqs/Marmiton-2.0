@@ -6,9 +6,7 @@ Base de donné
 capture du site 
 description du site }
 
-Anatole : Prix recette + bouton favorie recette
-Andrew: affichage rectte pref (profile)
-Julian : CSS de ces morts + accueil recette qui peuvent intéresser 
+
 
 **Base de données**
 ![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/main/bdd/bdd.png)
@@ -26,5 +24,6 @@ Julian : CSS de ces morts + accueil recette qui peuvent intéresser
 **TODO list :**
 
 -Page d'accueil : CSS + Proposition en rapport avec recette favorite
--CSS : admin, modif_recette, accueil, profil.php
+-CSS : admin, 
+-bouton en haut mene a des recherches
 - peut être utiliser des tags pour la recherche de recette
