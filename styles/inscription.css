@@ -1,4 +1,4 @@
-﻿form {
+form {
   margin: 0 auto;
   max-width: 400px;
   padding: 20px;
@@ -7,7 +7,7 @@
   margin-top: 50px;
 }
 body {
-  background-image: url('backgroundBarre.jpg');
+  background-image: url('../Images/backgroundBarre.jpg');
   background-size: cover;
 }
 
@@ -80,7 +80,6 @@ input[type=submit]:hover {
   font-style: italic;
   margin-bottom: 10px;
 }
-
 
 
 
