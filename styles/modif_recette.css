@@ -1,0 +1,278 @@
+body {
+    position:relative;
+    overflow:auto; 
+  }
+  
+  body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    }
+  
+  footer {
+    background-image: url("../Images/backgroundBarre.jpg");
+    height: 2rem;  
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  footer a {
+    color: white;
+  }
+    
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      background-image: url("../Images/backgroundBarre.jpg");
+    }
+  
+    #logo, #imagefile {
+      height: 70px;
+      width: auto;
+    }
+    #titre{
+      justify-self: right;
+      font-weight: bold;
+    }
+    
+    .icon{
+      height: 70px;
+      width: auto;
+    }
+    
+    
+    /*\\\\\ CSS du panneau déroulant \\\\\*/
+    .profil{
+      position: relative;
+      top: -40px;
+    }
+    .navbar {
+      position: absolute;
+      padding: 0;
+      margin: 0;
+    }
+    .navbar li {
+      height: auto;
+      width: 135.8px;
+      float: left;
+      text-align: center;
+      list-style: none;
+      font: normal bold 13px/1em Arial, Verdana, Helvetica;
+      padding: 0;
+      margin: 0;
+    }
+    .navbar a {
+      padding: 18px 0;
+      color: white;
+      display: block;
+    }
+    .navbar li:hover, a:hover {
+      background-image: url("../Images/backgroundBarre.jpg");
+      /*background-color: #444444;*/
+    }
+    .navbar li ul {
+      display: none;
+      height: auto;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar li:hover ul {
+      display: block;
+    }
+    .navbar li ul li {
+      background-image: url("../Images/backgroundBarre.jpg");
+    }
+    .navbar li ul li a {
+      border-left: 1px solid #444444;
+      border-right: 1px solid #444444;
+      border-top: 1px solid #c9d4d8;
+      border-bottom: 1px solid #444444;
+    }
+    .navbar li ul li a:hover {
+      background-color: #a3a1a1;
+    }
+    /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+    
+    
+    h1 {
+      margin: 0;
+    }
+    #main {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      flex-grow: 1;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    ul {
+      list-style-type: disc;
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    
+    #temps{
+        height: 45px;
+        width: auto;
+        margin-right: 10px;
+    }
+    #info
+    {
+      display: flex;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+    #img{
+      height: 200px;
+      width: auto;
+      margin-bottom: 20px;
+      padding:5px;
+      border: solid #333 7px;
+    }
+    #imgdiv{
+      display: flex;
+      justify-content: center;
+    }
+    #img_prix{
+      height: 50px; 
+      width: auto;
+      margin-left: 200px;
+      margin-right: 10px;
+    }
+    #separation{
+      height: 3vh;
+      width: auto;
+      background-color: #333;
+    }
+         
+  /*--------------------------------------------*/
+  
+  input[type="submit"], input[type="file"], button[type="button"], img{
+    cursor:pointer;
+  }
+  
+  #Ing{
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  
+  .TextBloc{
+    color: #424242; /*949494*/
+    position: relative;
+    display: block;
+    flex-direction: column;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    padding-right: 2em;
+    margin-top: 1em;
+    width: min-content;
+  }
+  
+  .TextBloc + .Temps_prep{
+    display: inline-block;
+  }
+  .TextBloc + .Temps_cuis{
+    margin-left: 2em;
+    display: inline-block;
+  }
+  .TextBloc.ingredients{
+    display: inline-block;
+  }
+  .TextBloc.tag{
+    display: inline-block;
+  }
+  
+  /*  =================================================================  */
+  .InputText{
+    border: 0;
+    border-bottom: 2px solid #b3b3b3;
+    width: 325px;
+    font-size: 1em;
+  }
+  .labelText{
+    position: absolute;
+    left: 0;
+    top: 0;
+    align-items: center;
+    font-size: 1em;
+    font-weight: bold;
+    transition: .3s ease-in-out;
+  }
+  
+  .InputText:focus, textarea:focus{
+    outline: 0;
+    border-bottom: 2px solid black;
+  }
+  
+  .InputText:focus ~ .labelText,
+  textarea:focus ~ .labelText,
+  .InputText:not(:focus):valid ~ .labelText,
+  textarea:not(:focus):valid ~ .labelText{
+    top: -15px;
+    left: 0;
+    font-size: 11px;
+  }
+  /*  =================================================================  */
+  .InputText.tag{
+    border: 0;
+    border-bottom: 2px solid #b3b3b3;
+    width: 125px;
+    font-size: 1em;
+  }
+  .tagDiv{
+    display: inline-block;
+    margin-right: 0.5em;
+  }
+  
+  /*  =================================================================  */
+  
+  #blocingredients{
+    overflow: hidden;
+    border: black solid 1px;
+    border-radius: 10px;
+    padding: 1vh;
+  }
+  
+  .InputText.ingredients{
+    margin-right: 5em;
+    display: inline-block;
+    width: 180px;
+    margin: 0.25em 2em 0em 0.25em;
+  }
+  
+  /*  =================================================================  */
+  .InputText.description{
+    border: 0;
+    border-radius: 5px;
+    border: 2px solid #b3b3b3;
+    width: 525px;
+    height: 50px;
+    font-size: 1em;
+  }
+  .InputText.description:focus{
+    outline: 0;
+    border: 2px solid black;
+  }
+  
+  
+  .image-upload>input {
+    display: none;
+  }
+  /*  =================================================================  */
