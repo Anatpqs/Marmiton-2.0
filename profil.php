@@ -1,12 +1,14 @@
 
 <!DOCTYPE html> 
 <html> 
+
 <head> 
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>Sa cook</title> 
-    <link rel="stylesheet" href="styles/accueil.css" />
+    <link rel="stylesheet" href="styles/profil.css" />
     <script>
+        
         function confirmation(){
             if (confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
             document.getElementById('confirm').value = 'yes';
@@ -15,36 +17,79 @@
             else {
                 document.getElementById('confirm').value = 'no';
             }
+        };
+        var loadFile = function(event) {
+        var imagefile = document.getElementById('imagefile');
+        imagefile.src = URL.createObjectURL(event.target.files[0]);
+        imagefile.onload = function() {
+          URL.revokeObjectURL(imagefile.src) // free memory
         }
+        document.getElementById("form1").submit();
+      };
     </script>
 </head> 
 <body> 
-    <form action="accueil.php" method="post">
-        <input type="submit" value="Aller à l'accueil">
-    </form>
+    <header>
+        <?php session_start()?>
+        <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
+        <div id="titre"><?php echo '<h1>Profil</h1>' ?></div>
+        <div class="profil">
+        <ul class="navbar">
+            <?php if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
+                echo"<li class='li'><img id='imagefile' class='icon' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
+            }
+            else{
+                echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+            }?>
+
+                <ul>
+                    <?php if ($_SESSION["droit"] == 0) {
+                        echo '<li><a onclick="document.getElementById(\'file-input\').click();">Changer de photo
+                        </a></li>
+                        <form method="post" enctype="multipart/form-data" id="form1">
+                        <input type="file" id="file-input" onchange="loadFile(event)" name="file">
+                        
+                        </form>
+                        <li><a href="deconnexion.php">Déconnexion</a></li> ';
+                    } // Si l'utilisateur est connecté, on affiche les liens de profil et de déconnexion
+                    ?>
+                    <?php if ($_SESSION["droit"] == 1) {
+                        echo '<li><a href="admin.php">Admin</a></li>
+                        <li><a href="deconnexion.php">Déconnexion</a></li>'; //Admin
+                    }
+                    ?>
+                </ul>
+            </li>
+        </ul>
+    </div>
+   
+    </header>
     <div>
         <?php
-        session_start();
+        function notation($note){
+            switch ($note) {
+                case 1:
+                return '<img src="Images/1etoile.png" alt="note" class="img_note"><span class="note"><strong> 1/5 </strong></span>';
+                break;
+                case 2:
+                return '<img src="Images/2etoile.png" alt="note" class="img_note"><span class="note"><strong> 2/5 </strong></span>';
+                break;
+                case 3:
+                return '<img src="Images/3etoile.png" alt="note" class="img_note"><span class="note"><strong> 3/5 </strong></span>';
+                break;
+                case 4:
+                return '<img src="Images/4etoile.png" alt="note" class="img_note"><span class="note"><strong> 4/5 </strong></span>';
+                break;
+                case 5:
+                return '<img src="Images/5etoile.png" alt="note" class="img_note"><span class="note"><strong> 5/5 </strong></span>';
+                break;
+            }
+}
+
         if ($_SESSION["droit"] != -1) {
             include 'database.php';
             global $db;
-            $login = $_SESSION['Login'];
-            $c = $db->prepare("SELECT Pseudo,IdUtilisateur FROM Utilisateur WHERE Login = :Login");
-            $c->execute(['Login' => $login,]);
-            $resultat = $c->fetch(PDO::FETCH_ASSOC);
-            $taille_image=filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg");
-
-            if($taille_image>50){
-                echo "<img src=/Images/Pdp/",$_SESSION['id'],".jpg width='100px' height='100px'> </img>";
-            }
-            else{echo "<img src=/Images/Pdp/userblanc.png width='100px' height='100px'> </img>";}
-            echo $resultat['Pseudo'],'
-                <form method="post" enctype="multipart/form-data">
-                    <label for="file">Sélectionnez Votre nouvelle photo de profil:</label>
-                    <input type="file" id="file" name="file">
-                    <input type="submit" value="Télécharger">
-
-                </form>';
+            echo $_SESSION['Pseudo'];
             if(isset($_FILES['file'])) {
                 $file_name = $_FILES['file']['name'];
                 $file_tmp = $_FILES['file']['tmp_name'];
@@ -64,9 +109,8 @@
                 }
                 else {
                     if(move_uploaded_file($file_tmp, $target_file)) {
-                    echo "Le fichier a été téléchargé avec succès.";
-                    rename($target_file,$target_dir . $resultat['IdUtilisateur'] . ".jpg");
-                    header("refresh: 0");
+                    echo "<div id=changpdpreu>La photo a bien été changer.</div>";
+                    rename($target_file,$target_dir . $_SESSION['id'] . ".jpg");
                     
                     }
                     else {
@@ -76,6 +120,7 @@
             }
             
             ?>
+            <div id="commentairediv">
             <div id="comment_select">
                 <h2>Commentaires</h2>
                 <form method="post">
@@ -95,43 +140,72 @@
                      ORDER BY Date DESC");
                 $sql->execute(['Recette_com' => $_SESSION['id']]);
                 $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
-                foreach($result as $comm) {
-                    echo $comm['Commentaire'],'
-                    <form method="post">
-                        <button type="submit" name="suprComm" value=',$comm['IdCommentaire'],'>supprimer le commentaire</button>
-                    </form><br><br>';}
+                foreach($result as $row) {
+                    echo "<div class='comment_afficher'>
+                        <div class='info_comment'>
+                            <img src='Images/profil.png' alt='profil' class='profil_commentaire'>
+                            <div class='info_comment2'>
+                                <strong><span class='nom_comment'>" . $row['Pseudo'] . "</span></strong>
+                                <span class='note_comment'>" . notation($row['Note']) . "</span>
+                            </div>
+
+                                <form method='post' class='supprComm' >
+                                <button type='submit' name='suprComm' value=",$row['IdCommentaire'],">supprimer le commentaire</button>
+                            </form>
+                        </div>
+
+                    <div class='comment_text'>" . $row['Commentaire'] . "</div>
+                    <p class='date_comment'>" . $row['Date'] . "</p>
+                    </div>
+                    <div id='barre_commentaire'></div>";}
+}
+else{
+    switch ($_POST["tri"]) {
+            
+        case "aprés":
+            $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
+            WHERE IdAuteur=:Recette_com
+            AND Date>:Dateselect 
+            ORDER BY Date");
+            break;
+        case "avant":
+            $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
+            WHERE IdAuteur=:Recette_com
+            AND Date<:Dateselect
+            ORDER BY Date");    
+            break;
+        }
+        $sql->execute(['Recette_com'=>$_SESSION['id'],
+                       'Dateselect'=>$_POST['datePicker']]);
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
+        foreach($result as $row){
+            echo "<div class='comment_afficher'>
+                <div class='info_comment'>
+                    <img src='Images/profil.png' alt='profil' class='profil_commentaire'>
+                    <div class='info_comment2'>
+                        <strong><span class='nom_comment'>" . $row['Pseudo'] . "</span></strong>
+                        <span class='note_comment'>" . notation($row['Note']) . "</span>
+                    </div>
+
+                        <form method='post' class='supprComm' >
+                        <button type='submit' name='suprComm' value=",$row['IdCommentaire'],">supprimer le commentaire</button>
+                    </form>
+                </div>
+
+            <div class='comment_text'>" . $row['Commentaire'] . "</div>
+            <p class='date_comment'>" . $row['Date'] . "</p>
+            </div>
+            <div id='barre_commentaire'></div>";}
+
+}
 }
 
-            switch ($_POST["tri"]) {
             
-                case "aprés":
-                    $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
-                    WHERE IdAuteur=:Recette_com
-                    AND Date>:dateselect 
-                    ORDER BY Date");
-                    break;
-                case "avant":
-                    $sql = $db->prepare("SELECT Commentaire,Note,Date FROM Commentaire
-                    WHERE IdAuteur=:Recette_com
-                    AND Date<:Dateselect
-                    ORDER BY Date");    
-                    break;
-                $sql->execute(['Recette_com'=>$_SESSION['id'],
-                               'Dateselect'=>$_POST['datePicker']]);
-                $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
-                foreach($result as $comm){
-                    echo $comm['Commentaire'],'
-                    <form method="post">
-                        <button type="submit" name= "suprComm" value=',$comm['IdCommentaire'],'>suprimier le commentaire</button>
-                    </form><br><br>';
-     }
-            }
-
-        }
         else {
             header("Location:accueil.php");
         }
         ?>
+        </div>
         <div>
             <h2>Favoris</h2>
             <?php
@@ -164,6 +238,9 @@
         </select>
     </form>
 </body> 
+<footer>
+  <a> Nous contacter </a>
+</footer>
 <?php
 if ($_SESSION["droit"] != -1) {
         if (isset($_POST['suprofil'])) {
