@@ -2,11 +2,6 @@ html,body{
   margin: 0;
   min-height: 100%;
 }
-.image{
-  width: 150px;
-  height: auto;
-  border-radius: 20px;
-}
 
 /*\\\\\ CSS de la barre en haut de la page d'accueil \\\\\*/
   #logo{
@@ -145,18 +140,19 @@ html,body{
   width: 50%;
 }
 .recette_du_jour .affichage{
+  padding: 8px;
   width: 400px;
-  height: 300px;
   border: 5px solid #888888;
   background-color: #999999;
-  border-radius: 15px;
+  border-radius: 20px;
   margin: 5vh;
   opacity: 0.9;
   text-align: center;
 }
 .recette_du_jour .image{
-  width: 50%;
-  height: auto;
+  padding: 8px;
+  border-radius: 20px;
+  width: 80%;
   margin-bottom: 1vh;
 }
 
@@ -174,9 +170,17 @@ html,body{
   text-align: center;
 }
 .recette_du_moment .image{
+  border-radius: 20px;
   width: 600px;
   height: auto;
   margin-bottom: 2vh;
+}
+
+.img_note{
+  height: 30px;
+  width:auto;
+  position: relative;
+  bottom: 8px;
 }
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
