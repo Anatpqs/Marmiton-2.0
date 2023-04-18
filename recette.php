@@ -176,6 +176,7 @@ function notation($note)
       foreach ($resultat3 as $row) {
         $prix_recette += $row["Prix"]*$row["Quantité"];
       }
+      $prix_recette=round($prix_recette,2);
       ?>
             <p><strong>Prix : </strong><span class="data"><span id="prix"> <?php echo $prix_recette; ?></span>
                     euros</span></p>
@@ -426,9 +427,10 @@ let tabIngredient = [];
 <?php
   $n = count($tabQuantite);
   for ($i = 0; $i < $n; $i++) {
-    echo "tabIngredient[$i] = $tabQuantite[$i];";
+    echo "tabIngredient[$i] = $tabQuantite[$i]/nbr;";
   }
   ?>
+
 // nbr d'ingrédient je crois
 let j = <?php echo $j; ?>;
 
@@ -440,12 +442,13 @@ function incr() {
     document.getElementById("nbr").innerHTML = nbr;
     // calcul prix
     var resultat = prix_uni * nbr;
-    resultat=Math.round(resultat * 100) / 100;
+    resultat=Math.round(resultat * 100)/100;
     document.getElementById("prix").innerHTML = resultat;
     //calcul quantité ing
 
     for (let i = 0; i < j; i++) {
       let quantIng = tabIngredient[i] * nbr;
+      quantIng=Math.round(quantIng*1000)/1000;
       let ingElement = document.getElementById(`ing${i+1}`);
       if (ingElement) {
         ingElement.innerHTML = quantIng;
@@ -463,11 +466,12 @@ function decr() {
         document.getElementById("nbr").innerHTML = nbr;
         // calcul prix
         var resultat = prix_uni * nbr;
-        resultat=Math.round(resultat * 100) / 100;
+        resultat=Math.round(resultat * 100)/100;
         document.getElementById("prix").innerHTML = resultat;
         //calcul quantité ing 
         for (let i = 0; i < j; i++) {
           let quantIng = tabIngredient[i] * nbr;
+          quantIng=Math.round(quantIng*1000)/1000;
           let ingElement = document.getElementById(`ing${i+1}`);
           if (ingElement) {
             ingElement.innerHTML = quantIng;
@@ -476,7 +480,7 @@ function decr() {
         //calcul ingrédient
 
     }
-
+''
 }
 
 
