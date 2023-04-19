@@ -22,8 +22,8 @@ description du site }
 - [x] Commentaire
 
 **TODO list :**
-supression commentaire enclenche calcul moyenne de note de la recette
--Page d'accueil : CSS + Proposition en rapport avec recette favorite
--CSS : admin, 
--bouton en haut mene a des recherches
+- supression commentaire enclenche calcul moyenne de note de la recette
+- Page d'accueil : CSS + Proposition en rapport avec recette favorite
+- CSS : admin, 
+- bouton en haut mene a des recherches
 - peut être utiliser des tags pour la recherche de recette
