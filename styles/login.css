@@ -1,23 +1,26 @@
-﻿body {
-  background-image: url('backgroundBarre.jpg');
+body {
+  background-image: url('../Images/backgroundBarre.jpg');
   background-size: cover;
 }
 
+
 .login-container {
   margin: 0 auto;
-  max-width: 400px;
-  padding: 20px;
-  background-color: transparent;
+  max-width: 500px;
+  padding: 40px;
+  background-color: #fff;
   border-radius: 10px;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 label {
   display: block;
   margin-bottom: 5px;
+  font-size: large;
   font-weight: bold;
 }
 
@@ -61,34 +64,6 @@ button[type=submit]:hover {
   margin-top: 20px;
 }
 
-.avatar {
-  display: block;
-  margin: 50px auto;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-image: url("cooking.png");
-  background-size: cover;
-  background-position: center;
-}
-
-
-.frame {
-  border: 1px solid grey;
-  margin: 0 auto;
-  max-width: 500px; 
-  background-color: #333;
-  padding: 80px; 
-  border-radius: 10px;
-  display: block;
-  position: fixed; 
-  bottom: 0;
-  left: 50%; 
-  transform: translateX(-40%); 
-  height: calc(100% - 100px);
-}
-
-
 
 
 input[type=text]::placeholder, input[type=password]::placeholder {
@@ -123,12 +98,10 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
-
-
-
-
-
-
-
-
-
+#image{
+  text-align: center;
+}
+#logo{
+  height: 150px;
+  width: auto;
+}
