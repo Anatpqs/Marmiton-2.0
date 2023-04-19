@@ -215,11 +215,49 @@ if (isset($_POST['submit'])) {
     $Temps_cuis = intval($_POST['Temps_cuis']);
     $Etat=0;
 
-   
+    // IMAGE RECETTE
+    if(isset($_FILES['file'])) {
+      $file_name = $_FILES['file']['name'];
+      $file_tmp = $_FILES['file']['tmp_name'];
+      $file_type = $_FILES['file']['type'];
+      $file_size = $_FILES['file']['size'];
+      $target_dir = "Images/Recette/"; // dossier de destination
+      $target_file = $target_dir . basename($file_name);
+    
+      // Vérifier le type de fichier
+      $allowed_types = array('image/jpeg', 'image/png');
+      if(!in_array($file_type, $allowed_types)) {
+          echo '<script type ="text/JavaScript">';  
+          echo 'alert("Erreur: Seules les images JPEG et PNG sont autorisées.")';  
+          echo '</script>'; 
+          die;
+      }
+      // Vérifier la taille du fichier
+      else if($file_size > 5000000) { // 5 Mo maximum
+          echo '<script type ="text/JavaScript">';  
+          echo 'alert("Erreur: La taille du fichier doit être inférieure à 5 Mo.")';  
+          echo '</script>';
+          die;
+      }
+      else {
+        if(move_uploaded_file($file_tmp, $target_file)) {
+          echo '<script type ="text/JavaScript">';  
+          echo 'alert("Recette envoyé - En attente de validation par l\'admin.")';  
+          echo '</script>';  
+        rename($target_file,$target_dir . $id_recette . ".jpg");
+        }
+        else {
+          echo '<script type ="text/JavaScript">';  
+          echo 'alert("Erreur lors du téléchargement du fichier. Dest : '. $target_dir;'")';  
+          echo '</script>';  
+          die;
+        }
+      }
+    }
+  
         // Requête SQL d'insertion
-        
-        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, État) 
-        VALUES (?, ?, NULL, ?, ?, ?, ?, ?,?);");
+        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, Image, État) 
+        VALUES (?, ?, NULL, ?, ?, ?, ?, ?, NULL,?);");
         // Exécution de la requête
         $sql->execute([$Nom,$_SESSION["id"],$Nb_personne,$Temps_prep,$Temps_cuis,$Description,$Instruction,$Etat]);
 
@@ -234,64 +272,30 @@ if (isset($_POST['submit'])) {
 
         for($i=0;$i<count($_POST["nom_ing"]);$i++)
         {
+            //Recherche si l'ingrédient existe deja pr donner le meme prix
+            $sql3=$db->prepare("SELECT * FROM Ingrédient WHERE Nom=? ;");
+            $sql3->execute([$nom_ings[$i]]);
+            $resultat=$sql3->fetch(PDO::FETCH_ASSOC);
+            if ($sql3->rowCount()>=1)  
+            {
+              $prix=$resultat["Prix"];
+            }
+            else
+            {
+              $prix=0;
+            }
 
-        //Recherche si l'ingrédient existe deja pr donner le meme prix
-        $sql3=$db->prepare("SELECT * FROM Ingrédient WHERE Nom=? ;");
-        $sql3->execute([$nom_ings[$i]]);
-        $resultat=$sql3->fetch(PDO::FETCH_ASSOC);
-        if ($sql3->rowCount()>=1)  
-        {
-          $prix=$resultat["Prix"];
-        }
-        else
-        {
-          $prix=0;
-        }
-          
-        $sql2=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Prix,Recette) VALUES (?,?,?,?,?)");
-        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix,$id_recette]);
-
+            $sql2=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Prix,Recette) VALUES (?,?,?,?,?)");
+            $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix,$id_recette]);
         }
 
-        //Ajout des tags de la recette:
-
+        //Ajout des tags de la recette
         $tags=$_POST["tag"];
         for($j=0;$j<count($_POST["tag"]);$j++)
         {
           $sql5=$db->prepare("INSERT INTO Tag(Mot_clé,Recette_assoc) VALUES (?,?);");
           $sql5->execute([$tags[$j],$id_recette]);
         }
-
-        // IMAGE RECETTE
-        
-        if(isset($_FILES['file'])) {
-            $file_name = $_FILES['file']['name'];
-            $file_tmp = $_FILES['file']['tmp_name'];
-            $file_type = $_FILES['file']['type'];
-            $file_size = $_FILES['file']['size'];
-            $target_dir = "Images/Recette/"; // dossier de destination
-            $target_file = $target_dir . basename($file_name);
-          
-            // Vérifier le type de fichier
-            $allowed_types = array('image/jpeg', 'image/png');
-            if(!in_array($file_type, $allowed_types)) {
-              echo "Erreur: Seules les images JPEG et PNG sont autorisées.";
-            }
-            // Vérifier la taille du fichier
-            else if($file_size > 5000000) { // 5 Mo maximum
-              echo "Erreur: La taille du fichier doit être inférieure à 5 Mo.";
-            }
-            else {
-              if(move_uploaded_file($file_tmp, $target_file)) {
-                echo "Recette envoyé - En attente de validation par l'admin !";
-              rename($target_file,$target_dir . $id_recette . ".jpg");
-              }
-              else {
-                echo "Erreur lors du téléchargement du fichier.";
-              }
-            }
-          }
-
  
 }
 ?>
