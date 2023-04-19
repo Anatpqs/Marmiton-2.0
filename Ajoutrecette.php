@@ -67,6 +67,18 @@ if ($_SESSION["droit"]==-1)
           URL.revokeObjectURL(imagefile.src) // free memory
         }
       };
+      window.onload = function() {
+  const input = document.getElementById('Description');
+  const errorMsg = document.getElementById('error-msg');
+  input.addEventListener('input', () => {
+    if (input.value.length > 180) {
+      input.value = input.value.slice(0, 180);
+      errorMsg.style.display = 'block';
+    } else {
+      errorMsg.style.display = 'none';
+    }
+  });
+}
     </script>
 </head>
 
@@ -131,6 +143,7 @@ if ($_SESSION["droit"]==-1)
           <div class="TextBloc">
             <label class ="labelText description">Description :</label><br>
             <textarea name="Description" id="Description" class="InputText description" required></textarea>
+            <div id="error-msg" style="display: none; color: red;">La description ne peut pas dépasser 180 caractères.</div>
           </div>
           <div class="TextBloc">          
             <input type="number" name="Nb_personne" class="InputText" min="1" required><span class="labelText">Nombre de personne :</span>           
@@ -205,8 +218,8 @@ if (isset($_POST['submit'])) {
    
         // Requête SQL d'insertion
         
-        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, Image, État) 
-        VALUES (?, ?, NULL, ?, ?, ?, ?, ?, NULL,?);");
+        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, État) 
+        VALUES (?, ?, NULL, ?, ?, ?, ?, ?,?);");
         // Exécution de la requête
         $sql->execute([$Nom,$_SESSION["id"],$Nb_personne,$Temps_prep,$Temps_cuis,$Description,$Instruction,$Etat]);
 
