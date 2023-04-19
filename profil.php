@@ -32,7 +32,7 @@
     <header>
         <?php session_start()?>
         <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
-        <div id="titre"><?php echo '<h1>Profil ',$_SESSION["Pseudo"],'</h1>' ?></div>
+        <div id="titre"><?php echo '<h1>Profil ',$_SESSION["pseudo"],'</h1>' ?></div>
         <div class="profil">
         <ul class="navbar">
             <?php if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
