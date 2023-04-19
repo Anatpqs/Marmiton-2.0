@@ -90,6 +90,7 @@ function notation($note)
                         ?>
                         <?php if ($_SESSION["droit"] == 1) { //Admin
                             echo '<li><a href="admin.php">Admin</a></li>
+                            <li><a href="profil.php">Mon Profil</a></li> 
                             <li><a href="deconnexion.php">Déconnexion</a></li>'; 
                         }
                         ?>
