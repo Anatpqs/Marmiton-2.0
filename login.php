@@ -10,15 +10,16 @@
   </head>
   <body>
     <div class="login-container">
-      <img src="Images/avatar.png" alt="avatar image">
+      <div id="image"><img id="logo" src="Images/cooking.png" alt="avatar image"></div>
     <form method="post">
-        <label>Identifiant</label><input type="text" name="username" id="username">
+        <label class="text">Identifiant</label><input type="text" name="username" id="username">
         <br>
-        <label>Mot de passe</label><input type="password" name="password" id="password">
+        <label class="text">Mot de passe</label><input type="password" name="password" id="password">
         <br>
         <button type="submit" name="connexion">Connexion</button>
         <button type="submit" name="Accueil" >Accueil</button>
     </form>
+    </div>
   </body>
 </html>
 
@@ -27,7 +28,7 @@ session_start();
 if ($_SESSION["droit"] !=-1) {
   header("Location:accueil.php");
 }
-  
+
 if (isset($_POST["Accueil"]))
 {
   header("Location:accueil.php");
