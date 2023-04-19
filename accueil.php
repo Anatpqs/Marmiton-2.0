@@ -12,7 +12,7 @@ if (!isset($_SESSION["droit"])) {
 //--------------------------------------------------------------------------------------------------------------------//
 
 // Requête SQL pour récupérer deux recettes aléatoires
-$req_sql = $db->prepare('SELECT * FROM Recette ORDER BY RAND() LIMIT 2');
+$req_sql = $db->prepare('SELECT * FROM Recette WHERE État!=0 ORDER BY RAND() LIMIT 2');
 $req_sql->execute();
 // Récupération des résultats de la requête et stockage dans des variables
 $recette1 = $req_sql->fetch();
@@ -21,7 +21,7 @@ $recette2 = $req_sql->fetch();
 //--------------------------------------------------------------------------------------------------------------------//
 
 // Requête SQl pour récupérer la recette du moment (recette ayant la meilleure moyenne)
-$req_sql_RecetteDuMoment = $db->prepare('SELECT * FROM Recette WHERE Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
+$req_sql_RecetteDuMoment = $db->prepare('SELECT * FROM Recette WHERE État!=0 AND Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
 $req_sql_RecetteDuMoment->execute();
 //Récupération du résultat de la requête et stockage dans la variable
 $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
@@ -82,7 +82,7 @@ function notation($note)
                   <li><a href="inscription.php">Créer un compte</a></li> ';
                         } 
                         ?>
-                        <?php if ($_SESSION["droit"] == 0) { // Si l'utilisateur est connecté, on affiche les liens de profil et de déconnexion
+                       <?php if ($_SESSION["droit"] == 0 || $_SESSION["droit"] == -2 ) { // Si l'utilisateur est connecté, on affiche les liens de profil et de déconnexion
                             echo '
                   <li><a href="profil.php">Mon Profil</a></li> 
                   <li><a href="deconnexion.php">Déconnexion</a></li> ';
