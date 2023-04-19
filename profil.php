@@ -32,7 +32,7 @@
     <header>
         <?php session_start()?>
         <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
-        <div id="titre"><?php echo '<h1>Profil</h1>' ?></div>
+        <div id="titre"><?php echo '<h1>Profil ',$_SESSION["Pseudo"],'</h1>' ?></div>
         <div class="profil">
         <ul class="navbar">
             <?php if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
@@ -55,7 +55,13 @@
                     ?>
                     <?php if ($_SESSION["droit"] == 1) {
                         echo '<li><a href="admin.php">Admin</a></li>
-                        <li><a href="deconnexion.php">Déconnexion</a></li>'; //Admin
+                        <li><a onclick="document.getElementById(\'file-input\').click();">Changer de photo
+                        </a></li>
+                        <form method="post" enctype="multipart/form-data" id="form1">
+                        <input type="file" id="file-input" onchange="loadFile(event)" name="file">
+                        
+                        </form>
+                        <li><a href="deconnexion.php">Déconnexion</a></li> '; //Admin
                     }
                     ?>
                 </ul>
@@ -89,7 +95,6 @@
         if ($_SESSION["droit"] != -1) {
             include 'database.php';
             global $db;
-            echo $_SESSION['Pseudo'];
             if(isset($_FILES['file'])) {
                 $file_name = $_FILES['file']['name'];
                 $file_tmp = $_FILES['file']['tmp_name'];
@@ -143,14 +148,14 @@
                 foreach($result as $row) {
                     echo "<div class='comment_afficher'>
                         <div class='info_comment'>
-                            <img src='Images/profil.png' alt='profil' class='profil_commentaire'>
-                            <div class='info_comment2'>
-                                <strong><span class='nom_comment'>" . $row['Pseudo'] . "</span></strong>
-                                <span class='note_comment'>" . notation($row['Note']) . "</span>
-                            </div>
+                            <img src='Images/Pdp/".$_SESSION['id'].".jpg' alt='profil' class='profil_commentaire'>
+                                <div class='info_comment2'>
+                                    <strong><span class='nom_comment'></span></strong>
+                                    <span class='note_comment'>" . notation($row['Note']) . "</span>
+                                </div>
 
                                 <form method='post' class='supprComm' >
-                                <button type='submit' name='suprComm' value=",$row['IdCommentaire'],">supprimer le commentaire</button>
+                                <button type='submit' name='suprComm'>supprimer le commentaire</button>
                             </form>
                         </div>
 
@@ -181,14 +186,14 @@ else{
         foreach($result as $row){
             echo "<div class='comment_afficher'>
                 <div class='info_comment'>
-                    <img src='Images/profil.png' alt='profil' class='profil_commentaire'>
-                    <div class='info_comment2'>
-                        <strong><span class='nom_comment'>" . $row['Pseudo'] . "</span></strong>
+                    <img src='Images/Pdp/".$row["IdAuteur"].".jpg' alt='profil' class='profil_commentaire'>
+                        <div class='info_comment2'>
+                        <strong><span class='nom_comment'></span></strong>
                         <span class='note_comment'>" . notation($row['Note']) . "</span>
                     </div>
 
                         <form method='post' class='supprComm' >
-                        <button type='submit' name='suprComm' value=",$row['IdCommentaire'],">supprimer le commentaire</button>
+                        <button type='submit' name='suprComm'>supprimer le commentaire</button>
                     </form>
                 </div>
 
@@ -206,26 +211,33 @@ else{
         }
         ?>
         </div>
-        <div>
+        <div id=favoris>
             <h2>Favoris</h2>
-            <?php
-                $r=$db->prepare("SELECT * FROM Recette JOIN Recette_pref ON IdCréateur=Id_utilisateur WHERE Id_utilisateur = :ID");
-                $r->execute(['ID'=>$_SESSION['id']]);
-                $result = $r->fetchAll(PDO::FETCH_ASSOC);        
-                foreach($result as $recette){
-                    echo "<img src=/Images/Recette/",$recette['IdRecette'],".jpg width='150px' height='150px'> </img>", $recette['Nom'],"   Note : ", $recette['Notemoy'];
-                }
-            ?>
+                <?php
+                    $r=$db->prepare("SELECT * FROM Recette JOIN Recette_pref ON IdRecette=Id_recette WHERE Id_utilisateur = :ID");
+                    $r->execute(['ID'=>$_SESSION['id']]);
+                    $result = $r->fetchAll(PDO::FETCH_ASSOC);        
+                    foreach($result as $recette){
+                        
+                        echo "<div class='info_favo'><img src=/Images/Recette/",$recette['Id_recette'],".jpg class='image_favo'></img>
+                        <div><label>", $recette['Nom'],"   Note : ", $recette['Notemoy'],"</label></div>
+                        </div>
+                        <div id='barre_commentaire'></div>";
+                    }
+                ?>
+            
         </div>
-        <div>
+        <div id=favoris>
             <h2>Mes Recette</h2>
             <?php
             $r=$db->prepare("SELECT * FROM Recette WHERE IdCréateur = :IdCreateur");
             $r->execute(['IdCreateur'=>$_SESSION['id']]);
             $result = $r->fetchAll(PDO::FETCH_ASSOC);        
             foreach($result as $recette){
-                echo "<img src=/Images/Recette/",$recette['IdRecette'],".jpg width='150px' height='150px'> </img>", $recette['Nom'],"   Note : ", $recette['Notemoy'];
-            }
+                echo "<div class='info_favo'><img src=/Images/Recette/",$recette['IdRecette'],".jpg class='image_favo'></img>
+                <div><label>", $recette['Nom'],"   Note : ", $recette['Notemoy'],"</label></div>
+                </div>
+                <div id='barre_commentaire'></div>";            }
             ?>
         </div>
     </div>
