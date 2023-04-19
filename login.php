@@ -27,6 +27,11 @@ session_start();
 if ($_SESSION["droit"] !=-1) {
   header("Location:accueil.php");
 }
+  
+if (isset($_POST["Accueil"]))
+{
+  header("Location:accueil.php");
+}
 
 
 if(isset($_POST["connexion"])){
@@ -46,6 +51,7 @@ if(isset($_POST["connexion"])){
         $_SESSION["droit"] = $resultat["Droit"];
         $_SESSION["Login"]= $resultat["Login"];
         $_SESSION["id"]= $resultat["IdUtilisateur"];
+        $_SESSION["pseudo"]=$resultat["Pseudo"];
         header("Location:accueil.php");
       }
       else{
