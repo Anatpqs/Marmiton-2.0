@@ -92,7 +92,9 @@
             }
 }
 
-        if ($_SESSION["droit"] != -1) {
+        if ($_SESSION["droit"] == -1) {
+            header(Location:accueil.php);
+        }
             include 'database.php';
             global $db;
             if(isset($_FILES['file'])) {
@@ -203,12 +205,6 @@ else{
             <div id='barre_commentaire'></div>";}
 
 }
-}
-
-            
-        else {
-            header("Location:accueil.php");
-        }
         ?>
         </div>
         <div id=favoris>
@@ -220,8 +216,8 @@ else{
                     foreach($result as $recette){
                         
                         echo "<div class='info_favo'><img src=/Images/Recette/",$recette['Id_recette'],".jpg class='image_favo'></img>
-                        <div><label>", $recette['Nom'],"   Note : ", $recette['Notemoy'],"</label></div>
-                        </div>
+                        <div class='info_re'><h3>", $recette['Nom'],"</h3></div>
+                        <div class='pous'>",notation($recette['Notemoy']),"</div></div>
                         <div id='barre_commentaire'></div>";
                     }
                 ?>
@@ -235,9 +231,10 @@ else{
             $result = $r->fetchAll(PDO::FETCH_ASSOC);        
             foreach($result as $recette){
                 echo "<div class='info_favo'><img src=/Images/Recette/",$recette['IdRecette'],".jpg class='image_favo'></img>
-                <div><label>", $recette['Nom'],"   Note : ", $recette['Notemoy'],"</label></div>
-                </div>
-                <div id='barre_commentaire'></div>";            }
+                <div class='info_re'><h3>", $recette['Nom'],"</h3></div>
+                <div class='pous'>",notation($recette['Notemoy']),"</div></div>
+                <div id='barre_commentaire'></div>";
+            }
             ?>
         </div>
     </div>
@@ -254,36 +251,33 @@ else{
   <a> Nous contacter </a>
 </footer>
 <?php
-if ($_SESSION["droit"] != -1) {
-        if (isset($_POST['suprofil'])) {
-            if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
-                $typesupr=1;
-                if($_POST['typesupr']=="suprrecette"){
-                    $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
-                    $stmt->execute([':Login' => $login]);
-                    unlink('Images/Pdp/'.$resultat['IdUtilisateur'].".jpg");
-                    header("Location:deconnexion.php");
-                    exit();
-                }
-                else{
-                    $stmt = $db->prepare("UPDATE Recette SET IdCréateur=1 WHERE IdCréateur = :createur");
-                    $stmt->execute([':createur' =>$_SESSION['id']]);
-                    $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
-                    $stmt->execute([':Login' => $login]);
-                    unlink('Images/Pdp/'.$resultat['IdUtilisateur'].".jpg");
-                    header("Location:deconnexion.php");
-                    exit();
-                }
+    if (isset($_POST['suprofil'])) {
+        if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
+            $typesupr=1;
+            if($_POST['typesupr']=="suprrecette"){
+                $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
+                $stmt->execute([':Login' => $login]);
+                unlink('Images/Pdp/'.$resultat['IdUtilisateur'].".jpg");
+                header("Location:deconnexion.php");
+                exit();
             }
-             echo'<script>confirmation()</script>';
-        }    
-        if (isset($_POST['suprComm'])) {
-            $commasupr = $_POST['suprComm'];
-            $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdCommentaire = :Idcomm");
-            $stmt->execute([':Idcomm' =>$commasupr]);
-            header("Location:profil.php");
+            else{
+                $stmt = $db->prepare("UPDATE Recette SET IdCréateur=1 WHERE IdCréateur = :createur");
+                $stmt->execute([':createur' =>$_SESSION['id']]);
+                $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
+                $stmt->execute([':Login' => $login]);
+                unlink('Images/Pdp/'.$resultat['IdUtilisateur'].".jpg");
+                header("Location:deconnexion.php");
+                exit();
+            }
         }
-        }
-
+            echo'<script>confirmation()</script>';
+    }    
+    if (isset($_POST['suprComm'])) {
+        $commasupr = $_POST['suprComm'];
+        $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdCommentaire = :Idcomm");
+        $stmt->execute([':Idcomm' =>$commasupr]);
+        header("Location:profil.php");
+    }
 ?>
 </html>
