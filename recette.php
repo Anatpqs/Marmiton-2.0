@@ -147,7 +147,8 @@ function notation($note)
 
       $sql = $db->prepare("SELECT * FROM Recette_pref WHERE Id_recette = ? AND Id_utilisateur = ?");
       $sql->execute([$IdRecette, $IdUtilisateur]);
-     
+
+      echo '<script> let countLike='.$sql->rowCount().'</script>';
       // On ajoute la classe "like-active" si la requête retourne un résultat
       $likeActiveClass = $sql->rowCount()==1 ? "like-active" : "";
 
@@ -488,7 +489,7 @@ function decr() {
 
 const like = document.querySelector('.like');
     
-    let countLike = 0;
+    
     like.addEventListener('click', () => {
 
       const IdRecette = <?php echo $IdRecette ?> ;
