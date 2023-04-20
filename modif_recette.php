@@ -132,7 +132,7 @@ echo '
       </div>
 
       <div class="TextBloc tag">
-      <span for="tag" class="labelText" >Choisir des mots-clés:</span><br>';
+      <span for="tag" class="labelText" >Choisir des mots-clés:</span><br><br>';
         //Affichage mot clé 
         $sql5=$db->prepare("SELECT * FROM Tag WHERE Recette_assoc=?;");
         $sql5->execute([$IdRecette]);
@@ -261,13 +261,13 @@ if (isset($_POST['submit'])) {
         $nom_ings=$_POST["nom_ing"];
         $quantites=$_POST["quantite"];
         $unites=$_POST["unite"];
-        $prix=$_POST["prix"];
+  
         $ids=$_POST["id"];
 
         for($i=0;$i<count($_POST["nom_ing"]);$i++)
         {
-        $sql2=$db->prepare("UPDATE Ingrédient SET Nom=? , Quantité=? , Unité=? , Prix=? WHERE IdIngrédient=?;");
-        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$prix[$i],$ids[$i]]);
+        $sql2=$db->prepare("UPDATE Ingrédient SET Nom=? , Quantité=? , Unité=? WHERE IdIngrédient=?;");
+        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$ids[$i]]);
         }
 
         //Ajout de nouveau ingrédient:
@@ -277,17 +277,19 @@ if (isset($_POST['submit'])) {
         $nv_nom_ing=$_POST["nv_nom_ing"];
         $nv_quantite=$_POST["nv_quantite"];
         $nv_unite=$_POST["nv_unite"];
-        $nv_prix=$_POST["nv_prix"];
+        
 
         for($j=0;$j<count($_POST["nv_nom_ing"]);$j++)
         {
-          $sql3=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Prix,Recette) VALUES (?,?,?,?,?)");
-          $sql3->execute([$nv_nom_ing[$j],$nv_quantite[$j],$nv_unite[$j],$nv_prix[$j],$IdRecette]);
+          $sql3=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Recette) VALUES (?,?,?,?,?)");
+          $sql3->execute([$nv_nom_ing[$j],$nv_quantite[$j],$nv_unite[$j],$IdRecette]);
         }
 
        }
 
        //Modification des tags existants
+       if (isset($_POST["tag"]))
+       {
        $tag=$_POST["tag"];
        $id_tag=$_POST["id_tag"];
 
@@ -296,7 +298,7 @@ if (isset($_POST['submit'])) {
         $sql6=$db->prepare("UPDATE Tag SET Mot_Clé=? WHERE IdTag=? AND Recette_assoc=?");
         $sql6->execute([$tag[$i],$id_tag[$i],$IdRecette]);
        }
-
+        }
        //Ajout nv tags
        if (isset($_POST["nv_tag"])){
         $nv_tag=$_POST["nv_tag"];
@@ -310,35 +312,46 @@ if (isset($_POST['submit'])) {
        }
        
         // IMAGE RECETTE
-        if (isset($_POST["file"])){
-        if(isset($_FILES['file'])) {
+        
+          if(isset($_FILES['file'])) {
             $file_name = $_FILES['file']['name'];
             $file_tmp = $_FILES['file']['tmp_name'];
             $file_type = $_FILES['file']['type'];
             $file_size = $_FILES['file']['size'];
             $target_dir = "Images/Recette/"; // dossier de destination
             $target_file = $target_dir . basename($file_name);
-          
+      
             // Vérifier le type de fichier
             $allowed_types = array('image/jpeg', 'image/png');
             if(!in_array($file_type, $allowed_types)) {
-              echo "Erreur: Seules les images JPEG et PNG sont autorisées.";
+                echo '<script type ="text/JavaScript">';  
+                echo 'alert("Erreur: Seules les images JPEG et PNG sont autorisées.")';  
+                echo '</script>'; 
+                die;
             }
             // Vérifier la taille du fichier
             else if($file_size > 5000000) { // 5 Mo maximum
-              echo "Erreur: La taille du fichier doit être inférieure à 5 Mo.";
+                echo '<script type ="text/JavaScript">';  
+                echo 'alert("Erreur: La taille du fichier doit être inférieure à 5 Mo.")';  
+                echo '</script>';
+                die;
             }
             else {
               if(move_uploaded_file($file_tmp, $target_file)) {
-                echo "Recette envoyé - En attente de validation par l'admin !";
-              rename($target_file,$target_dir.$IdRecette.".jpg");
+                echo '<script type ="text/JavaScript">';  
+                echo 'alert("Recette modifier.")';  
+                echo '</script>';  
+              rename($target_file,$target_dir .$IdRecette. ".jpg");
               }
               else {
-                echo "Erreur lors du téléchargement du fichier.";
+                echo '<script type ="text/JavaScript">';  
+                echo 'alert("Erreur lors du téléchargement du fichier. Dest : '. $target_dir;'")';  
+                echo '</script>';  
+                die;
               }
             }
           }
-        }
+        
 echo "<meta http-equiv='refresh' content='0'>";
 }
 
