@@ -175,7 +175,6 @@ function notation($note)
                     // Vérification si l'utilisateur a des recettes favorites.
                     if ($req_fav->rowCount() > 0) {
                         // Récupération d'une recette aléatoire correspondant aux tags trouvés.
-                        $placeholders = implode(",", array_fill(0, count($tags), "?"));
                         $req_recette = $db->prepare("SELECT DISTINCT Recette.IdRecette, Recette.Nom
                         FROM Recette
                         JOIN Tag ON Tag.Recette_assoc = Recette.IdRecette
