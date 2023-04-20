@@ -165,16 +165,15 @@ function notation($note)
                     $resultat = $reqLog->fetch(PDO::FETCH_ASSOC);
                     // Stockage de l'ID de l'utilisateur connecté.
                     $user_id = $resultat['IdUtilisateur'];
-                    
+            
                     // Récupération des recettes favorites de l'utilisateur.
                     $req_fav = $db->prepare("SELECT Recette_pref.Id_recette
                     FROM Recette_pref
                     WHERE Recette_pref.Id_utilisateur = :user_id");
                     $req_fav->execute(['user_id' => $user_id]);
-
+            
                     // Vérification si l'utilisateur a des recettes favorites.
                     if ($req_fav->rowCount() > 0) {
-                             
                         // Récupération d'une recette aléatoire correspondant aux tags trouvés.
                         $placeholders = implode(",", array_fill(0, count($tags), "?"));
                         $req_recette = $db->prepare("SELECT DISTINCT Recette.IdRecette, Recette.Nom
@@ -192,40 +191,28 @@ function notation($note)
                         LIMIT 1");
                         $req_recette->execute([':user_id' => $user_id]);
                         $resultat_recette = $req_recette->fetch(PDO::FETCH_ASSOC);
-
+            
                         // Affichage de la recette aléatoire.
-                        if ($req_recette->rowCount()>0) {
-                            echo "<h3><u class='textblanc' >Recette qui pourrait vous intéresser</u></h3>";
+                        if ($req_recette->rowCount() > 0) {
+                            echo "<h3><u class='textblanc'>Recette qui pourrait vous intéresser</u></h3>";
                             echo "<h3 class='textblanc'>" . $resultat_recette['Nom'] . "</h3>";
-                            echo '<a href="#" onclick="document.getElementById("myForm2").submit();"><img class="image" src="Images/Recette/'.$resultat_recette['IdRecette'].'.jpg"> </a>';
-                        }
-                        else {
-                            // Affichage de la deuxième recette du jour
+                            echo '<a href="#" onclick="document.getElementById(\'myForm2\').submit();"><img class="image" src="Images/Recette/'.$resultat_recette['IdRecette'].'.jpg"> </a>';
+                        } else {
+                            // Si la recette vient d'être créée, pas de note
                             echo '<h3 class="textblanc">'. $recette2['Nom'] .'</h3>
-                            <!-- Lien vers la recette -->   
-                            <form id="myForm2" action="recette.php" method="post">
-                                <input type="hidden" name="idRecette" value='.$recette2['IdRecette'].'>
-                            </form>
-                            <a href="#" onclick="document.getElementById("myForm2").submit();"><img class="image" src="Images/Recette/'.$recette2['IdRecette'].'.jpg"> </a>';
-                            //Si la recette vient d'être créé pas de note
+                                <!-- Lien vers la recette -->   
+                                <form id="myForm2" action="recette.php" method="post">
+                                    <input type="hidden" name="idRecette" value='.$recette2['IdRecette'].'>
+                                </form>
+                                <a href="#" onclick="document.getElementById(\'myForm2\').submit();"><img class="image" src="Images/Recette/'.$recette2['IdRecette'].'.jpg"> </a>';
                             if ($recette2["Notemoy"] !== NULL) {
-                            echo notation($recette2["Notemoy"]);
+                                echo notation($recette2["Notemoy"]);
                             }
                         }
-                    }else {
-                        // Affichage de la deuxième recette du jour
-                        echo '<h3 class="textblanc">'. $recette2['Nom'] .'</h3>
-                        <!-- Lien vers la recette -->   
-                        <form id="myForm2" action="recette.php" method="post">
-                            <input type="hidden" name="idRecette" value='.$recette2['IdRecette'].'>
-                        </form>
-                        <a href="#" onclick="document.getElementById("myForm2").submit();"><img class="image" src="Images/Recette/'.$recette2['IdRecette'].'.jpg"> </a>';
-                        //Si la recette vient d'être créé pas de note
-                        if ($recette2["Notemoy"] !== NULL) {
-                        echo notation($recette2["Notemoy"]);
-                        }
-                    }
-                }
+                    } 
+                } 
+            
+                // Affichage de la deuxième recette du jour
                 else {
                     // Affichage de la deuxième recette du jour
                     echo '<h3 class="textblanc">'. $recette2['Nom'] .'</h3>
@@ -234,13 +221,13 @@ function notation($note)
                         <input type="hidden" name="idRecette" value='.$recette2['IdRecette'].'>
                     </form>
                     <a href="#" onclick="document.getElementById("myForm2").submit();"><img class="image" src="Images/Recette/'.$recette2['IdRecette'].'.jpg"> </a>';
-                    //Si la recette vient d'être créé pas de note
+                    //Si la recette vient d'être créée, pas de note
                     if ($recette2["Notemoy"] !== NULL) {
-                    echo notation($recette2["Notemoy"]);
+                        echo notation($recette2["Notemoy"]);
                     }
                 }
                 
-                ?>                            
+                ?>                                
 
             </div>
         </div>
