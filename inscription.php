@@ -5,11 +5,12 @@
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>Sportiton</title> 
-<style type="text/css">
-    
-</style>
+    <link rel="stylesheet" href="styles/inscription.css" />
+
 </head> 
 <body> 
+<div id="main">
+<div id="image"><img id="logo" src="Images/cooking.png" alt="avatar image"></div>
   <form method="post">
     <input type="text" name="Pseudo" id="Pseudo" placeholder="Entrez votre Pseudo" required><br>
     <input type="text" name="Login" id="Login" placeholder="Entrez votre email" required><br>
@@ -68,5 +69,6 @@
 
 
   ?>
+</div>
 </body> 
 </html> 
