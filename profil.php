@@ -8,7 +8,11 @@
     <title>Sa cook</title> 
     <link rel="stylesheet" href="styles/profil.css" />
     <script>
-        
+
+        function reloadPage() {
+            window.location.reload();
+        };
+
         function confirmation(){
             if (confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
             document.getElementById('confirm').value = 'yes';
@@ -74,6 +78,9 @@
         <?php
         function notation($note){
             switch ($note) {
+                case 0:
+                return '<img src="Images/pas_de_note.png" alt="note" class="img_note"><span class="note"><strong> ?/5 </strong></span>';
+                break;
                 case 1:
                 return '<img src="Images/1etoile.png" alt="note" class="img_note"><span class="note"><strong> 1/5 </strong></span>';
                 break;
@@ -139,10 +146,10 @@
                     <input type="submit" name="submit" value="Aplliquer le tri"/>
                 </form>
                 <script>document.getElementById('datePicker').valueAsDate = new Date();</script>
-            </div>
+            </div>                                                                              
             <?php
             if (!isset($_POST['tri'])) {
-                $sql = $db->prepare("SELECT Commentaire, Note, Date FROM Commentaire
+                $sql = $db->prepare("SELECT Commentaire, Note,IdCommentaire, Date, Recette_com, Nom FROM Commentaire JOIN Recette ON Recette_com=IdRecette
                      WHERE IdAuteur = :Recette_com
                      ORDER BY Date DESC");
                 $sql->execute(['Recette_com' => $_SESSION['id']]);
@@ -153,11 +160,13 @@
                             <img src='Images/Pdp/".$_SESSION['id'].".jpg' alt='profil' class='profil_commentaire'>
                                 <div class='info_comment2'>
                                     <strong><span class='nom_comment'></span></strong>
-                                    <span class='note_comment'>" . notation($row['Note']) . "</span>
+                                    <span class='note_comment'>" . notation($row['Note']). $row['Nom'] . "</span>
                                 </div>
 
-                                <form method='post' class='supprComm' >
+                                <form method='post' class='supprComm'>
                                 <button type='submit' name='suprComm'>supprimer le commentaire</button>
+                                <input type='hidden' name='idcomm' id='idcomm' value='".$row['IdCommentaire']."'></input>
+                                <input type='hidden' name='idrecette' id='idrecette' value='".$row['Recette_com']."'</input>
                             </form>
                         </div>
 
@@ -187,22 +196,23 @@ else{
         $result = $sql->fetchAll(PDO::FETCH_ASSOC);        
         foreach($result as $row){
             echo "<div class='comment_afficher'>
-                <div class='info_comment'>
-                    <img src='Images/Pdp/".$row["IdAuteur"].".jpg' alt='profil' class='profil_commentaire'>
-                        <div class='info_comment2'>
+            <div class='info_comment'>
+                <img src='Images/Pdp/".$_SESSION['id'].".jpg' alt='profil' class='profil_commentaire'>
+                    <div class='info_comment2'>
                         <strong><span class='nom_comment'></span></strong>
                         <span class='note_comment'>" . notation($row['Note']) . "</span>
                     </div>
 
-                        <form method='post' class='supprComm' >
-                        <button type='submit' name='suprComm'>supprimer le commentaire</button>
-                    </form>
-                </div>
-
-            <div class='comment_text'>" . $row['Commentaire'] . "</div>
-            <p class='date_comment'>" . $row['Date'] . "</p>
+                    <form method='post' class='supprComm'>
+                    <button type='submit' name='suprComm'>supprimer le commentaire</button>
+                    <input type='hidden' name='idcomm' id='idcomm' value='".$row['IdCommentaire']."'></input>
+                </form>
             </div>
-            <div id='barre_commentaire'></div>";}
+
+        <div class='comment_text'>" . $row['Commentaire'] . "</div>
+        <p class='date_comment'>" . $row['Date'] . "</p>
+        </div>
+        <div id='barre_commentaire'></div>";}
 
 }
         ?>
@@ -213,12 +223,17 @@ else{
                     $r=$db->prepare("SELECT * FROM Recette JOIN Recette_pref ON IdRecette=Id_recette WHERE Id_utilisateur = :ID");
                     $r->execute(['ID'=>$_SESSION['id']]);
                     $result = $r->fetchAll(PDO::FETCH_ASSOC);        
-                    foreach($result as $recette){
-                        
-                        echo "<div class='info_favo'><img src=/Images/Recette/",$recette['Id_recette'],".jpg class='image_favo'></img>
-                        <div class='info_re'><h3>", $recette['Nom'],"</h3></div>
-                        <div class='pous'>",notation($recette['Notemoy']),"</div></div>
-                        <div id='barre_commentaire'></div>";
+                    foreach($result as $recette){    
+                        echo "<div class='info_favo'>
+                            <form id='myForm_" . $recette['IdRecette'] . "' action='recette.php' method='post'>
+                                <input type='hidden' name='idRecette' value=" . $recette['IdRecette'] . ">
+                            </form>
+                            <a href='#' onclick=\"document.getElementById('myForm_".$recette['IdRecette']."').submit();\">
+                                <img src=/Images/Recette/",$recette['IdRecette'],".jpg class='image_favo'>
+                            </a>
+                            <div class='info_re'><h3>", $recette['Nom'],"</h3></div>
+                            <div class='pous'>",notation($recette['Notemoy']),"</div></div>
+                            <div id='barre_commentaire'></div>";
                     }
                 ?>
             
@@ -230,11 +245,17 @@ else{
             $r->execute(['IdCreateur'=>$_SESSION['id']]);
             $result = $r->fetchAll(PDO::FETCH_ASSOC);        
             foreach($result as $recette){
-                echo "<div class='info_favo'><img src=/Images/Recette/",$recette['IdRecette'],".jpg class='image_favo'></img>
+                echo "<div class='info_favo'>
+                <form id='myForm_".$recette['IdRecette']."' action='recette.php' method='post'>
+                    <input type='hidden' name='idRecette' value=" . $recette['IdRecette'] . ">
+                </form>
+                <a href='#' onclick=\"document.getElementById('myForm_".$recette['IdRecette']."').submit();\">
+                    <img src=/Images/Recette/",$recette['IdRecette'],".jpg class='image_favo'>
+                </a>
                 <div class='info_re'><h3>", $recette['Nom'],"</h3></div>
                 <div class='pous'>",notation($recette['Notemoy']),"</div></div>
                 <div id='barre_commentaire'></div>";
-            }
+        }
             ?>
         </div>
     </div>
@@ -274,10 +295,29 @@ else{
             echo'<script>confirmation()</script>';
     }    
     if (isset($_POST['suprComm'])) {
-        $commasupr = $_POST['suprComm'];
+        $commasupr = $_POST['idcomm'];
         $stmt = $db->prepare("DELETE FROM Commentaire WHERE IdCommentaire = :Idcomm");
         $stmt->execute([':Idcomm' =>$commasupr]);
-        header("Location:profil.php");
+        $q=$db->prepare("SELECT * FROM Commentaire WHERE Recette_com=:recette");
+        $q->execute([':recette'=>$_POST['idrecette']]);
+        $count=$db->prepare("Select Count(*) From Commentaire WHERE Recette_com=:recette");
+        $count->execute([':recette' =>$_POST['idrecette']]);
+        $c=$count->fetch(PDO::FETCH_ASSOC);
+        if ($c['Count(*)']==0){
+            $q0=$db->prepare("UPDATE Recette SET Notemoy=NULL WHERE IdRecette=:commsup");
+            $q0->execute([':commsup'=>$_POST['idrecette']]);
+        }
+        else{
+            $s=0;
+            foreach ($q as $commentaire) {
+            $s+=$commentaire['Note'];
+            $s=$s/$c['Count(*)'];
+            $q0=$db->prepare("UPDATE Recette SET Notemoy=:note WHERE IdRecette=:commsup");
+            $q0->execute([':commsup'=>$_POST['idrecette'],
+                          ':note'=>$s]);
+            }
+        }
+        echo "<meta http-equiv='refresh' content='0'>";
     }
 ?>
 </html>
