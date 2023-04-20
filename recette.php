@@ -100,7 +100,17 @@ function notation($note)
         <div id="titre"><?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?></div>
         <div class="profil">
           <ul class="navbar">
-              <li class="li"><img class="icon" src="Images/userblanc.png">
+              <li class="li"><?php if (isset($_SESSION['id'])){
+               if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
+                    echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
+                }
+                else{
+                    echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+                }
+            }
+            else{
+                echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+            } ?>
                   <ul>
                       <?php if ($_SESSION["droit"] == -1) {
                           echo '
@@ -116,6 +126,7 @@ function notation($note)
                       ?>
                       <?php if ($_SESSION["droit"] == 1) {
                           echo '<li><a href="admin.php">Admin</a></li>
+                          <li><a href="profil.php">Mon Profil</a></li> 
                           <li><a href="deconnexion.php">Déconnexion</a></li>'; //Admin
                       }
                       ?>
@@ -250,7 +261,7 @@ function notation($note)
                     <option value="ancien">Plus ancien</option>
                     <option value="favo">Avis favorables</option>
                     <option value="defavo">Avis défavorables</option>
-                    <input type="submit" name="submit" />
+                    <input type="submit" name="submit" value="Envoyer" />
                     <input type="hidden" name="idRecette" value="<?php echo $IdRecette ?>">
             </form>
         </div>
@@ -353,7 +364,7 @@ function notation($note)
         <div id="notation"><strong>Note : </strong><span class="output">5</span>/5</div> 
         <input name="note" type="range" min="1" max="5" value="5">
         <input type="hidden" name="idRecette" value="'.$IdRecette.'">
-        <input type="submit" name="envoyer" id="envoyer" placeholder="Envoyer">
+        <input type="submit" name="envoyer" id="envoyer" placeholder="Envoyer" value="Envoyer">
     </div>
     </form>';
     }
