@@ -85,19 +85,17 @@ function notation($note)
     <div class="profil">
         <ul class="navbar">
             <!-- Affichage de la photo de profil de l'utilisateur -->
-            <?php 
-            if (isset($_SESSION['id'])){
-                if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
-                    echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
+            <?php
+                if (isset($_SESSION['id'])){
+                    $id = $_SESSION['id'];
+                    $imagePath = "Images/Pdp/" . $id . ".jpg";
+                    echo "<li class='li'><img id='imagefile' class='" . (file_exists($imagePath) && filesize($imagePath) > 50 ? "image_profil" : "icon") . "' src='Images/Pdp/$id.jpg'>";
                 }
                 else{
-                    echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+                    echo "<li class='li'><img id='imagefile' class='icon' src='Images/Pdp/userblanc.png'>";    
                 }
-            }
-            else{
-                echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
-            }
             ?>
+
                 <ul>
                     <?php if ($_SESSION["droit"] == -1) { // Si l'utilisateur n'est pas connecté, on affiche les liens de connexion et d'inscription
                         echo '
@@ -125,10 +123,18 @@ function notation($note)
 
     <!-- Liens vers différentes catégories de recettes -->
     <!--// TODO Redirection vers une sélection de pages -->
-    <a class="textlink">Meal Prep</a>
-    <a class="textlink">Cuisiner pas cher</a>
-    <a class="textlink">Prise de masse</a>
-    <a class="textlink">Sèche</a>
+    <form class="textlink" method="post" id="Cuisiner pas cher" action="Recherche.php"> 
+        <input type="hidden" name="searchbar" value="Cuisiner pas cher">
+            <a href="#" class="textlink" onclick="document.getElementById('Cuisiner pas cher').submit();" >Cuisiner pas cher</a>
+    </form>
+    <form class="textlink" method="post" id="Prise de masse" action="Recherche.php"> 
+        <input type="hidden" name="searchbar" value="Prise de masse">
+            <a href="#" class="textlink" onclick="document.getElementById('Prise de masse').submit();">Prise de masse</a>
+    </form>
+    <form class="textlink" method="post" id="Sèche" action="Recherche.php"> 
+        <input type="hidden" name="searchbar" value="Sèche">
+            <a href="#" class="textlink" onclick="document.getElementById('Sèche').submit();">Sèche</a>
+    </form>
     <hr id="bb_bottom">
 </header>
 
@@ -156,7 +162,7 @@ function notation($note)
 
             <div class="recette_du_jour affichage">
             
-                <?php
+            <?php
                 if(isset($_SESSION["Login"])){
                     // Récupération de l'ID de l'utilisateur connecté.
                     $login = $_SESSION['Login'];
@@ -212,8 +218,7 @@ function notation($note)
                             }
                         }
                     } 
-                } 
-            
+                }  
                 // Affichage de la deuxième recette du jour
                 else {
                     // Affichage de la deuxième recette du jour
@@ -228,8 +233,7 @@ function notation($note)
                         echo notation($recette2["Notemoy"]);
                     }
                 }
-                
-                ?>                                
+                ?>                            
 
             </div>
         </div>
