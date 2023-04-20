@@ -51,6 +51,7 @@
             $_SESSION["droit"]=0;
             $_SESSION["Login"]= $login;
             $_SESSION["id"]= $resultat['IdUtilisateur'];
+            $_SESSION["pseudo"]=$resultat["Pseudo"];
             touch("Images/Pdp/" . $resultat['IdUtilisateur'] . ".jpg");
             sleep(1);
             header("Location:accueil.php");
