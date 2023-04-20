@@ -15,19 +15,6 @@
     <title>Admin</title>
     <link rel="stylesheet" href="styles/admin.css" />
 
-    <!-- Javascript -->
-
-    <script>
-    function confirmation(){
-            if (confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
-            document.getElementById('confirm').value = 'yes';
-            document.getElementsByName('suprofil')[0].value = 'Valider la suppresion';
-            } 
-            else {
-                document.getElementById('confirm').value = 'no';
-            }
-        };
-    </script>
 
 </head>
 
@@ -79,7 +66,6 @@
     <input type="submit" name="validation_'.$recette["IdRecette"].'" value="Valider la recette">
     </form>
     <form method="post">
-    <input type="hidden" name="confirm" id="confirm" value="">
     <input type="submit" name="supp_'.$recette["IdRecette"].'" value="Supprimer la recette">
     </form>';
     
@@ -191,9 +177,6 @@ foreach($resultat3 as $recette)
    if (isset($_POST["suppression_".$recette["IdRecette"]]))
 {
 
-    //Confirmation
-    echo'<script>confirmation()</script>';
-    if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
 
     //SUPPRESSION DE L'IMAGE
 
@@ -217,7 +200,7 @@ foreach($resultat3 as $recette)
     $sql4=$db->prepare("DELETE FROM Recette WHERE IdRecette=?;");
     $sql4->execute([$recette["IdRecette"]]);
     echo "<meta http-equiv='refresh' content='0'>";
-}
+
 }
 
 //MODIFICATION RECETTE
