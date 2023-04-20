@@ -20,8 +20,15 @@ $recette2 = $req_sql->fetch();
 
 //--------------------------------------------------------------------------------------------------------------------//
 
-// Requête SQl pour récupérer la recette du moment (recette ayant la meilleure moyenne)
-$req_sql_RecetteDuMoment = $db->prepare('SELECT * FROM Recette WHERE État!=0 AND Notemoy = (SELECT MAX(Notemoy) FROM Recette)');
+// Requête SQl pour récupérer la recette du moment (recette ayant la meilleure moyenne et ayant le plus grand nombre de commentaires)
+$req_sql_RecetteDuMoment = $db->prepare('SELECT r.IdRecette, r.Nom, r.Notemoy, COUNT(c.IdCommentaire) AS NbCommentaires
+                                        FROM Recette r
+                                        LEFT JOIN Commentaire c ON r.IdRecette = c.Recette_com
+                                        WHERE État!=0
+                                        GROUP BY r.IdRecette, r.Nom, r.Notemoy
+                                        ORDER BY r.Notemoy DESC, NbCommentaires DESC
+                                        LIMIT 1
+                                        ');
 $req_sql_RecetteDuMoment->execute();
 //Récupération du résultat de la requête et stockage dans la variable
 $RecetteDuMoment = $req_sql_RecetteDuMoment->fetch();
