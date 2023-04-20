@@ -3,7 +3,7 @@ html,body{
   min-height: 100%;
 }
 
-/*\\\\\ CSS de la barre en haut de la page d'accueil \\\\\*/
+/*\\\\\ CSS du header / de la barre en haut de la page d'accueil \\\\\*/
   #logo{
     max-height: 150px;
     width: auto;
@@ -17,9 +17,17 @@ html,body{
     margin-left: 5vh;
     margin-top: 0vh;
     vertical-align: middle;
-  } 
+  }
+  .image_profil{
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    margin-left: 5vh;
+    margin-top: 0vh;
+    vertical-align: middle;
+  }
     
-  #barre {
+  header{
     height: 25vh;
     min-height: 28vh;
     display: inline-block;
@@ -28,6 +36,8 @@ html,body{
     background-image: url("../Images/backgroundBarre.jpg");
     top: 50px;
   }
+  
+  /* CSS des barres blanches */
   #bb_top {
     width: 97%;
     margin: auto;
@@ -40,6 +50,7 @@ html,body{
     margin-bottom: 0vh;
   }
 
+  /* CSS de la barre de recherche */
   #formsearchbar{
     display: inline-block;
     width: 65%;
@@ -100,7 +111,6 @@ html,body{
 }
 .navbar li:hover, a:hover {
   background-image: url("../Images/backgroundBarre.jpg");
-  /*background-color: #444444;*/
 }
 .navbar li ul {
   display: none;
@@ -126,26 +136,30 @@ html,body{
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
-/*\\\\\ CSS du corps de la page d'accueil \\\\\*/
+/*\\\\\ CSS du body de la page d'accueil \\\\\*/
 .corps{
-  background-image: url("../Images/backgroundBody.jpg");
+  background-color: #d7d7d7;
+  background-image: linear-gradient(247deg, #d7d7d7 0%, #353535 74%);
   background-size: cover;
   display: inline-block;
   min-width: 100%;
   margin: 0 auto -10px;
 }
 
+/* CSS des recettes du jour */
 .recette_du_jour{
+  padding: 2% 0;
   float:left;
   width: 50%;
 }
 .recette_du_jour .affichage{
+  background-image: url("../Images/backgroundBarre.jpg");
   padding: 8px;
   width: 400px;
-  border: 5px solid #888888;
-  background-color: #999999;
+  border: 1px solid #888888;
+  background-color: #4e4e4e;
   border-radius: 20px;
-  margin: 5vh;
+  margin: 5vh 5vh 5vh 20%;
   opacity: 0.9;
   text-align: center;
 }
@@ -155,18 +169,25 @@ html,body{
   width: 80%;
   margin-bottom: 1vh;
 }
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/* CSS de la recette du moment */
 .recette_du_moment{
+  padding: 2% 0;
   float: left;
+  justify-content: center;
+  text-align: center;
 }
 .recette_du_moment .affichage{
+  background-image: url("../Images/backgroundBarre.jpg");
   width: 700px;
   height: 700px;
-  border: 5px solid #888888;
+  border: 1px solid #888888;
   background-color: #999999;
   border-radius: 15px;
   margin: 5vh;
   opacity: 0.95;
+  justify-content: center;
   text-align: center;
 }
 .recette_du_moment .image{
@@ -175,16 +196,21 @@ html,body{
   height: auto;
   margin-bottom: 2vh;
 }
-
 .img_note{
   height: 30px;
   width:auto;
   position: relative;
   bottom: 8px;
 }
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 footer {
   height: 30px;
   background-image: url("../Images/backgroundBarre.jpg");
+}
+
+.textblanc{
+  color: white;
 }
