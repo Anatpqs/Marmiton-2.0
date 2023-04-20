@@ -310,3 +310,17 @@ footer a {
 #liste_ing {
   margin-left: 20px;
 }
+
+#boutonRetour{
+  position: absolute;
+  left: 23%;
+  display: flex;
+  float: left;
+
+  text-decoration: none;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  color: black;
+  border: 1px black solid;
+
+}
