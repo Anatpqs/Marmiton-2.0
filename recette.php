@@ -351,7 +351,7 @@ function notation($note)
     <div id="comment">
         <textarea name="commentaire" id="commentaire" placeholder="Ajouter un commentaire" maxlength="180"></textarea>
         <div id="notation"><strong>Note : </strong><span class="output">5</span>/5</div> 
-        <input name="note" type="range" min="0" max="5" value="5">
+        <input name="note" type="range" min="1" max="5" value="5">
         <input type="hidden" name="idRecette" value="'.$IdRecette.'">
         <input type="submit" name="envoyer" id="envoyer" placeholder="Envoyer">
     </div>
