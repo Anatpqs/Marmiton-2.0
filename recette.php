@@ -137,7 +137,9 @@ function notation($note)
        
     </header>
     <div id="main">
-    
+      
+    <a href="Recherche.php" id="boutonRetour">&#8249;</a>
+      
     <div id="entete">
         <?php
 
