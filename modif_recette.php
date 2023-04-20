@@ -87,24 +87,17 @@ $IdRecette=$_COOKIE["IdRecette"];
       <div id="titre"><?php echo '<h1>Sportiton</h1>' ?></div>
       <div class="profil">
           <ul class="navbar">
-              <li class="li"><img class="icon" src="Images/userblanc.png">
+          <?php if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
+                    echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
+                }
+                else{
+                    echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+                } ?>
                   <ul>
-                      <?php if ($_SESSION["droit"] == -1) {
-                          echo '
-                        <li><a href="login.php">Se connecter</a></li> 
-                        <li><a href="inscription.php">Créer un compte</a></li> ';
-                      } // Si l'utilisateur n'est pas connecté, on affiche les liens de connexion et d'inscription
-                      ?>
-                      <?php if ($_SESSION["droit"] == 0) {
-                          echo '
-                              <li><a href="profil.php">Mon Profil</a></li> 
-                              <li><a href="deconnexion.php">Déconnexion</a></li> ';
-                      } // Si l'utilisateur est connecté, on affiche les liens de profil et de déconnexion
-                      ?>
-                      <?php if ($_SESSION["droit"] == 1) {
+                      <?php
                           echo '<li><a href="admin.php">Admin</a></li>
-                          <li><a href="deconnexion.php">Déconnexion</a></li>'; //Admin
-                      }
+                          <li><a href="profil.php">Profil</a></li>
+                          <li><a href="deconnexion.php">Déconnexion</a></li>';
                       ?>
                   </ul>
               </li>
