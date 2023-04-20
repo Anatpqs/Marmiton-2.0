@@ -60,7 +60,7 @@ $sql = $db->prepare("SELECT * FROM Recette JOIN Utilisateur ON IdUtilisateur=IdC
 $sql->execute(['IdRecette' => $IdRecette]);
 $resultat = $sql->fetch(PDO::FETCH_ASSOC);
 
-//Fonction affichage de la note
+//Fonction qui affiche la note sous forme d'icônes d'étoiles
 function notation($note)
 {
   switch ($note) {
@@ -95,9 +95,11 @@ function notation($note)
 
 <body>
     <header>
+      <!-- Barre de navigation pour la connexion, l'inscription et le profil de l'utilisateur -->
     
         <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
         <div id="titre"><?php echo '<h1>Recette de ' . $resultat["Nom"] . '</h1>' ?></div>
+        
         <div class="profil">
           <ul class="navbar">
               <li class="li"><?php if (isset($_SESSION['id'])){
@@ -112,6 +114,7 @@ function notation($note)
                 echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
             } ?>
                   <ul>
+                    
                       <?php if ($_SESSION["droit"] == -1) {
                           echo '
                         <li><a href="login.php">Se connecter</a></li> 
@@ -173,21 +176,29 @@ function notation($note)
 
     </div>
     <!--  -->
-
+         
+       <!-- Affichage de l'image de la recette -->
         <div id="imgdiv">
             <?php echo '<img id="img" src=Images/Recette/' . $resultat["IdRecette"] . '.jpg alt="gato">' ?>
         </div>
+        
+        <!-- Affichage du temps nécessaire pour préparer la recette -->
         <div id="info">
+            <Affichage du temps nécessaire pour préparer la recette>
             <img id="temps" src="Images/horloge.png" alt="horloge">
-            <?php echo '<p id="tps_prep"><strong> Temps total : </strong><span class="data">' . $resultat["Temps_prep"]+$resultat["Temps_cuis"] . ' min</span></p>' ?>
+            <?php echo '<p id="tps_prep"><strong> Temps total : </strong><span class="data">' . $resultat["Temps_prep"]+$resultat["Temps_cuis"] . ' min</span></p>' ?
             <img id="img_prix" src="Images/euro.png" alt="euro">
 
-            <!-- Calcul prix de la recette -->
-            <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
+        <!-- Calcul prix de la recette -->
+            <?php
+       // Récupération des ingrédients de la recette
+      $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
+          
       $prix_recette = 0;
       foreach ($resultat3 as $row) {
+        // Calcul du prix total de la recette en multipliant le prix de chaque ingrédient par sa quantité
         $prix_recette += $row["Prix"]*$row["Quantité"];
       }
       $prix_recette=round($prix_recette,2);
@@ -209,13 +220,16 @@ function notation($note)
         <br> <br>
         <!-- Affichage des ingrédients -->
         <ul id="liste_ing">
-            <?php $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
+            <?php
+      // Récupération des ingrédients de la recette
+      $sql3 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=:id");
       $sql3->execute(["id" => $IdRecette]);
       $resultat3 = $sql3->fetchAll();
       $j = 1;
       $tabQuantite = array();
       $prix_recette = 0;
       foreach ($resultat3 as $row) {
+        // Affichage de chaque ingrédient avec sa quantité et son unité
         echo "<li>" . $row["Nom"] . " : <span id='ing" . $j . "'>" . $row["Quantité"] . "</span> " . $row["Unité"] . "</li>";
         $j += 1;
         $tabQuantite[] = $row["Quantité"];
@@ -227,12 +241,18 @@ function notation($note)
         <br>
 
         <h2>Instructions</h2>
+          
         <div id="divprout">
+            <!-- Affichage de l'icône de la casserole -->
             <img id="casserole" src="Images/casserole.png" alt="casserole">
-            <?php echo '<p><strong>Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min </span></p>'?>&nbsp&nbsp&nbsp&nbsp
+            <!-- Affichage du temps de préparation -->
+            <?php echo '<p><strong>Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min </span></p>'?>
+            <!-- Affichage du temps de cuisson -->
             <?php echo '<p><strong>Temps de cuisson : </strong><span class="data">' . $resultat["Temps_cuis"] . ' min </span></p>' ?>
       
         </div>
+          
+          <!-- Affichage de la liste des instructions -->
         <ol>
             <?php 
       echo nl2br($resultat["Instruction"]);
@@ -240,6 +260,7 @@ function notation($note)
         </ol>
     </div>
 
+      
     <?php
     if ($resultat["État"]==2)
     {
@@ -252,7 +273,7 @@ function notation($note)
     }
     ?>
     <div id="commentairediv">
-        <!-- il faut pouvoir trier les commentaires -->
+        <!-- Trier les commentaires -->
         <div id="comment_select">
             <h2>Commentaires</h2>
 
@@ -269,7 +290,7 @@ function notation($note)
         </div>
 
         <?php
-    /* affichage commentaire de la bdd*/
+    // Afficher les commentaires triés selon le choix de l'utilisateur
     if (!isset($_POST['tri'])) {
       $_POST["tri"] = "vide";
     }
@@ -301,7 +322,7 @@ function notation($note)
         break;
     }
 
-    // AFFICHAGE DES COMMENTAIRES
+    // Affichage des commentaires
 
     $sql->execute(["idRecette" => $IdRecette]);
     $resultat2 = $sql->fetchAll();
@@ -324,31 +345,33 @@ function notation($note)
       $i += 1;
     };
 
-    //CALCUL NOTE EN FONCTION DES COMMENTAIRES
+    //Calcul de note en fonction des commentaires
     if ($resultat["Notemoy"] !== NULL) {
       $Notemoy = $somme / $i;
     }
     ?>
 
         <?php
-    /* écrire commentaire*/
+    /* Ecrire commentaire*/
     if ($_SESSION["droit"] != -1 && $_SESSION["droit"] !=-2) {
 
       $id = $_SESSION["id"];
       $pseudo2 = $_SESSION["pseudo"];
 
-
+      // Récupère le commentaire et la note envoyés via le formulaire
       if (isset($_POST["commentaire"])) {
         $commentaire = $_POST["commentaire"];
       }
       if (isset($_POST["note"])) {
         $note = $_POST["note"];
       }
+      // Cas de formulaire  envoyé
       if (isset($_POST["envoyer"])) {
+        // Insèrer le commentaire et la note dans la table Commentaire
 
         $sql = $db->prepare("INSERT INTO Commentaire(Commentaire,Note,IdAuteur,Recette_com) VALUES (:Commentaire,:Note,:IdAuteur,:Recette_com)");
         $sql->execute(["Commentaire" => $commentaire, "Note" => $note, "IdAuteur" => $id, "Recette_com" => $IdRecette]);
-
+        // Calcule la nouvelle note moyenne de la recette
         if ($resultat["Notemoy"] !== NULL) { 
         $Notemoy = ($Notemoy + $note) / 2;
         }
@@ -356,10 +379,14 @@ function notation($note)
         {
           $Notemoy=$note;
         }
+        // Mise à jour de la note moyenne dans la table Recette
         $sql2 = $db->prepare("UPDATE Recette SET Notemoy = :note WHERE idRecette=:id");
         $sql2->execute(["note" => $Notemoy, "id" => $IdRecette]);
+        // Rafraîchir la page pour afficher le nouveau commentaire et la nouvelle note moyenne
         echo "<meta http-equiv='refresh' content='0'>";
       }
+      
+      // Affiche le formulaire pour ajouter un commentaire
       echo '<form method="post" id="comment-form">
     <div id="comment">
         <textarea name="commentaire" id="commentaire" placeholder="Ajouter un commentaire" maxlength="180"></textarea>
@@ -381,7 +408,7 @@ function notation($note)
   <a> Nous contacter </a>
 </footer>
 
-  <!-- Pour l'amdin : option desactiver les commentaires -->
+  <!--Permettre à l'admin de désactiver ou d'activer les commentaires pour une recette donnée -->
   <?php
             if($_SESSION["droit"]==1)
             {
@@ -448,7 +475,7 @@ let tabIngredient = [];
 // nbr d'ingrédient je crois
 let j = <?php echo $j; ?>;
 
-
+//fonction pour augmenter le nombre de personnes
 function incr() {
     var nbr = document.getElementById("nbr").textContent;
     nbr = parseInt(nbr);
@@ -471,7 +498,7 @@ function incr() {
     //calcul ingrédient
 }
 
-
+//fonction pour réduire le nombre de personnes
 function decr() {
     var nbr = document.getElementById("nbr").textContent
     nbr = parseInt(nbr)
@@ -497,8 +524,8 @@ function decr() {
 ''
 }
 
-
-//BOUTON LIKE
+<--JAVASCRIPT--->
+//Le bouton "LIKE"
 
 const like = document.querySelector('.like');
     
