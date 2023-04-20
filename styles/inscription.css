@@ -11,6 +11,24 @@ body {
   background-size: cover;
 }
 
+#main {
+  max-width: 500px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  margin-top: 5%;
+}
+
+#image{
+  text-align: center;
+}
+#logo{
+  height: 150px;
+  width: auto;
+}
+
 
 label {
   
