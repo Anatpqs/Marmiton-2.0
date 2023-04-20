@@ -79,12 +79,18 @@ function notation($note)
         <ul class="navbar">
             <!-- Affichage de la photo de profil de l'utilisateur -->
             <?php 
+            if (isset($_SESSION["id"]))
+            {
                 if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
                     echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
                 }
                 else{
                     echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
                 }
+            }
+            else{
+                echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+            }
             ?>
                 <ul>
                     <?php if ($_SESSION["droit"] == -1) { // Si l'utilisateur n'est pas connecté, on affiche les liens de connexion et d'inscription
@@ -145,6 +151,9 @@ function notation($note)
             <div class="recette_du_jour affichage">
             
                 <?php
+                if (isset($_SESSION["Login"])) {
+
+                
                     // Récupération de l'ID de l'utilisateur connecté.
                     $login = $_SESSION['Login'];
                     $reqLog = $db->prepare("SELECT Pseudo,IdUtilisateur FROM Utilisateur WHERE Login = :Login");
@@ -163,7 +172,7 @@ function notation($note)
                     if ($req_fav->rowCount() > 0) {
                              
                         // Récupération d'une recette aléatoire correspondant aux tags trouvés.
-                        $placeholders = implode(",", array_fill(0, count($tags), "?"));
+                        
                         $req_recette = $db->prepare("SELECT DISTINCT Recette.IdRecette, Recette.Nom
                         FROM Recette
                         JOIN Tag ON Tag.Recette_assoc = Recette.IdRecette
@@ -186,7 +195,23 @@ function notation($note)
                             echo "<h3 class='textblanc'>" . $resultat_recette['Nom'] . "</h3>";
                             echo '<a href="#" onclick="document.getElementById("myForm2").submit();"><img class="image" src="Images/Recette/'.$resultat_recette['IdRecette'].'.jpg"> </a>';
                         }
-                    }else {
+                        else {
+                            // Affichage de la deuxième recette du jour
+                            echo '<h3 class="textblanc">'. $recette2['Nom'] .'</h3>
+                            <!-- Lien vers la recette -->   
+                            <form id="myForm2" action="recette.php" method="post">
+                                <input type="hidden" name="idRecette" value='.$recette2['IdRecette'].'>
+                            </form>
+                            <a href="#" onclick="document.getElementById("myForm2").submit();"><img class="image" src="Images/Recette/'.$recette2['IdRecette'].'.jpg"> </a>';
+                            //Si la recette vient d'être créé pas de note
+                            if ($recette2["Notemoy"] !== NULL) {
+                            echo notation($recette2["Notemoy"]);
+                            }
+                        }
+                    }
+
+                    }
+                    else {
                         // Affichage de la deuxième recette du jour
                         echo '<h3 class="textblanc">'. $recette2['Nom'] .'</h3>
                         <!-- Lien vers la recette -->   
@@ -199,6 +224,7 @@ function notation($note)
                         echo notation($recette2["Notemoy"]);
                         }
                     }
+                
                 ?>                            
 
             </div>
