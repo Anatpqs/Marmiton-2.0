@@ -244,7 +244,6 @@ if (isset($_POST['submit'])) {
           echo '<script type ="text/JavaScript">';  
           echo 'alert("Recette envoyé - En attente de validation par l\'admin.")';  
           echo '</script>';  
-        rename($target_file,$target_dir . $id_recette . ".jpg");
         }
         else {
           echo '<script type ="text/JavaScript">';  
@@ -263,6 +262,9 @@ if (isset($_POST['submit'])) {
 
         //Id de la recette qu'on vient d'ajouter
         $id_recette = $db->lastInsertId();
+
+        //Rename l'image qui correspond à la recette:
+        rename($target_file,$target_dir . $id_recette . ".jpg");
 
         //Ajout des ingrédients
         $nom_ings=$_POST["nom_ing"];
