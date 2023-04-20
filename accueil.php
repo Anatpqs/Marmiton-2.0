@@ -195,6 +195,9 @@ function notation($note)
                         if ($req_recette->rowCount() > 0) {
                             echo "<h3><u class='textblanc'>Recette qui pourrait vous intéresser</u></h3>";
                             echo "<h3 class='textblanc'>" . $resultat_recette['Nom'] . "</h3>";
+                            echo '<form id="myForm2" action="recette.php" method="post">
+                                    <input type="hidden" name="idRecette" value='.$resultat_recette['IdRecette'].'>
+                                </form>';
                             echo '<a href="#" onclick="document.getElementById(\'myForm2\').submit();"><img class="image" src="Images/Recette/'.$resultat_recette['IdRecette'].'.jpg"> </a>';
                         } else {
                             // Si la recette vient d'être créée, pas de note
