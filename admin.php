@@ -1,3 +1,10 @@
+<?php 
+  session_start();
+  if($_SESSION["droit"]!=1){
+      header("Location:accueil.php");
+  }
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -6,18 +13,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin</title>
+    <link rel="stylesheet" href="styles/admin.css" />
 
     <!-- Javascript -->
 
+    <script>
+    function confirmation(){
+            if (confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
+            document.getElementById('confirm').value = 'yes';
+            document.getElementsByName('suprofil')[0].value = 'Valider la suppresion';
+            } 
+            else {
+                document.getElementById('confirm').value = 'no';
+            }
+        };
+    </script>
+
 </head>
 
+<!-- Barre de tache en haut -->
+
+<header>
+      <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
+      <div id="titre"><?php echo '<h1>Sportiton</h1>' ?></div>
+      <div class="profil">
+          <ul class="navbar">
+              <li class="li"><img class="icon" src="Images/userblanc.png">
+                  <ul>
+                      <?php
+                          echo '
+                              <li><a href="profil.php">Mon Profil</a></li> 
+                              <li><a href="deconnexion.php">Déconnexion</a></li> ';
+                      ?>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+    </header>
+
+
 <body>
+
+<div id="main">
+
     <?php
     //Connexion
-    session_start();
-    if($_SESSION["droit"]!=1){
-        header("Location:accueil.php");
-    }
     include "database.php";
     global $db;
     ?>
@@ -39,6 +79,7 @@
     <input type="submit" name="validation_'.$recette["IdRecette"].'" value="Valider la recette">
     </form>
     <form method="post">
+    <input type="hidden" name="confirm" id="confirm" value="">
     <input type="submit" name="supp_'.$recette["IdRecette"].'" value="Supprimer la recette">
     </form>';
     
@@ -84,20 +125,24 @@
 ?>
 
 <!-- modification prix ingrédient -->
-<h2>Prix des ingrédients</h2>
+
+<h2>Prix des ingrédients :</h2>
+<div id="div_ing">
 <form id="prix" method="post">
-    <input list="liste_ingredient" name="liste_ingredient">
-    <datalist id="liste_ingredient">
+    <label for="liste_ingredient">Choisir un ingrédient: </label>
+    <select name="liste_ingredient" id="liste_ingredient">
+    
         <?php
         $sql7=$db->prepare("SELECT Nom FROM Ingrédient GROUP BY Nom");
         $sql7->execute([]);
         $resultat7=$sql7->fetchAll();
         foreach($resultat7 as $ingredient){
-            echo'<option value='.$ingredient['Nom'].'></option>';
+            echo'<option value='.$ingredient["Nom"].'>'.$ingredient["Nom"].'</option>';
         }
         ?>
-    </datalist>
-    <label>Nouveau Prix</label>
+    </select>
+    <br><br>
+    <label>Définir le nouveau prix de l'ingrédient:</label>
     <input id="nouveau_prix" name="nouveau_prix"></input>
     <input type="submit" value="Enregister"></input>
     <?php
@@ -108,15 +153,18 @@
                 'ingredient'=>$_POST["liste_ingredient"]
             ]);
         }
+
+        echo "<br><h4>Liste des prix à ajouter:</h4>";        
         $sql9=$db->prepare("SELECT Ingrédient.Nom as Nom_ing,Recette.Nom FROM Ingrédient JOIN Recette On Recette=IdRecette WHERE Prix = 0");
         $sql9->execute([]);
         $resultat9=$sql9->fetchAll();
+        echo "<ul>";
         foreach($resultat9 as $ingredient_sans_prix){
-            echo"<br>",$ingredient_sans_prix['Nom_ing']," dans la recette ", $ingredient_sans_prix["Nom"]," n'a pas de prix <br>";
-
+            echo "<li>",$ingredient_sans_prix['Nom_ing']," dans la recette ", $ingredient_sans_prix["Nom"]," n'a pas de prix</li>";
         }
+        echo "</ul>"
     ?>
-
+</div>
 
 
 <!-- Suppresion et modification recette -->
@@ -137,12 +185,17 @@ foreach($resultat3 as $recette)
     <form method="post" action="modif_recette.php">
     <input type="submit" name="modification_'.$recette["IdRecette"].'" value="Modifier la recette">
     <input type="hidden" name="IdRecette" value="'.$recette["IdRecette"].'">
-   </form>';
+   </form><br>';
 
 //SUPPRESSION RECETTE
    if (isset($_POST["suppression_".$recette["IdRecette"]]))
 {
-//SUPPRESSION DE L'IMAGE
+
+    //Confirmation
+    echo'<script>confirmation()</script>';
+    if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
+
+    //SUPPRESSION DE L'IMAGE
 
         // Chemin vers le dossier où sont stockées les images
     $chemin_dossier = "Images/Recette/";
@@ -164,6 +217,7 @@ foreach($resultat3 as $recette)
     $sql4=$db->prepare("DELETE FROM Recette WHERE IdRecette=?;");
     $sql4->execute([$recette["IdRecette"]]);
     echo "<meta http-equiv='refresh' content='0'>";
+}
 }
 
 //MODIFICATION RECETTE
@@ -212,6 +266,9 @@ foreach($resultat5 as $user)
 }
 
 ?>
+
+</div>
 </body>
+<footer></footer>
 
 </html>
