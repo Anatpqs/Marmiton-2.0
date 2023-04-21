@@ -5,9 +5,9 @@
 START TRANSACTION;
 USE `mydb`;
 INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, 'a', 'Utilisateur Suprimé', 'Utilisateur Suprimé', 1);
-INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, '$2y$12$2VfeBTfiqQYPRCvj3gYa2OnIOoJXsic88vXazY0Em5i677d89LExa', 'Julian@.com', 'Julian', 0);
-INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, '$2y$12$qQ6CiOa/d.WezeiDhncQuevXpQ1cYM.CxHLEZ/EvMobAQidZhkzTC', 'Anatole@.com', 'Anatole', 0);
-INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, '$2y$12$FAsob45UsaU9Vm7RarG4TeuXsOM1t8q7b2YFzzHoyg.CGjuhMZx5y', 'Andrew@.com', 'Andrew', 0);
+INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, '$2y$12$2VfeBTfiqQYPRCvj3gYa2OnIOoJXsic88vXazY0Em5i677d89LExa', 'Julian@.com', 'Julian', 1);
+INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, '$2y$12$qQ6CiOa/d.WezeiDhncQuevXpQ1cYM.CxHLEZ/EvMobAQidZhkzTC', 'Anatole@.com', 'Anatole', 1);
+INSERT INTO `mydb`.`Utilisateur` (`IdUtilisateur`, `Mdp`, `Login`, `Pseudo`, `Droit`) VALUES (DEFAULT, '$2y$12$FAsob45UsaU9Vm7RarG4TeuXsOM1t8q7b2YFzzHoyg.CGjuhMZx5y', 'Andrew@.com', 'Andrew', 1);
 
 COMMIT;
 
