@@ -86,3 +86,9 @@
 
 </body>
 </html>
+<script>
+    // Ceci permet de faire un retour arrière sans avoir le message de "Form resubmission"
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
