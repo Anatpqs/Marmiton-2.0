@@ -73,8 +73,9 @@ html,body{
     font-weight: bold;
   }
   .textlink{
+    display: inline;
     color: white;
-    margin-left: 13%;
+    margin-left: 8%;
     font-weight: bold;
     font-size: 20px;
   }
