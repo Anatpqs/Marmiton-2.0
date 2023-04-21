@@ -255,8 +255,8 @@ if (isset($_POST['submit'])) {
     }
   
         // Requête SQL d'insertion
-        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, Image, État) 
-        VALUES (?, ?, NULL, ?, ?, ?, ?, ?, NULL,?);");
+        $sql=$db->prepare("INSERT INTO Recette(Nom, IdCréateur, Notemoy, Nb_personne, Temps_prep, Temps_cuis, Description, Instruction, État) 
+        VALUES (?, ?, NULL, ?, ?, ?, ?, ?,?);");
         // Exécution de la requête
         $sql->execute([$Nom,$_SESSION["id"],$Nb_personne,$Temps_prep,$Temps_cuis,$Description,$Instruction,$Etat]);
 
