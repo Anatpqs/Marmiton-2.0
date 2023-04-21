@@ -9,7 +9,7 @@ description du site }
 
 
 **Base de données**
-![ImageBdd](https://github.com/Anatpqs/MarmitonDuPauvre/raw/main/bdd/bdd.png)
+![ImageBdd](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/bdd/Bdd.png)
 
 **Pages du site:**
 - [x] Accueil
