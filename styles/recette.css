@@ -25,6 +25,12 @@ header {
   height: 70px;
   width: auto;
 }
+//Assurer que l'image de profil soit dans les normes ( adaptée à la taille du logo)
+.image_profil {
+  width: 70px;
+  height: 70px;
+}
+
 
 /*\\\\\ CSS du panneau déroulant \\\\\*/
 .profil {
