@@ -178,6 +178,11 @@ footer {
     justify-content: center;
     align-items: center;
   }
+  #supresionrec{
+    position: relative;
+    display: flex;
+  }
+  
 footer a {
     color: white;
   }
@@ -190,7 +195,4 @@ footer a {
     margin-right: 11vh;
   }
 
-  #supresionrec{
-    position: fixed;
-    bottom: 50px;
-  }
+ 
