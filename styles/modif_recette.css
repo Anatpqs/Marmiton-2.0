@@ -36,7 +36,7 @@ body {
       background-image: url("../Images/backgroundBarre.jpg");
     }
   
-    #logo, #imagefile {
+    #logo, #imagefile, #imagefile2 {
       height: 70px;
       width: 70px;
     }
