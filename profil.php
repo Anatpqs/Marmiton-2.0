@@ -230,7 +230,7 @@
                 </div>
                 <!-- Cette section contient les recettes créés par l'utilisateur -->
                 <div id=favoris>
-                    <h2>Mes Recette</h2>
+                    <h2>Mes Recettes</h2>
                     <?php
                     //requete pour recette avec l'utilisateur comme créateur
                     $r = $db->prepare("SELECT * FROM Recette WHERE IdCréateur = :IdCreateur");
