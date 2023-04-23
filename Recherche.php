@@ -40,9 +40,11 @@
 <body>  
     <header>
         <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
-        <form method="post" id="formsearchbar">
-            <input type="search" id="searchbar" name="searchbar" placeholder="Recette..." autocomplete="off">
-        </form> 
+        <div id="searchbar_div">
+            <form method="post" id="formsearchbar">
+                <input type="search" id="searchbar" name="searchbar" placeholder="Recette..." autocomplete="off">
+            </form> 
+        </div>
         <div class="profil">
           <ul class="navbar">
               <li class="li"><?php if (isset($_SESSION['id'])){
