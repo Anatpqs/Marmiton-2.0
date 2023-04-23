@@ -186,7 +186,7 @@ function notation($note)
         <div id="info">
             <Affichage du temps nécessaire pour préparer la recette>
             <img id="temps" src="Images/horloge.png" alt="horloge">
-            <?php echo '<p id="tps_prep"><strong> Temps total : </strong><span class="data">' . $resultat["Temps_prep"]+$resultat["Temps_cuis"] . ' min</span></p>' ?
+            <?php echo '<p id="tps_prep"><strong> Temps total : </strong><span class="data">' . $resultat["Temps_prep"]+$resultat["Temps_cuis"] . ' min</span></p>' ;?>
             <img id="img_prix" src="Images/euro.png" alt="euro">
 
         <!-- Calcul prix de la recette -->
