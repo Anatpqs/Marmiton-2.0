@@ -96,7 +96,7 @@ if ($_SESSION["droit"]==-1)
                         <li><a href="inscription.php">Créer un compte</a></li> ';
                       } // Si l'utilisateur n'est pas connecté, on affiche les liens de connexion et d'inscription
                       ?>
-                      <?php if ($_SESSION["droit"] == 0) {
+                      <?php if ($_SESSION["droit"] == 0 || $_SESSION["droit"] == -2) {
                           echo '
                               <li><a href="profil.php">Mon Profil</a></li> 
                               <li><a href="deconnexion.php">Déconnexion</a></li> ';
