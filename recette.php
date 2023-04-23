@@ -184,7 +184,6 @@ function notation($note)
         
         <!-- Affichage du temps nécessaire pour préparer la recette -->
         <div id="info">
-            <Affichage du temps nécessaire pour préparer la recette>
             <img id="temps" src="Images/horloge.png" alt="horloge">
             <?php echo '<p id="tps_prep"><strong> Temps total : </strong><span class="data">' . $resultat["Temps_prep"]+$resultat["Temps_cuis"] . ' min</span></p>' ;?>
             <img id="img_prix" src="Images/euro.png" alt="euro">
@@ -246,12 +245,11 @@ function notation($note)
             <!-- Affichage de l'icône de la casserole -->
             <img id="casserole" src="Images/casserole.png" alt="casserole">
             <!-- Affichage du temps de préparation -->
-            <?php echo '<p><strong>Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min </span></p>'?>
+            <?php echo '<p><strong>Temps de préparation : </strong><span class="data">' . $resultat["Temps_prep"] . ' min </span></p>'?>&nbsp&nbsp&nbsp&nbsp
             <!-- Affichage du temps de cuisson -->
             <?php echo '<p><strong>Temps de cuisson : </strong><span class="data">' . $resultat["Temps_cuis"] . ' min </span></p>' ?>
       
         </div>
-          
           <!-- Affichage de la liste des instructions -->
         <ol>
             <?php 
@@ -332,7 +330,9 @@ function notation($note)
     foreach ($resultat2 as $row) {
       echo "<div class='comment_afficher'>
       <div class='info_comment'>
-      <img src='Images/Pdp/".$row["IdAuteur"].".jpg' alt='profil' class='profil_commentaire'>
+      " . (((filesize("Images/Pdp/" . $row['IdAuteur'] . ".jpg")>50)) ?
+      ("<img src='Images/Pdp/" . $row["IdAuteur"] . ".jpg' alt='profil' class='profil_commentaire'>")
+      : ("<img src='Images/profil.png' alt='profil' class='profil_commentaire'>")) . "
       <div class='info_comment2'>
       <strong><span class='nom_comment'>" . $row['Pseudo'] . "</span></strong>
       <span class='note_comment'>" . notation($row['Note']) . "</span>
@@ -528,7 +528,7 @@ function decr() {
 ''
 }
 
-<--JAVASCRIPT--->
+
 //Le bouton "LIKE"
 
 const like = document.querySelector('.like');
