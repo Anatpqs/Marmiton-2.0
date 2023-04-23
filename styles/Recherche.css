@@ -289,3 +289,11 @@ a:hover {
   background-color: #a3a1a1;
 }
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+.icon{
+  max-height: 80px;
+  width: auto;
+  margin-left: 5vh;
+  margin-top: 0vh;
+  vertical-align: middle;
+}
