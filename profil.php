@@ -61,7 +61,7 @@
                 }
 
                 echo '<ul>';
-                if ($_SESSION["droit"] == 1) {
+                if ($_SESSION["droit"] == 1  || $_SESSION["droit"] == -2) {
                     // Si l'utilisateur est connecté en tant qu'admin, on affiche le lien la page admin en plus de celui pour changer la photo de profil et se déconnecter 
                     echo '<li><a href="admin.php">Admin</a></li>';
                 }
