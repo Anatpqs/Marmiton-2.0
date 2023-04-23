@@ -4,151 +4,148 @@
 
 <?php
 session_start();
-if($_SESSION["droit"]!=1){
+if ($_SESSION["droit"] != 1) {
   header("Location:accueil.php");
 }
 include 'database.php';
 global $db;
 
-if (isset($_POST["IdRecette"]))
-{
-$IdRecette = $_POST["IdRecette"];
-setcookie('IdRecette', $IdRecette, time() + 86400);
-}
-else
-{
-$IdRecette=$_COOKIE["IdRecette"];
+if (isset($_POST["IdRecette"])) {
+  $IdRecette = $_POST["IdRecette"];
+  setcookie('IdRecette', $IdRecette, time() + 86400);
+} else {
+  $IdRecette = $_COOKIE["IdRecette"];
 }
 
 ?>
 
 <head>
-<meta charset="utf-8"/>
-<title>Modification recette</title>
-<link rel="stylesheet" href="styles/modif_recette.css" />
+  <meta charset="utf-8" />
+  <title>Modification recette</title>
+  <link rel="stylesheet" href="styles/modif_recette.css" />
 
-<script>
-   function ajouter(){
-          var div = document.createElement('div');
-          div.innerHTML = '<div class="TextBloc ingredients"> <input type="text" name="nom_ing[]" class="InputText ingredients" required><span class="labelText ingredients">Nom: </span> </div> <div class="TextBloc ingredients"> <input type="number" name="quantite[]" class="InputText ingredients" min="0" step="0.01" required><label class="labelText ingredients">Quantité: </label> </div> <div class="TextBloc ingredients"> <label class="labelText ingredients" style="top:-15px">Unité: </label> <select id="unite[]" name="unite[]" class="InputText ingredients"> <option value="">Aucune</option> <option value="kg">kg</option> <option value="l">l</option> </select> </div>'
-          document.getElementById('nv_ing').appendChild(div);
-      }
+  <script>
+    function ajouter() {
+      var div = document.createElement('div');
+      div.innerHTML = '<div class="TextBloc ingredients"> <input type="text" name="nv_nom_ing[]" class="InputText ingredients" required><span class="labelText ingredients">Nom: </span> </div> <div class="TextBloc ingredients"> <input type="number" name="nv_quantite[]" class="InputText ingredients" min="0" step="0.001" required><label class="labelText ingredients">Quantité: </label> </div> <div class="TextBloc ingredients"> <label class="labelText ingredients" style="top:-15px">Unité: </label> <select id="unite[]" name="nv_unite[]" class="InputText ingredients"> <option value="" selected>Aucune</option> <option value="kg">kg</option> <option value="l">l</option> </select> </div>'
+      document.getElementById('nv_ing').appendChild(div);
+    }
 
-      function insertDatalist() {
-        var div = document.createElement('div');
-        div.setAttribute('class', 'tagDiv');
+    function insertDatalist() {
+      var div = document.createElement('div');
+      div.setAttribute('class', 'tagDiv');
 
-        div.innerHTML = '<input class="InputText tag" list="tags" name="tag[]" required/><datalist id="tags">' +
+      div.innerHTML = '<input class="InputText tag" list="tags" name="nv_tag[]" required/><datalist id="tags">' +
         <?php
-          $sql4 = $db->prepare("SELECT * FROM Tag;");
-          $sql4->execute([]);
-          $resultat4 = $sql4->fetchAll();
-          $options = '';
-          foreach ($resultat4 as $tag) {
-            $options .= '<option value="' . $tag["Mot_clé"] . '">';
-          }
-        ?>     
+        $sql4 = $db->prepare("SELECT * FROM Tag;");
+        $sql4->execute([]);
+        $resultat4 = $sql4->fetchAll();
+        $options = '';
+        foreach ($resultat4 as $tag) {
+          $options .= '<option value="' . $tag["Mot_clé"] . '">';
+        }
+        ?>
 
-        document.getElementById('tag_div').appendChild(div);
-      }
+      document.getElementById('tag_div').appendChild(div);
+    }
 
-      function removeDatalist(){
-        var tag_div = document.getElementById('tag_div');
-        var tagDivs = tag_div.getElementsByClassName('tagDiv');
-        if (tagDivs.length > 0) {
+    function removeDatalist() {
+      var tag_div = document.getElementById('tag_div');
+      var tagDivs = tag_div.getElementsByClassName('tagDiv');
+      if (tagDivs.length > 0) {
         tag_div.removeChild(tagDivs[tagDivs.length - 1]);
-        }
       }
+    }
 
 
-      const tx = document.getElementsByTagName("textarea");
-      for (let i = 0; i < tx.length; i++) {
-        tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
-        tx[i].addEventListener("input", OnInput, false);
+    const tx = document.getElementsByTagName("textarea");
+    for (let i = 0; i < tx.length; i++) {
+      tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+      tx[i].addEventListener("input", OnInput, false);
+    }
+    function OnInput() {
+      this.style.height = 0;
+      this.style.height = (this.scrollHeight) + "px";
+    }
+    var loadFile = function (event) {
+      var imagefile = document.getElementById('imagefile');
+      imagefile.src = URL.createObjectURL(event.target.files[0]);
+      imagefile.onload = function () {
+        URL.revokeObjectURL(imagefile.src) // free memory
       }
-      function OnInput() {
-        this.style.height = 0;
-        this.style.height = (this.scrollHeight) + "px";
-      }
-      var loadFile = function(event) {
-        var imagefile = document.getElementById('imagefile');
-        imagefile.src = URL.createObjectURL(event.target.files[0]);
-        imagefile.onload = function() {
-          URL.revokeObjectURL(imagefile.src) // free memory
-        }
-      };
+    };
 
-    </script>
+  </script>
 
 </head>
 
 <header>
-      <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
-      <div id="titre"><?php echo '<h1>Sportiton</h1>' ?></div>
-      <div class="profil">
-          <ul class="navbar">
-          <?php if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
-                    echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
-                }
-                else{
-                    echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
-                } ?>
-                  <ul>
-                      <?php
-                          echo '<li><a href="admin.php">Admin</a></li>
+  <div id="logo_div"><a href="accueil.php"><img id="logo" src="Images/cooking.png" alt="logo"></a></div>
+  <div id="titre">
+    <?php echo '<h1>Sportiton</h1>' ?>
+  </div>
+  <div class="profil">
+    <ul class="navbar">
+      <?php if (filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg") > 50) {
+        echo "<li class='li'><img id='imagefile2' class='image_profil' src='Images/Pdp/", $_SESSION['id'], ".jpg'>";
+      } else {
+        echo "<li class='li'><img id='imagefile2'class='icon' src='Images/Pdp/userblanc.png'>";
+      } ?>
+      <ul>
+        <?php
+        echo '<li><a href="admin.php">Admin</a></li>
                           <li><a href="profil.php">Profil</a></li>
                           <li><a href="deconnexion.php">Déconnexion</a></li>';
-                      ?>
-                  </ul>
-              </li>
-          </ul>
-      </div>
-    </header>
+        ?>
+      </ul>
+      </li>
+    </ul>
+  </div>
+</header>
 
 <body>
-  
-<div id="main">
-<h1>Modifier la recette</h1>
-<br>
-<?php 
 
-$sql=$db->prepare("SELECT * FROM Recette WHERE IdRecette=?;");
-$sql->execute([$IdRecette]);
-$resultat=$sql->fetch(PDO::FETCH_ASSOC);
+  <div id="main">
+    <h1>Modifier la recette</h1>
+    <br>
+    <?php
 
-echo '
+    $sql = $db->prepare("SELECT * FROM Recette WHERE IdRecette=?;");
+    $sql->execute([$IdRecette]);
+    $resultat = $sql->fetch(PDO::FETCH_ASSOC);
+
+    echo '
     <form method="post" enctype="multipart/form-data">
-    <input type="hidden" name="IdRecette" value="'.$IdRecette.'">
+    <input type="hidden" name="IdRecette" value="' . $IdRecette . '">
 
       <div class="TextBloc">
-        <input type="text" name="titre" class="InputText" value="'.$resultat["Nom"].'" required><span class="labelText">Titre de votre recette:</span> 
+        <input type="text" name="titre" class="InputText" value="' . $resultat["Nom"] . '" required><span class="labelText">Titre de votre recette:</span> 
       </div>
 
       <div class="TextBloc tag">
       <span for="tag" class="labelText" >Choisir des mots-clés:</span><br><br>';
-        //Affichage mot clé 
-        $sql5=$db->prepare("SELECT * FROM Tag WHERE Recette_assoc=?;");
-        $sql5->execute([$IdRecette]);
-        $resultat5=$sql5->fetchAll();
-        foreach ($resultat5 as $tag)
-        {
-          echo '
-          <input list="tags" class="InputText" id="tag" name="tag[]" value='.$tag["Mot_clé"].' required>
-          <input type="hidden" name="id_tag[]" value='.$tag["IdTag"].'>
+    //Affichage mot clé 
+    $sql5 = $db->prepare("SELECT * FROM Tag WHERE Recette_assoc=?;");
+    $sql5->execute([$IdRecette]);
+    $resultat5 = $sql5->fetchAll();
+    foreach ($resultat5 as $tag) {
+      echo '
+          <input list="tags" class="InputText" id="tag" name="tag[]" value=' . $tag["Mot_clé"] . ' required>
+          <input type="hidden" name="id_tag[]" value=' . $tag["IdTag"] . '>
           <datalist id="tags">';
-          
-            $sql4=$db->prepare("SELECT * FROM Tag;");
-            $sql4->execute([]);
-            $resultat4=$sql4->fetchAll();
-            foreach ($resultat4 as $tags)
-            {
-              echo '<option value='.$tags["Mot_clé"].'>';
-      
-            };
-          echo '</datalist>';
-        }
-        //Ajout nv_tags
-        echo '
+
+      $sql4 = $db->prepare("SELECT * FROM Tag;");
+      $sql4->execute([]);
+      $resultat4 = $sql4->fetchAll();
+      foreach ($resultat4 as $tags) {
+        echo '<option value=' . $tags["Mot_clé"] . '>';
+
+      }
+      ;
+      echo '</datalist>';
+    }
+    //Ajout nv_tags
+    echo '
         <button type="button" onclick="insertDatalist()">Ajouter des tags</button>
         <button type="button" onclick="removeDatalist()">Enlever des tags</button> 
         </div>
@@ -157,19 +154,19 @@ echo '
 
         <div class="TextBloc">
           <label class="labelText description">Description :</label><br>
-          <textarea name="Description" id="Description" class="InputText description" required>'.$resultat["Description"].'</textarea>
+          <textarea name="Description" id="Description" class="InputText description" required>' . $resultat["Description"] . '</textarea>
         </div>
 
         <div class="TextBloc">
-          <input type="number" name="Nb_personne" class="InputText" min="1" value='.$resultat["Nb_personne"].' required><span class="labelText">Nombre de personne :</span>   
+          <input type="number" name="Nb_personne" class="InputText" min="1" value=' . $resultat["Nb_personne"] . ' required><span class="labelText">Nombre de personne :</span>   
         </div>
 
         <div class="TextBloc Temps_prep">  
-          <input type="number" name="Temps_prep" class="InputText" min="1" value='.$resultat["Temps_prep"].' required><span class="labelText">Temps de préparation (en min) :</span>           
+          <input type="number" name="Temps_prep" class="InputText" min="1" value=' . $resultat["Temps_prep"] . ' required><span class="labelText">Temps de préparation (en min) :</span>           
         </div>
 
         <div class="TextBloc Temps_cuis">   
-          <input type="number" name="Temps_cuis" class="InputText" min="0" value='.$resultat["Temps_cuis"].' required><span class="labelText">Temps de cuisson (en min) :</span>
+          <input type="number" name="Temps_cuis" class="InputText" min="0" value=' . $resultat["Temps_cuis"] . ' required><span class="labelText">Temps de cuisson (en min) :</span>
         </div>
 
         <!-- Ingrédient -->
@@ -178,36 +175,36 @@ echo '
         
         ';
 
-        $sql2=$db->prepare("SELECT * FROM Ingrédient WHERE Recette=?");
-        $sql2->execute([$IdRecette]);
-        $resultat2=$sql2->fetchAll();
-        foreach($resultat2 as $ing)
-        {
-        
-        echo '
+    $sql2 = $db->prepare("SELECT * FROM Ingrédient WHERE Recette=?");
+    $sql2->execute([$IdRecette]);
+    $resultat2 = $sql2->fetchAll();
+    foreach ($resultat2 as $ing) {
+
+      echo '
             <div class="TextBloc ingredients">
-              <input type="text" name="nom_ing[]" class="InputText ingredients" value="'.$ing["Nom"].'" required><span class="labelText ingredients">Nom: </span>
+              <input type="text" name="nom_ing[]" class="InputText ingredients" value="' . $ing["Nom"] . '" required><span class="labelText ingredients">Nom: </span>
             </div>
 
             <div class="TextBloc ingredients">
-              <input type="number" name="quantite[]" class="InputText ingredients" min="0" step="0.01" value="'.$ing["Quantité"].'" required><label class="labelText ingredients">Quantité: </label>
+              <input type="number" name="quantite[]" class="InputText ingredients" min="0" step="0.001" value="' . $ing["Quantité"] . '" required><label class="labelText ingredients">Quantité: </label>
             </div>
 
             <div class="TextBloc ingredients">
               <label class="labelText ingredients" style="top:-15px">Unité: </label>
               <select id="unite[]" name="unite[]" class="InputText ingredients">
-                    <option value="" '.(($ing["Unité"] === "") ? "selected" : "").'>Aucune</option> 
-                    <option value="kg" '.(($ing["Unité"] === "kg") ? "selected" : "").'>kg</option>                    
-                    <option value="l" '.(($ing["Unité"] === "l") ? "selected" : "").'>l</option>
+                    <option value="" ' . (($ing["Unité"] === "") ? "selected" : "") . '>Aucune</option> 
+                    <option value="kg" ' . (($ing["Unité"] === "kg") ? "selected" : "") . '>kg</option>                    
+                    <option value="l" ' . (($ing["Unité"] === "l") ? "selected" : "") . '>l</option>
               </select>                  
             </div>
 
-            <input type="hidden" name="id[]" value="'.$ing["IdIngrédient"].'">
+            <input type="hidden" name="id[]" value="' . $ing["IdIngrédient"] . '">
             ';
 
-        };
+    }
+    ;
 
-        echo '
+    echo '
         <div id="nv_ing"></div>
         <button type="button" style="float:right; margin-top: 1em;" onclick="ajouter()">Ajouter un ingrédient</button>
         </div>
@@ -215,13 +212,13 @@ echo '
 
         <div class="TextBloc">
           <label for="Instruction" class ="labelText description">Instruction :</label><br>
-          <textarea name="Instruction" id="Instruction" class="InputText description"  required>'.$resultat["Instruction"].'</textarea>
+          <textarea name="Instruction" id="Instruction" class="InputText description"  required>' . $resultat["Instruction"] . '</textarea>
         </div>
       
         
         <div class="image-upload">
               <label for="file-input">
-                <img id="imagefile" src="Images/Recette/'.$IdRecette.'.jpg" style="margin-top: 0px; border: solid 2px black; border-radius: 50%"/>
+                <img id="imagefile" src="Images/Recette/' . $IdRecette . '.jpg" style="margin-top: 0px; border: solid 2px black; border-radius: 50%"/>
               </label>
               <input type="file" id="file-input" name="file" onchange="loadFile(event)"/>
             </div>
@@ -230,126 +227,120 @@ echo '
     </form>
 '; ?>
 
-</div>
+  </div>
 
-<?php
-// Récupération des données du formulaire
-if (isset($_POST['submit'])) {
-    $Nom = strval($_POST['titre']); 
+  <?php
+  // Récupération des données du formulaire
+  if (isset($_POST['submit'])) {
+    $Nom = strval($_POST['titre']);
     $Description = strval($_POST['Description']);
-    $Instruction = strval($_POST['Instruction']); 
+    $Instruction = strval($_POST['Instruction']);
     $Nb_personne = intval($_POST['Nb_personne']);
     $Temps_prep = intval($_POST['Temps_prep']);
     $Temps_cuis = intval($_POST['Temps_cuis']);
-    $Etat=0;
+    $Etat = 0;
 
-   
-        // Requête SQL d'insertion
-        
-        $sql=$db->prepare("UPDATE Recette SET Nom=? , Nb_personne=? , Temps_prep=? , Temps_cuis=? , Description=? , Instruction=? WHERE IdRecette=$IdRecette");
-        // Exécution de la requête
-        $sql->execute([$Nom,$Nb_personne,$Temps_prep,$Temps_cuis,$Description,$Instruction]);
 
-        //Modification des ingrédients
-        $nom_ings=$_POST["nom_ing"];
-        $quantites=$_POST["quantite"];
-        $unites=$_POST["unite"];
+    // Requête SQL d'insertion
   
-        $ids=$_POST["id"];
+    $sql = $db->prepare("UPDATE Recette SET Nom=? , Nb_personne=? , Temps_prep=? , Temps_cuis=? , Description=? , Instruction=? WHERE IdRecette=$IdRecette");
+    // Exécution de la requête
+    $sql->execute([$Nom, $Nb_personne, $Temps_prep, $Temps_cuis, $Description, $Instruction]);
 
-        for($i=0;$i<count($_POST["nom_ing"]);$i++)
-        {
-        $sql2=$db->prepare("UPDATE Ingrédient SET Nom=? , Quantité=? , Unité=? WHERE IdIngrédient=?;");
-        $sql2->execute([$nom_ings[$i],$quantites[$i],$unites[$i],$ids[$i]]);
+    //Modification des ingrédients
+    $nom_ings = $_POST["nom_ing"];
+    $quantites = $_POST["quantite"];
+    $unites = $_POST["unite"];
+
+    $ids = $_POST["id"];
+
+    for ($i = 0; $i < count($_POST["nom_ing"]); $i++) {
+      $sql2 = $db->prepare("UPDATE Ingrédient SET Nom=? , Quantité=? , Unité=? WHERE IdIngrédient=?;");
+      $sql2->execute([$nom_ings[$i], $quantites[$i], $unites[$i], $ids[$i]]);
+    }
+
+    //Ajout de nouveau ingrédient:
+  
+    if (isset($_POST["nv_nom_ing"])) {
+      $nv_nom_ing = $_POST["nv_nom_ing"];
+      $nv_quantite = $_POST["nv_quantite"];
+      $nv_unite = $_POST["nv_unite"];
+
+
+      for ($j = 0; $j < count($_POST["nv_nom_ing"]); $j++) {
+        $sql3 = $db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Recette) VALUES (?,?,?,?)");
+        $sql3->execute([$nv_nom_ing[$j], $nv_quantite[$j], $nv_unite[$j], $IdRecette]);
+      }
+
+    }
+
+    //Modification des tags existants
+    if (isset($_POST["tag"])) {
+      $tag = $_POST["tag"];
+      $id_tag = $_POST["id_tag"];
+
+      for ($i = 0; $i < count($_POST["id_tag"]); $i++) {
+        $sql6 = $db->prepare("UPDATE Tag SET Mot_Clé=? WHERE IdTag=? AND Recette_assoc=?");
+        $sql6->execute([$tag[$i], $id_tag[$i], $IdRecette]);
+      }
+    }
+    //Ajout nv tags
+    if (isset($_POST["nv_tag"])) {
+      $nv_tag = $_POST["nv_tag"];
+
+      for ($i = 0; $i < count($_POST["nv_tag"]); $i++) {
+        $sql7 = $db->prepare("INSERT INTO Tag(Mot_clé,Recette_assoc) VALUES (?,?);");
+        $sql7->execute([$nv_tag[$i], $IdRecette]);
+      }
+
+    }
+
+    // IMAGE RECETTE
+  
+    if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
+      $file_name = $_FILES['file']['name'];
+      $file_tmp = $_FILES['file']['tmp_name'];
+      $file_type = $_FILES['file']['type'];
+      $file_size = $_FILES['file']['size'];
+      $target_dir = "Images/Recette/"; // dossier de destination
+      $target_file = $target_dir . basename($file_name);
+
+      // Vérifier le type de fichier
+      $allowed_types = array('image/jpeg', 'image/png');
+      if (!in_array($file_type, $allowed_types)) {
+        echo '<script type ="text/JavaScript">';
+        echo 'alert("Erreur: Seules les images JPEG et PNG sont autorisées.")';
+        echo '</script>';
+        die;
+      }
+      // Vérifier la taille du fichier
+      else if ($file_size > 5000000) { // 5 Mo maximum
+        echo '<script type ="text/JavaScript">';
+        echo 'alert("Erreur: La taille du fichier doit être inférieure à 5 Mo.")';
+        echo '</script>';
+        die;
+      } else {
+        if (move_uploaded_file($file_tmp, $target_file)) {
+
+          rename($target_file, $target_dir . $IdRecette . ".jpg");
+        } else {
+          echo '<script type ="text/JavaScript">';
+          echo 'alert("Erreur lors du téléchargement du fichier. Dest : ' . $target_dir;
+          '")';
+          echo '</script>';
+          die;
         }
+      }
+    }
+    echo '<script type ="text/JavaScript">';
+    echo 'alert("Recette modifier.")';
+    echo '</script>';
 
-        //Ajout de nouveau ingrédient:
+    echo "<meta http-equiv='refresh' content='0'>";
+  }
+ 
 
-        if(isset($_POST["nv_nom_ing"]))
-        {
-        $nv_nom_ing=$_POST["nv_nom_ing"];
-        $nv_quantite=$_POST["nv_quantite"];
-        $nv_unite=$_POST["nv_unite"];
-        
-
-        for($j=0;$j<count($_POST["nv_nom_ing"]);$j++)
-        {
-          $sql3=$db->prepare("INSERT INTO Ingrédient(Nom,Quantité,Unité,Recette) VALUES (?,?,?,?,?)");
-          $sql3->execute([$nv_nom_ing[$j],$nv_quantite[$j],$nv_unite[$j],$IdRecette]);
-        }
-
-       }
-
-       //Modification des tags existants
-       if (isset($_POST["tag"]))
-       {
-       $tag=$_POST["tag"];
-       $id_tag=$_POST["id_tag"];
-
-       for($i=0;$i<count($_POST["id_tag"]);$i++)
-       {
-        $sql6=$db->prepare("UPDATE Tag SET Mot_Clé=? WHERE IdTag=? AND Recette_assoc=?");
-        $sql6->execute([$tag[$i],$id_tag[$i],$IdRecette]);
-       }
-        }
-       //Ajout nv tags
-       if (isset($_POST["nv_tag"])){
-        $nv_tag=$_POST["nv_tag"];
-
-        for($i=0;$i<count($_POST["nv_tag"]);$i++)
-        {
-        $sql7=$db->prepare("INSERT INTO Tag(Mot_clé,Recette_assoc) VALUES (?,?);");
-        $sql7->execute([$nv_tag[$i],$IdRecette]);
-        }
-
-       }
-       
-        // IMAGE RECETTE
-        
-          if(isset($_FILES['file'])) {
-            $file_name = $_FILES['file']['name'];
-            $file_tmp = $_FILES['file']['tmp_name'];
-            $file_type = $_FILES['file']['type'];
-            $file_size = $_FILES['file']['size'];
-            $target_dir = "Images/Recette/"; // dossier de destination
-            $target_file = $target_dir . basename($file_name);
-      
-            // Vérifier le type de fichier
-            $allowed_types = array('image/jpeg', 'image/png');
-            if(!in_array($file_type, $allowed_types)) {
-                echo '<script type ="text/JavaScript">';  
-                echo 'alert("Erreur: Seules les images JPEG et PNG sont autorisées.")';  
-                echo '</script>'; 
-                die;
-            }
-            // Vérifier la taille du fichier
-            else if($file_size > 5000000) { // 5 Mo maximum
-                echo '<script type ="text/JavaScript">';  
-                echo 'alert("Erreur: La taille du fichier doit être inférieure à 5 Mo.")';  
-                echo '</script>';
-                die;
-            }
-            else {
-              if(move_uploaded_file($file_tmp, $target_file)) {
-                echo '<script type ="text/JavaScript">';  
-                echo 'alert("Recette modifier.")';  
-                echo '</script>';  
-              rename($target_file,$target_dir .$IdRecette. ".jpg");
-              }
-              else {
-                echo '<script type ="text/JavaScript">';  
-                echo 'alert("Erreur lors du téléchargement du fichier. Dest : '. $target_dir;'")';  
-                echo '</script>';  
-                die;
-              }
-            }
-          }
-        
-echo "<meta http-equiv='refresh' content='0'>";
-}
-
-
-?>
+  ?>
 </body>
 
 <footer></footer>
