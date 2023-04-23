@@ -122,7 +122,7 @@
                                 <option value="aprés">Aprés</option>
                                 <input type="date" id="datePicker" name="datePicker">
                                 <!--Date à laquelle on compare les commentaires-->
-                                <input type="submit" name="submit" value="Aplliquer le tri" />
+                                <input type="submit" name="submit" value="Appliquer le tri" />
                         </form>
                         <script>document.getElementById('datePicker').valueAsDate = new Date();</script>
                         <!-- Initialise la valeur à la date du jour-->
