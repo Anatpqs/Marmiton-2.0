@@ -81,7 +81,7 @@ function notation($note)
     </form>
     <!-- ----------------------------------------------- -->
 
-    <a href="AjoutRecette.php"> <img class="icon" src="Images/chiefblanc.png"> </a>
+    <a href="Ajoutrecette.php"> <img class="icon" src="Images/chiefblanc.png"> </a>
 
     <!-- Menu déroulant -->
     <div class="profil">
