@@ -254,7 +254,7 @@
         </div>
         <!-- Cette section contient le formulaire pour la supression de compte  -->
         <form id="supresionrec" method="post">
-            <input type="hidden" name="confirm" id="confirm" value="">
+            <input type="hidden" name="confirm" id="confirm" value="no">
             <input type="submit" name="suprofil" value="Supprimer le compte">
             <select name="typesupr">
                 <option value="suprprofil" selected> Suprimer uniquement le compte</option>
@@ -267,27 +267,32 @@
 <?php
 if (isset($_POST['suprofil'])) {
     //cette partie est active lorque l'utilisateur appui sur suprimé mon profil
+
+    if (isset($_POST['confirm']) && $_POST['confirm'] == 'no')
+    {
+        echo '<script>confirmation()</script>';//Fonction de double vérification 
+    }
+
     if (isset($_POST['confirm']) && $_POST['confirm'] == 'yes') {
         // Test sur la duble vérification
         $typesupr = 1;
         if ($_POST['typesupr'] == "suprrecette") {
             //test sur supression avec ou sans recette
             $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");
-            $stmt->execute([':Login' => $login]);//ici on suprime les recette, les commentaire ON CASCADE
+            $stmt->execute([':Login' => $_SESSION["Login"]]);//ici on suprime les recette, les commentaire ON CASCADE
         } 
         else {
             $stmt = $db->prepare("UPDATE Recette SET IdCréateur=1 WHERE IdCréateur = :createur");//on change le créateur des recette par "Utilisateur Suprimé"
             $stmt->execute([':createur' => $_SESSION['id']]);
             $stmt = $db->prepare("DELETE FROM Utilisateur WHERE Login = :Login");//Supression ON CASCADE des commentaire 
-            $stmt->execute([':Login' => $login]);
+            $stmt->execute([':Login' => $_SESSION["Login"]]);
         }
-        unlink('Images/Pdp/' . $resultat['IdUtilisateur'] . ".jpg");//On suprimme sa photo de profile de la base de donné
-        session_start();
+        unlink('Images/Pdp/' . $_SESSION["id"]. ".jpg");//On suprimme sa photo de profile de la base de donné
         session_destroy();
         session_unset();
-        header("Location:accueil.php");//on utilise la page déconexion qui 
+        echo '<meta http-equiv="refresh" content="0; URL=accueil.php">';//On va sur la page d'accueil
     }
-    echo '<script>confirmation()</script>';//Fonction de double vérification 
+   
 }
 if (isset($_POST['suprComm'])) {
     //Supression commentaire
