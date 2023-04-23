@@ -122,7 +122,7 @@
                                 <option value="aprés">Aprés</option>
                                 <input type="date" id="datePicker" name="datePicker">
                                 <!--Date à laquelle on compare les commentaires-->
-                                <input type="submit" name="submit" value="Appliquer le tri" />
+                                <input type="submit" name="submit" value="Aplliquer le tri" />
                         </form>
                         <script>document.getElementById('datePicker').valueAsDate = new Date();</script>
                         <!-- Initialise la valeur à la date du jour-->
@@ -252,7 +252,7 @@
                     ?>
                 </div>
         </div>
-        <!-- Cette section contient le formulaire pour la supression de compte ainsi que le footer -->
+        <!-- Cette section contient le formulaire pour la supression de compte  -->
         <form id="supresionrec" method="post">
             <input type="hidden" name="confirm" id="confirm" value="">
             <input type="submit" name="suprofil" value="Supprimer le compte">
@@ -262,9 +262,7 @@
             </select>
         </form>
 </body>
-<footer>
-    <a> Nous contacter </a>
-</footer>
+
 <!-- Cette section contient toute les consequence des différent form utilisé  -->
 <?php
 if (isset($_POST['suprofil'])) {
@@ -339,7 +337,7 @@ if (isset($_FILES['file'])) {
         echo "Erreur: La taille du fichier doit être inférieure à 5 Mo.";
     } else {
         if (move_uploaded_file($file_tmp, $target_file)) {
-            echo "<div id=changpdpreu>La photo a bien été changer.</div>";
+            echo "<script>alert('La photo à bien été changer.')</script>";
             rename($target_file, $target_dir . $_SESSION['id'] . ".jpg");
 
         } else {
@@ -348,5 +346,7 @@ if (isset($_FILES['file'])) {
     }
 }
 ?>
-
+<footer>
+    <a> Nous contacter </a>
+</footer>
 </html>
