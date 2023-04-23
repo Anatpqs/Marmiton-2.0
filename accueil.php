@@ -85,15 +85,18 @@ function notation($note)
     <div class="profil">
         <ul class="navbar">
             <!-- Affichage de la photo de profil de l'utilisateur -->
-            <?php
-                if (isset($_SESSION['id'])){
-                    $id = $_SESSION['id'];
-                    $imagePath = "Images/Pdp/" . $id . ".jpg";
-                    echo "<li class='li'><img id='imagefile' class='" . (file_exists($imagePath) && filesize($imagePath) > 50 ? "image_profil" : "icon") . "' src='Images/Pdp/$id.jpg'>";
+                <?php 
+            if (isset($_SESSION['id'])){
+                if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
+                    echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
                 }
                 else{
-                    echo "<li class='li'><img id='imagefile' class='icon' src='Images/Pdp/userblanc.png'>";    
+                    echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
                 }
+            }
+            else{
+                echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+            }
             ?>
 
                 <ul>
