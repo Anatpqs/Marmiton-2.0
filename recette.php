@@ -338,8 +338,23 @@ function notation($note)
       </div></div>      
       <div class='comment_text'>" . $row['Commentaire'] . "</div>
       <p class='date_comment'>" . $row['Date'] . "</p>
-      </div>
-      <div id='barre_commentaire'></div>";
+      </div>";
+
+      if ($_SESSION["droit"]==1)
+      {
+      echo "<form method='post' id='form".$row["IdCommentaire"]."'>
+      <input type='submit' name='supcom".$row["IdCommentaire"]."' value='Supprimer commentaire'>
+      <input type='hidden' name='idRecette' value='".$IdRecette."'>
+      </form>";
+
+      if (isset($_POST["supcom".$row['IdCommentaire']]))
+      {
+        $sql8=$db->prepare("DELETE FROM Commentaire WHERE IdCommentaire=?;");
+        $sql8->execute([$row["IdCommentaire"]]);
+        echo "<meta http-equiv='refresh' content='0'>";
+      }
+      }
+      echo "<div id='barre_commentaire'></div>";
       $somme += $row["Note"];
       $i += 1;
     };
