@@ -97,8 +97,12 @@
                 } 
         
                 // Requête SQL pour récupérer les recettes contenant la chaîne de recherche
-                $sql = $db->prepare("SELECT * FROM Recette WHERE Nom LIKE :search");
+                $sql = $db->prepare("(SELECT IdRecette,Notemoy,Description,Nom FROM Recette JOIN Tag ON Recette_assoc=IdRecette WHERE Mot_clé LIKE :search)
+                UNION
+                (SELECT IdRecette,Notemoy,Description,Nom FROM Recette WHERE Nom LIKE :search)");
+
                 $sql->execute(['search' => '%'.$searchbar.'%']);
+
                 $result = $sql->fetchAll();
         
                 // Affiche les résultats de la recherche
