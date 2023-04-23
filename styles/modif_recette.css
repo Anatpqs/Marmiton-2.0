@@ -38,7 +38,7 @@ body {
   
     #logo, #imagefile {
       height: 70px;
-      width: auto;
+      width: 70px;
     }
     #titre{
       justify-self: right;
