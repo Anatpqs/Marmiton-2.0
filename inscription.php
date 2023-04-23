@@ -17,11 +17,18 @@
     <input type="password" name="Mdp" id="Mdp" placeholder="Entrez votre Mot de passe" required><br>
     <input type="password" name="Mdpverif" id="Mdpverif" placeholder="Confirmez votre Mot de passe" required>
     <input type="submit" name="formsend" id="formsend" value="S'inscrire">
-  </form>
-  <?php
+    <input type="submit" name="Accueil" value="Accueil" formnovalidate>
+    </form>
+
+    <?php
     session_start();
-    if ($_SESSION["droit"]!=-1) {
-      header("Location:accueil.php");}
+    if ($_SESSION["droit"] != -1) {
+      header("Location:accueil.php");
+    }
+
+    if (isset($_POST["Accueil"])) {
+      header("Location:accueil.php");
+    }
 
       if(isset($_POST['formsend'])){
         $pseudo=$_POST['Pseudo'];
