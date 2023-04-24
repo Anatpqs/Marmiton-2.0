@@ -52,11 +52,14 @@
         </div>
         <div class="profil">
             <ul class="navbar">
+                
                 <?php if (filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg") > 50) {
                     // Si l'image de profil existe, on l'affiche
+                    $image=1;
                     echo "<li class='li'><img id='imagefile' class='icon' src='Images/Pdp/", $_SESSION['id'], ".jpg'>";
                 } else {
                     // Sinon, on affiche une image par défaut
+                    $image=0;
                     echo "<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";
                 }
 
@@ -138,9 +141,14 @@
                         foreach ($result as $row) {
                             //affichage info commentaire
                             echo "<div class='comment_afficher'>
-                        <div class='info_comment'>
-                            <img src='Images/Pdp/" . $_SESSION['id'] . ".jpg' alt='profil' class='profil_commentaire'>
-                                <div class='info_comment2'>
+                        <div class='info_comment'>";
+                        if($image==1){
+                            echo"<img src='Images/Pdp/" . $_SESSION['id'] . ".jpg' alt='profil' class='profil_commentaire'>";
+                        }
+                        else{
+                            echo"<img src='Images/profil.png' alt='profil' class='profil_commentaire'>";
+                        } 
+                                echo"<div class='info_comment2'>
                                     <strong><span class='nom_comment'></span></strong>
                                     <span class='note_comment'>" . notation($row['Note']) . $row['Nom'] . "</span>
                                 </div>
