@@ -26,10 +26,10 @@
       <div class="profil">
           <ul class="navbar">
               <?php if(filesize("Images/Pdp/" . $_SESSION['id'] . ".jpg")>50){
-                    echo"<li class='li'><img id='imagefile' class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
+                    echo"<li class='li'><img class='image_profil' src='Images/Pdp/",$_SESSION['id'],".jpg'>";
                 }
                 else{
-                    echo"<li class='li'><img id='imagefile'class='icon' src='Images/Pdp/userblanc.png'>";    
+                    echo"<li class='li'><img class='icon' src='Images/Pdp/userblanc.png'>";    
                 } ?>
                   <ul>
                       <?php
