@@ -67,9 +67,16 @@
         <input type="hidden" name="idRecette" value="'.$recette["IdRecette"].'">
      </form>
      <a href="#" onclick="document.getElementById(\'myForm_'.$recette["IdRecette"].'\').submit();">'.$recette["Nom"].'</a>
+     
+        <form method="post" action="modif_recette.php">
+    <input type="submit" name="modif_' . $recette["IdRecette"] . '" value="Modifier la recette">
+    <input type="hidden" name="IdRecette" value="' . $recette["IdRecette"] . '">
+    </form>
+    
     <form method="post">
     <input type="submit" name="validation_'.$recette["IdRecette"].'" value="Valider la recette">
     </form>
+    
     <form method="post">
     <input type="submit" name="supp_'.$recette["IdRecette"].'" value="Supprimer la recette">
     </form>';
