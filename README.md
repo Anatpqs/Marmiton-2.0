@@ -1,4 +1,5 @@
-# MarmitonDuPauvre
+# Marmiton-2.0
+
 Rapport{
 Diagramme de classe (UML)
 Regle de gestion 
