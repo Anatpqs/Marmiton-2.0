@@ -1,7 +1,7 @@
 # Sportiton
 
 **Accueil**
-(https://raw.githubusercontent.com/Anatpqs/Sportiton/main/image/sportiton.png)
+(https://raw.githubusercontent.com/Anatpqs/Sportiton/main/Images/sportiton.PNG)
 
 
 
