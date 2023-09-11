@@ -1,11 +1,6 @@
-# Marmiton-2.0
+# Sportiton
 
-Rapport{
-Diagramme de classe (UML)
-Regle de gestion 
-Base de donné 
-capture du site 
-description du site }
+
 
 
 
@@ -22,9 +17,3 @@ description du site }
 - [x] **Admin** - Validation
 - [x] Commentaire
 
-**TODO list :**
-- supression commentaire enclenche calcul moyenne de note de la recette
-- Page d'accueil : CSS + Proposition en rapport avec recette favorite
-- CSS : admin, 
-- bouton en haut mene a des recherches
-- peut être utiliser des tags pour la recherche de recette
