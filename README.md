@@ -5,7 +5,7 @@ This is a website created as part of a university project with the aim of buildi
 </b>
 
 <h3>Homepage</h3>
-<img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/sportiton.PNG" width="800">
+<img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/sportiton.PNG" width="600">
 
 ![Page_accueil](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/sportiton.PNG)
 
