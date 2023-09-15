@@ -11,7 +11,9 @@ This is a website created as part of a university project with the aim of buildi
 </p>
 <br>
 <h3 align="center">Recipe page</h3>
-<img align="center" src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/recette_cookie.png" width="700">
+<p align="center">
+<img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/recette_cookie.png" width="700">
+</p>
 
 
 **Base de données**
