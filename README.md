@@ -4,7 +4,7 @@
 
 ![Page_accueil](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/sportiton.PNG)
 
-![Page_recette](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/page_recette.png)
+![Page_recette](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/recette_cookie.png)
 
 
 
