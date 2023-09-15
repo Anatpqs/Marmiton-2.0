@@ -11,8 +11,6 @@ This is a website created as part of a university project with the aim of buildi
 <img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/recette_cookie.png" >
 
 
-
-
 **Base de données**
 ![ImageBdd](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/bdd/Bdd.png)
 
