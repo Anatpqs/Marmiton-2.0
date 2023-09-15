@@ -5,12 +5,12 @@ This is a website created as part of a university project with the aim of buildi
 </b>
 
 
-<h3>Homepage</h3>
+<h3 align="center">Homepage</h3>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/sportiton.PNG" width="600" >
 </p>
 <br>
-<h3>Recipe page</h3>
+<h3 align="center">Recipe page</h3>
 <img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/recette_cookie.png" width="700">
 
 
