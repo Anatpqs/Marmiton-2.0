@@ -26,9 +26,5 @@ This is a website created as part of a university project with the aim of buildi
 </p>
 
 
-
-![ImageBdd](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/bdd/Bdd.png)
-
-
-BOCQ Andrew, GOSSELIN Julian, PAQUES Anatole, EL BADRI Maha 
+<h2>BOCQ Andrew, GOSSELIN Julian, PAQUES Anatole, EL BADRI Maha</h2> 
 
