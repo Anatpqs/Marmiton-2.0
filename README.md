@@ -17,7 +17,7 @@ This is a website created as part of a university project with the aim of buildi
 <br>
 <h3 align="center">Login page</h3>
 <p align="center">
-<img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/page_login.png" width="200">
+<img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/page_login.png" width="300">
 </p>
 
 
