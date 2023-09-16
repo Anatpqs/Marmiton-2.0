@@ -15,13 +15,18 @@ This is a website created as part of a university project with the aim of buildi
 <img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/recette_cookie.png" width="700">
 </p>
 <br>
+<h3 align="center">Add recipe page</h3>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/add_recette.png" >
+</p>
+<br>
 <h3 align="center">Login page</h3>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/Images/page_login.png" width="300">
 </p>
 
 
-**Base de données**
+
 ![ImageBdd](https://raw.githubusercontent.com/Anatpqs/MarmitonDuPauvre/main/bdd/Bdd.png)
 
 
