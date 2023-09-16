@@ -26,5 +26,5 @@ This is a website created as part of a university project with the aim of buildi
 </p>
 
 
-<h2>BOCQ Andrew, GOSSELIN Julian, PAQUES Anatole, EL BADRI Maha</h2> 
+<h2>By BOCQ Andrew, GOSSELIN Julian, PAQUES Anatole, EL BADRI Maha</h2> 
 
